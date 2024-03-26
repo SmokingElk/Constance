@@ -7,3 +7,6 @@ CORS(app)
 @app.route("/")
 def helloworld():
   return "Hello, cross-origin-world!"
+
+if __name__ == "__main__":
+  app.run()
