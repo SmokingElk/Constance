@@ -4,6 +4,8 @@ const CHANGE_AUTH_STATUS = "CHANGE-AUTH-STATUS";
 
 export const AUTH_STATUS_NONE = "AUTH-NONE";
 export const AUTH_STATUS_INCORRECT_DATA = "AUTH-STATUS-INCORRECT-DATA";
+export const AUTH_STATUS_INCOMPLETE_DATA = "AUTH-STATUS-INCOMPLETE-DATA";
+export const AUTH_STATUS_SUCCESS = "AUTH-STATUS-SUCCESS";
 
 const initialState = {
     usernameFieldValue: "",
@@ -30,7 +32,14 @@ const authReducer = (state = initialState, action) => {
         }
 
         case CHANGE_AUTH_STATUS: {
-            if (![AUTH_STATUS_NONE, AUTH_STATUS_INCORRECT_DATA].includes(action.status)) {
+            const authStatusVariants = [
+                AUTH_STATUS_NONE, 
+                AUTH_STATUS_INCORRECT_DATA, 
+                AUTH_STATUS_INCOMPLETE_DATA, 
+                AUTH_STATUS_SUCCESS
+            ];
+            
+            if (!authStatusVariants.includes(action.status)) {
                 throw new Error(`Invalid status value: ${action.status}`);
             }
 
@@ -47,6 +56,6 @@ const authReducer = (state = initialState, action) => {
 
 export const updateUsername = username => ({type: UPDATE_USERNAME, username});
 export const updatePassword = password => ({type: UPDATE_PASSWORD, password});
-export const changeAuthStatus = password => ({type: CHANGE_AUTH_STATUS, password});
+export const changeAuthStatus = status => ({type: CHANGE_AUTH_STATUS, status});
 
 export default authReducer;
