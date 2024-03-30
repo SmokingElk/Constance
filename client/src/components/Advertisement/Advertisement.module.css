@@ -2,16 +2,16 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 300px;
+    width: 400px;
     height: 150px;
 
     background-color: #D7D7D7;
     box-sizing: border-box;
     padding: 20px;
 
-    /* transform: translate(300px, 0); */
+    transform: translate(400px, 0);
 
-    transition: transform 0.3s ease-out;
+    transition: transform 0.5s ease-out;
 }
 
 .body.open {
@@ -20,13 +20,13 @@
 
 .layout {
     display: grid;
-    grid-template-columns: 40px 1fr;
+    grid-template-columns: 50px 1fr;
     gap: 15px;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
 }
 
@@ -36,11 +36,11 @@
 
 .title {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
 
     margin-bottom: 10px;
 }
 
 .description {
-    font-size: 12px;
+    font-size: 14px;
 }

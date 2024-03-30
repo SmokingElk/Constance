@@ -3,7 +3,7 @@ import avatar from '../../assets/imgs/teamlid_avatar.jpg';
 
 const Advertisement = props => {
     return (
-        <div className={classes.body}>
+        <div className={classes.body + " " + (props.isOpen ? classes.open : "")}>
             <div className={classes.layout}>
                 <img src={avatar} className={classes.avatar} />
                 <div className={classes.textBlock}>
