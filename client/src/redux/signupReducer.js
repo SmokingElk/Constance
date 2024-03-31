@@ -5,6 +5,7 @@ const CHANGE_SIGNUP_STATUS = "CHANGE-SIGNUP-STATUS";
 export const SIGNUP_STATUS_NONE = "SIGNUP-STATUS-NONE";
 export const SIGNUP_STATUS_INCOMPLETE_DATA = "SIGNUP-STATUS-INCOMPLETE-DATA";
 export const SIGNUP_STATUS_INVALID_DATA = "SIGNUP-STATUS-INVALID-DATA";
+export const SIGNUP_STATUS_ALREADY_EXISTS = "SIGNUP-STATUS-ALREADY-EXIST"; 
 export const SIGNUP_STATUS_SUCCESS = "SIGNUP-STATUS-SUCCESS";
 
 const initialState = {
@@ -36,6 +37,7 @@ const signupReducer = (state = initialState, action) => {
                 SIGNUP_STATUS_NONE,
                 SIGNUP_STATUS_INCOMPLETE_DATA,
                 SIGNUP_STATUS_INVALID_DATA,
+                SIGNUP_STATUS_ALREADY_EXISTS,
                 SIGNUP_STATUS_SUCCESS,
             ];
             
@@ -45,7 +47,7 @@ const signupReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                signupStatus: action.signupStatus,
+                signupStatus: action.status,
             }
         }
     
