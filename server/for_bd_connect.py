@@ -24,6 +24,13 @@ class Database_manager:
             return -1
         return records[0][0]
 
+    def counting_users(self):
+        cursor = self.conn.cursor()
+        cursor.execute('''SELECT COUNT(1) FROM "Autorisation"''')
+        records = cursor.fetchall()
+        cursor.close()
+        return records[0][0]
+
     def get_username_by_id(self, user_id):
         cursor = self.conn.cursor()
         cursor.execute('''SELECT username FROM "Autorisation" WHERE id=%s''', (user_id))
@@ -32,3 +39,21 @@ class Database_manager:
         if len(records) == 0:
             return -1
         return records[0][0]
+
+    def is_user_exists(self, username: str):
+        cursor = self.conn.cursor()
+        cursor.execute('''SELECT id FROM "Autorisation" WHERE username=%s''', (username, ))
+        records = cursor.fetchall()
+        cursor.close()
+        return len(records) != 0
+
+    def adding_user(self, username: str, password: str):
+        cursor = self.conn.cursor()
+        user_id = self.counting_users() + 1
+        cursor.execute('''INSERT INTO "Autorisation" (id, username, password) VALUES (%s, %s, %s)''', (user_id, username, password))
+        self.conn.commit()
+        cursor.close()
+        return user_id
+
+
+
