@@ -1,4 +1,3 @@
-import Advertisement from '../Advertisement/Advertisement';
 import AdvertisementContainer from '../Advertisement/AdvertisementContainer';
 import LoginContainer from '../Login/LoginContainer';
 import SignupContainer from '../Signup/SignupContainer';
