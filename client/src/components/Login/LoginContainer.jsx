@@ -6,8 +6,6 @@ import axios from "axios";
 
 class LoginContainer extends React.Component {
     sendAuthRequest () {
-        debugger;
-        
         if (this.props.usernameFieldValue === "" || this.props.passwordFieldValue === "") {
             this.props.changeAuthStatus(AUTH_STATUS_INCOMPLETE_DATA);
             return;
