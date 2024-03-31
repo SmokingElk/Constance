@@ -1,5 +1,6 @@
-import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS } from "../../redux/authReducer";
+import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS } from "../../redux/loginReducer";
 import classes from "./Login.module.css";
+import { NavLink } from "react-router-dom";
 
 const Login = props => {
     const onUsernameChange = event => {
@@ -19,6 +20,7 @@ const Login = props => {
 
     return (
         <div>
+            <div>Вход</div>
             <div>Username</div>
             <div>
                 <textarea onChange={onUsernameChange} value={props.usernameFieldValue}></textarea>
@@ -28,6 +30,9 @@ const Login = props => {
             <div>
                 <textarea onChange={onPasswordChange} value={props.passwordFieldValue}></textarea>
             </div>
+
+            <div>Нет аккаунта?</div>
+            <NavLink to="/sign_up">Зарегистрироваться</NavLink>
 
             <div>{authInfo}</div>
 
