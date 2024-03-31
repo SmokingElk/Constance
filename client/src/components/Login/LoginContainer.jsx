@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import Login from "./Login";
 import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, updateLoginPassword, updateLoginUsername } from "../../redux/loginReducer";
 import axios from "axios";
+import { useNavigate } from "react-router";
+import { setJWT } from "../../global_logic/userEnter";
+import { setEntered } from "../../redux/enteredReducer";
+import withRouter from "../Utils/WithRouter";
 
 class LoginContainer extends React.Component {
     sendAuthRequest () {
@@ -21,6 +25,12 @@ class LoginContainer extends React.Component {
                 "success": AUTH_STATUS_SUCCESS,
                 "invalid data": AUTH_STATUS_INCORRECT_DATA,
             }[authResult] ?? AUTH_STATUS_NONE);
+
+            if (authResult === "success") {
+                setJWT(res.data.jwtToken);
+                this.props.setEntered(res.data.username);
+                this.props.router.navigate("/");
+            } 
         });
     }
 
@@ -39,6 +49,7 @@ const mapDispatchToProps = {
     updateUsername: updateLoginUsername,
     updatePassword: updateLoginPassword,
     changeAuthStatus, 
+    setEntered,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginContainer));

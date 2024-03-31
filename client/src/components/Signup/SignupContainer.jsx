@@ -3,6 +3,9 @@ import Signup from "./Signup";
 import { connect } from "react-redux";
 import { SIGNUP_STATUS_ALREADY_EXISTS, SIGNUP_STATUS_INCOMPLETE_DATA, SIGNUP_STATUS_INVALID_DATA, SIGNUP_STATUS_NONE, SIGNUP_STATUS_SUCCESS, changeSignupStatus, updateSignupPassword, updateSignupUsername } from "../../redux/signupReducer";
 import axios from "axios";
+import { setEntered } from "../../redux/enteredReducer";
+import { setJWT } from "../../global_logic/userEnter";
+import withRouter from "../Utils/WithRouter";
 
 class SignupContainer extends React.Component {
     sendSignupRequest () {
@@ -22,6 +25,12 @@ class SignupContainer extends React.Component {
                 "invalid data": SIGNUP_STATUS_INVALID_DATA,
                 "user already exists": SIGNUP_STATUS_ALREADY_EXISTS,
             }[result] ?? SIGNUP_STATUS_NONE);
+
+            if (result === "success") {
+                setJWT(res.data.jwtToken);
+                this.props.setEntered(res.data.username);
+                this.props.router.navigate("/");
+            } 
         });
     }
 
@@ -40,6 +49,7 @@ const mapDispatchToProps = {
     updateUsername: updateSignupUsername,
     updatePassword: updateSignupPassword,
     changeSignupStatus,
+    setEntered,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignupContainer));
