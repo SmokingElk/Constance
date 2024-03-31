@@ -4,6 +4,7 @@ from flask_cors import CORS
 from json import dumps
 from for_JWT_generating import ForJWTGenerating
 from for_bd_connect import Database_manager
+from validators import validate_username, validate_password
 
 
 
@@ -43,6 +44,23 @@ def returning_of_status_and_username():
   res["username"] = username
   return dumps(res)
 
+@app.route('/sign_up', methods=["POST"])
+def sign_up():
+  data = request.get_json()
+  username = data['username']
+  password = data['password']
+  res = {'jwtToken': None,
+         'result': None}
+  if not (validate_username(username) and validate_password(password)):
+    res['result'] = 'invalid data'
+    return dumps(res)
+  if database.is_user_exists(username):
+    res['result'] = 'user already exists'
+    return dumps(res)
+  user_id = database.adding_user(username, password)
+  res['result'] = 'success'
+  res['jwtToken'] = jwt_generator.generate_jwt_token(user_id)
+  return dumps(res)
 
 if __name__ == "__main__":
   app.run()
