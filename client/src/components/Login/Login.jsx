@@ -1,4 +1,4 @@
-import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS } from "../../redux/authReducer";
+import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS } from "../../redux/loginReducer";
 import classes from "./Login.module.css";
 import { NavLink } from "react-router-dom"
 

@@ -13,7 +13,7 @@ const initialState = {
     authStatus: AUTH_STATUS_NONE,
 };
 
-const authReducer = (state = initialState, action) => {
+const loginReducer = (state = initialState, action) => {
     switch (action.type) {
         case UPDATE_USERNAME: {
             return {
@@ -58,4 +58,4 @@ export const updateUsername = username => ({type: UPDATE_USERNAME, username});
 export const updatePassword = password => ({type: UPDATE_PASSWORD, password});
 export const changeAuthStatus = status => ({type: CHANGE_AUTH_STATUS, status});
 
-export default authReducer;
+export default loginReducer;

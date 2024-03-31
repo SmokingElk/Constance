@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Login from "./Login";
-import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, updatePassword, updateUsername } from "../../redux/authReducer";
+import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, updatePassword, updateUsername } from "../../redux/loginReducer";
 import axios from "axios";
 
 class LoginContainer extends React.Component {
@@ -30,9 +30,9 @@ class LoginContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    usernameFieldValue: state.auth.usernameFieldValue,
-    passwordFieldValue: state.auth.passwordFieldValue,
-    authStatus: state.auth.authStatus,
+    usernameFieldValue: state.login.usernameFieldValue,
+    passwordFieldValue: state.login.passwordFieldValue,
+    authStatus: state.login.authStatus,
 });
 
 const mapDispatchToProps = {
