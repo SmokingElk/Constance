@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import advertisementReducer from "./advertisementReducer";
-import authReducer from "./authReducer";
+import loginReducer from "./loginReducer";
+import signupReducer from "./signupReducer";
+import enteredReducer from "./enteredReducer";
 
 let store = configureStore({
     reducer: {
         advertisement: advertisementReducer,
-        auth: authReducer,
+        login: loginReducer,
+        signup: signupReducer,
+        entered: enteredReducer,
     }
 }); 
 
