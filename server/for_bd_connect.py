@@ -26,7 +26,7 @@ class Database_manager:
 
     def get_username_by_id(self, user_id):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT username FROM "Autorisation" WHERE id=%s''', (user_id))
+        cursor.execute('''SELECT username FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
         cursor.close()
         if len(records) == 0:
