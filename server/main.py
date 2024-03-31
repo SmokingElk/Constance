@@ -50,7 +50,8 @@ def sign_up():
   username = data['username']
   password = data['password']
   res = {'jwtToken': None,
-         'result': None}
+         'result': None,
+         'username': None}
   if not (validate_username(username) and validate_password(password)):
     res['result'] = 'invalid data'
     return dumps(res)
@@ -59,6 +60,7 @@ def sign_up():
     return dumps(res)
   user_id = database.adding_user(username, password)
   res['result'] = 'success'
+  res['username'] = username
   res['jwtToken'] = jwt_generator.generate_jwt_token(user_id)
   return dumps(res)
 
