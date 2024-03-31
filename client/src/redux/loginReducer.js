@@ -54,8 +54,8 @@ const loginReducer = (state = initialState, action) => {
     }
 }
 
-export const updateUsername = username => ({type: UPDATE_USERNAME, username});
-export const updatePassword = password => ({type: UPDATE_PASSWORD, password});
+export const updateLoginUsername = username => ({type: UPDATE_USERNAME, username});
+export const updateLoginPassword = password => ({type: UPDATE_PASSWORD, password});
 export const changeAuthStatus = status => ({type: CHANGE_AUTH_STATUS, status});
 
 export default loginReducer;

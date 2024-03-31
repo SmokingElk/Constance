@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Login from "./Login";
-import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, updatePassword, updateUsername } from "../../redux/loginReducer";
+import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, updateLoginPassword, updateLoginUsername } from "../../redux/loginReducer";
 import axios from "axios";
 
 class LoginContainer extends React.Component {
@@ -36,8 +36,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    updateUsername,
-    updatePassword,
+    updateUsername: updateLoginUsername,
+    updatePassword: updateLoginPassword,
     changeAuthStatus, 
 };
 
