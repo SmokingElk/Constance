@@ -129,4 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+#for_config files
+*.cfg
+
+#ignore python cache
 __pycache__/
