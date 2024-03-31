@@ -8,7 +8,7 @@ const App = props => {
 	return (
 		<div className={classes.app}>
 			<Routes>
-				<Route path="/auth" element={<LoginContainer />} />
+				<Route path="/login" element={<LoginContainer />} />
 			</Routes>
 
 			<AdvertisementContainer />
