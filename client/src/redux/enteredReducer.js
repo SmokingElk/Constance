@@ -2,6 +2,7 @@ const SET_ENTERED = "SET-ENTERED";
 const SET_UNENTERED = "SET-UNENTERED";
 
 const initialState = {
+    demo: true,
     isUserEntered: false,
     username: "",
 };
