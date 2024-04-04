@@ -47,10 +47,10 @@ class Database_manager:
         cursor.close()
         return len(records) != 0
 
-    def adding_user(self, username: str, password: str):
+    def adding_user(self, username: str, password: str, gender: bool, birthday: str):
         cursor = self.conn.cursor()
         user_id = self.counting_users() + 1
-        cursor.execute('''INSERT INTO "Autorisation" (id, username, password) VALUES (%s, %s, %s)''', (user_id, username, password))
+        cursor.execute('''INSERT INTO "Autorisation" (id, username, password, Gender, "Date of birth") VALUES (%s, %s, %s, %s, %s)''', (user_id, username, password, gender, birthday))
         self.conn.commit()
         cursor.close()
         return user_id
