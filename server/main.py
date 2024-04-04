@@ -5,7 +5,7 @@ from json import dumps
 from for_JWT_generating import ForJWTGenerating
 from for_bd_connect import Database_manager
 from validators import validate_username, validate_password
-
+import datetime
 
 
 database = Database_manager()
@@ -49,6 +49,8 @@ def sign_up():
   data = request.get_json()
   username = data['username']
   password = data['password']
+  birth = data['birthdate']
+  gender = data['gender']
   res = {'jwtToken': None,
          'result': None,
          'username': None}
@@ -58,11 +60,17 @@ def sign_up():
   if database.is_user_exists(username):
     res['result'] = 'user already exists'
     return dumps(res)
-  user_id = database.adding_user(username, password)
+  birth = list(map(int, birth.split('.'))).reverse()
+  d = datetime.datetime.now() - datetime.datetime(*birth) < datetime.timedelta(days=365 * 18)
+  if d:
+    res['result'] = 'younger than 18 are prohibited'
+    return dumps(res)
+  user_id = database.adding_user(username, password, birth, gender)
   res['result'] = 'success'
   res['username'] = username
   res['jwtToken'] = jwt_generator.generate_jwt_token(user_id)
   return dumps(res)
+
 
 if __name__ == "__main__":
   app.run()
