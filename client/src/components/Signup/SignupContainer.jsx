@@ -9,7 +9,9 @@ import withRouter from "../Utils/WithRouter";
 
 class SignupContainer extends React.Component {
     sendSignupRequest () {
-        if (this.props.usernameFieldValue === "" || this.props.passwordFieldValue === "") {
+        if (this.props.usernameFieldValue === "" || 
+            this.props.passwordFieldValue === "" || 
+            this.props.birthdate === "") {
             this.props.changeSignupStatus(SIGNUP_STATUS_INCOMPLETE_DATA);
             return;
         }
