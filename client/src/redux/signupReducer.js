@@ -9,6 +9,7 @@ export const SIGNUP_STATUS_INCOMPLETE_DATA = "SIGNUP-STATUS-INCOMPLETE-DATA";
 export const SIGNUP_STATUS_INVALID_DATA = "SIGNUP-STATUS-INVALID-DATA";
 export const SIGNUP_STATUS_ALREADY_EXISTS = "SIGNUP-STATUS-ALREADY-EXIST"; 
 export const SIGNUP_STATUS_SUCCESS = "SIGNUP-STATUS-SUCCESS";
+export const SIGNUP_STATUS_TOO_YOUNG = "SIGNUP-STATUS-TOO-YOUNG";
 
 const initialState = {
     usernameFieldValue: "",
@@ -43,6 +44,7 @@ const signupReducer = (state = initialState, action) => {
                 SIGNUP_STATUS_INVALID_DATA,
                 SIGNUP_STATUS_ALREADY_EXISTS,
                 SIGNUP_STATUS_SUCCESS,
+                SIGNUP_STATUS_TOO_YOUNG,
             ];
             
             if (!signupStatusVariants.includes(action.status)) {
