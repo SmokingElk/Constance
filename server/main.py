@@ -60,12 +60,12 @@ def sign_up():
   if database.is_user_exists(username):
     res['result'] = 'user already exists'
     return dumps(res)
-  birth = list(map(int, birth.split('.'))).reverse()
-  d = datetime.datetime.now() - datetime.datetime(*birth) < datetime.timedelta(days=365 * 18)
+  birthdate_parts = list(map(int, birth.split('-')))
+  d = datetime.datetime.now() - datetime.datetime(*birthdate_parts) < datetime.timedelta(days=365 * 18)
   if d:
     res['result'] = 'younger than 18 are prohibited'
     return dumps(res)
-  user_id = database.adding_user(username, password, birth, gender)
+  user_id = database.adding_user(username, password, gender, birth)
   res['result'] = 'success'
   res['username'] = username
   res['jwtToken'] = jwt_generator.generate_jwt_token(user_id)

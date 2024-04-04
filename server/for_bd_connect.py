@@ -50,7 +50,7 @@ class Database_manager:
     def adding_user(self, username: str, password: str, gender: bool, birthday: str):
         cursor = self.conn.cursor()
         user_id = self.counting_users() + 1
-        cursor.execute('''INSERT INTO "Autorisation" (id, username, password, Gender, "Date of birth") VALUES (%s, %s, %s, %s, %s)''', (user_id, username, password, gender, birthday))
+        cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth") VALUES (%s, %s, %s, %s, %s)''', (user_id, username, password, gender, birthday))
         self.conn.commit()
         cursor.close()
         return user_id
