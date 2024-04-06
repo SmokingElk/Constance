@@ -71,5 +71,21 @@ class Database_manager:
         self.conn.commit()
         cursor.close()
 
+    def is_user_exists_by_id(self, user_id: int):
+        cursor = self.conn.cursor()
+        cursor.execute('''SELECT * FROM "Autorisation" WHERE id=%s''', (user_id, ))
+        records = cursor.fetchall()
+        cursor.close()
+        return len(records) != 0
+
+    def getting_birthdate(self, user_id: int):
+        cursor = self.conn.cursor()
+        cursor.execute('''SELECT "Date of birth" FROM "Autorisation" WHERE id=%s''', (user_id, ))
+        records = cursor.fetchall()
+        cursor.close()
+        if len(records) == 0:
+            return -1
+        return records[0][0]
+
 
 

@@ -128,6 +128,35 @@ def update_user_profile_photo():
   res['photoName'] = name_of_image
   return dumps(res)
 
+@app.route('/get_watch_profile_data')
+def get_watch_profile_data():
+  data = request.get_json()
+  jwt_token = data['jwtToken']
+  res = {
+  "result": "...",
+  "profileData": None,
+  }
+  if not jwt_generator.validate_token(jwt_token):
+    res["result"] = 'user is not login'
+    return dumps(res)
+  id_of_requested_user = data['id']
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  if not database.is_user_exists_by_id(id_of_requested_user):
+    res['result'] = 'requested user does not exist'
+    return dumps(res)
+  birth = database.getting_birthdate(id_of_requested_user)
+  res['result'] = 'success'
+  firstname, lastname, social, phone, photo_name = database.get_my_profile_data(id_of_requested_user)
+  profile_data = {
+    "firstname": firstname,
+    "lastname": lastname,
+    "social": social,
+    "phone": phone,
+    "birthdate": birth,
+    "photoName": photo_name,
+  }
+  res['profileData'] = profile_data
+  return dumps(res)
 
 
 if __name__ == "__main__":
