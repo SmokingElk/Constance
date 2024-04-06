@@ -29,17 +29,10 @@ class MyProfileContainer extends React.Component {
     }
 
     requestProfileDataUpdate (patch) {
-        let newData = Object.assign({
-            firstname: this.props.firstnameFieldValue,
-            lastname: this.props.lastnameFieldValue,
-            social: this.props.socialFieldValue,
-            phone: this.props.phoneNumberFieldValue,
-        }, patch);
-
         if (this.props.demo) return;
 
         axios.post("http://localhost:5000/update_user_profile_data", {
-            newData,
+            patch,
             jwt: getJWT(),
         }).then(res => {
             if (res.data.result !== "success") {
@@ -61,6 +54,8 @@ class MyProfileContainer extends React.Component {
                 this.props.router.navigate("/login");
                 return;
             }
+
+            this.props.updatePhoto(res.data.photoName);
         });
     }
 
