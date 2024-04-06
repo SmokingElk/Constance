@@ -5,7 +5,7 @@ const WatchProfile = props => {
 
     return (
         <div>
-            <img src={`static/imgs/${profileData.photoName}`} />
+            <img className={classes.profile_photo} src={`http://localhost:5000/static/images/${profileData.photoName}`} />
             <div>{profileData.firstname}</div>
             <div>{profileData.lastname}</div>
             <div>{profileData.social}</div>

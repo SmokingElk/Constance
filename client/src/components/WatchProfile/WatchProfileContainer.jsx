@@ -11,8 +11,8 @@ class WatchProfileContainer extends React.Component {
         if (this.props.demo) return;
 
         axios.post("http://localhost:5000/get_watch_profile_data", {
-            jwt: getJWT(),
-            id: this.props.router?.params?.userId ?? 0,
+            jwtToken: getJWT(),
+            id: Number(this.props.router?.params?.userId ?? 0),
         }).then(res => {
             if (res.data.result === "user is not login") {
                 this.props.router.navigate("/login");
