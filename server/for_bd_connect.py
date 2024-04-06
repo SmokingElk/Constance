@@ -51,9 +51,25 @@ class Database_manager:
         cursor = self.conn.cursor()
         user_id = self.counting_users() + 1
         cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth") VALUES (%s, %s, %s, %s, %s)''', (user_id, username, password, gender, birthday))
+        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name) VALUES (%s, %s, %s, %s, %s, %s)''', (user_id, '', '', '', '', ''))
         self.conn.commit()
         cursor.close()
         return user_id
+
+    def get_my_profile_data(self, user_id: int):
+        cursor = self.conn.cursor()
+        cursor.execute('''SELECT (firstname, lastname, social, phone_number, photo_name) FROM "profile_data" WHERE id=%s''', (id,))
+        records = cursor.fetchall()
+        cursor.close()
+        if len(records) == 0:
+            return -1
+        return records[0]
+
+    def patch_user_profile_data(self, user_id: int, key: str, value: str):
+        cursor = self.conn.cursor()
+        cursor.execute('''UPDATE "profile_data" SET %s = %s WHERE id=%s''', (key, value, user_id))
+        self.conn.commit()
+        cursor.close()
 
 
 
