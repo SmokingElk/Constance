@@ -134,3 +134,5 @@ dist
 
 #ignore python cache
 __pycache__/
+
+static/images/

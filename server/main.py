@@ -5,11 +5,12 @@ from json import dumps
 from for_JWT_generating import ForJWTGenerating
 from for_bd_connect import Database_manager
 from validators import validate_username, validate_password
+from add_profile_image import add_profile_image
 import datetime
 
 
 database = Database_manager()
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 CORS(app)
 jwt_generator = ForJWTGenerating()
 @app.route("/auth", methods=['POST'])
@@ -70,6 +71,62 @@ def sign_up():
   res['username'] = username
   res['jwtToken'] = jwt_generator.generate_jwt_token(user_id)
   return dumps(res)
+
+@app.route('/get_user_profile_data', methods=['POST'])
+def get_user_profile_data():
+  data = request.get_json()
+  jwt_token = data['jwtToken']
+  res = {"result": None,
+         "profile": None}
+  if not jwt_generator.validate_token(jwt_token):
+    res["result"] = 'invalid token'
+    return dumps(res)
+  res["result"] = 'success'
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  profile_data = database.get_my_profile_data(user_id)
+  adding_to_profile = {
+    "firstname": profile_data[0],
+    "lastname": profile_data[1],
+    "social": profile_data[2],
+    "phone": profile_data[3],
+    "photo": profile_data[4],
+  }
+  res['profile'] = adding_to_profile
+  return dumps(res)
+
+@app.route('/update_user_profile_data', methods=['POST'])
+def update_user_profile_data():
+  data = request.get_json()
+  jwt_token = data['jwtToken']
+  patch = data['patch']
+  res = {"result": None,
+         }
+  if not jwt_generator.validate_token(jwt_token):
+    res["result"] = 'invalid token'
+    return dumps(res)
+  res["result"] = 'success'
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  for key, value in patch.items:
+    database.patch_user_profile_data(user_id, key, value)
+  return dumps(res)
+
+@app.route('/update_user_profile_photo', methods=['POST'])
+def update_user_profile_photo():
+  token = request.form["jwtToken"]
+  res = {"result": "...",
+         "photoName": "...",
+  }
+  if not jwt_generator.validate_token(token):
+    res["result"] = 'invalid token'
+    return dumps(res)
+  res["result"] = 'success'
+  user_id = jwt_generator.extract_payload(token)['userId']
+  file = request.files["file"]
+  name_of_image = add_profile_image(file)
+  database.patch_user_profile_data(user_id, 'photo_name', name_of_image)
+  res['photoName'] = name_of_image
+  return dumps(res)
+
 
 
 if __name__ == "__main__":
