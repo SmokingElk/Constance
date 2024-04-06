@@ -15,9 +15,9 @@ const App = props => {
 			<Routes>
 				<Route path="/login" element={<LoginContainer />} />
 				<Route path="/sign_up" element={<SignupContainer />} />
-				<Route path="/profile" element={<MyProfileContainer />} />
+				<Route exact path="/profile" element={<MyProfileContainer />} />
 			</Routes>
-
+		
 			<AdvertisementContainer />
 		</div>
 	);

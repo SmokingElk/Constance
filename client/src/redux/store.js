@@ -4,6 +4,7 @@ import loginReducer from "./loginReducer";
 import signupReducer from "./signupReducer";
 import enteredReducer from "./enteredReducer";
 import myProfileReducer from "./myProfileReducer";
+import watchProfileReducer from "./watchProfileReducer";
 
 let store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ let store = configureStore({
         signup: signupReducer,
         entered: enteredReducer,
         myProfile: myProfileReducer,
+        watchProfile: watchProfileReducer,
     }
 }); 
 
