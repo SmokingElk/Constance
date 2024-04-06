@@ -58,7 +58,7 @@ class Database_manager:
 
     def get_my_profile_data(self, user_id: int):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT (firstname, lastname, social, phone_number, photo_name) FROM "profile_data" WHERE id=%s''', (id,))
+        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name FROM "profile_data" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
         cursor.close()
         if len(records) == 0:
@@ -67,7 +67,7 @@ class Database_manager:
 
     def patch_user_profile_data(self, user_id: int, key: str, value: str):
         cursor = self.conn.cursor()
-        cursor.execute('''UPDATE "profile_data" SET %s = %s WHERE id=%s''', (key, value, user_id))
+        cursor.execute(f'''UPDATE "profile_data" SET {key}=%s WHERE id=%s''', (value, user_id))
         self.conn.commit()
         cursor.close()
 

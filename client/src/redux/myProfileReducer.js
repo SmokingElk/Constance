@@ -1,5 +1,5 @@
 const initialState = {
-    demo: true,
+    demo: false,
     
     firstnameFieldValue: "",
     lastnameFieldValue: "",

@@ -84,6 +84,7 @@ def get_user_profile_data():
   res["result"] = 'success'
   user_id = jwt_generator.extract_payload(jwt_token)['userId']
   profile_data = database.get_my_profile_data(user_id)
+  print(profile_data)
   adding_to_profile = {
     "firstname": profile_data[0],
     "lastname": profile_data[1],
@@ -106,7 +107,7 @@ def update_user_profile_data():
     return dumps(res)
   res["result"] = 'success'
   user_id = jwt_generator.extract_payload(jwt_token)['userId']
-  for key, value in patch.items:
+  for key, value in patch.items():
     database.patch_user_profile_data(user_id, key, value)
   return dumps(res)
 

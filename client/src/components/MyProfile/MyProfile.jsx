@@ -20,12 +20,12 @@ const MyProfile = props => {
 
     const onPhoneChange = event => {
         props.updatePhone(event.target.value);
-        props.requestProfileDataUpdate({phone: event.target.value});
+        props.requestProfileDataUpdate({phone_number: event.target.value});
     };
 
     return (
         <div>
-            <img className={classes.profile_img} src={`static/imgs/${props.photoName}`} onClick={() => props.selectPhoto()}/>
+            <img className={classes.profile_img} src={`http://localhost:5000/static/images/${props.photoName}`} onClick={() => props.selectPhoto()}/>
 
             <div>
                 <textarea value={props.firstnameFieldValue} placeholder="firstname" onChange={onFirstnameChange}></textarea>
@@ -40,7 +40,7 @@ const MyProfile = props => {
             </div>
 
             <div>
-                <input type="tel" pattern="+7([0-9]{3})[0-9]{3}-[0-9]{3}" placeholder="+7(999)999-99-99" value={props.phoneFieldValue} onChange={onPhoneChange} />
+                <input type="tel" pattern="+7([0-9]{3})[0-9]{3}-[0-9]{3}" placeholder="+7(999)999-99-99" value={props.phoneNumberFieldValue} onChange={onPhoneChange} />
             </div>
         </div>
     );
