@@ -1,4 +1,6 @@
 const initialState = {
+    demo: true,
+    
     firstnameFieldValue: "",
     lastnameFieldValue: "",
     socialFieldValue: "",
