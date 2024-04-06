@@ -19,7 +19,7 @@ class MyProfileContainer extends React.Component {
             }
 
             let profile = res.data.profile;
-            
+
             this.props.updateFirstname(profile.firstname);
             this.props.updateLastname(profile.lastname);
             this.props.updateSocial(profile.social);
