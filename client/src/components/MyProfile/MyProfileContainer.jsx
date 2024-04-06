@@ -11,7 +11,7 @@ class MyProfileContainer extends React.Component {
         if (this.props.demo) return;
 
         axios.post("http://localhost:5000/get_user_profile_data", {
-            jwt: getJWT(),
+            jwtToken: getJWT(),
         }).then(res => {
             if (res.data.result !== "success") {
                 this.props.router.navigate("/login");
@@ -33,7 +33,7 @@ class MyProfileContainer extends React.Component {
 
         axios.post("http://localhost:5000/update_user_profile_data", {
             patch,
-            jwt: getJWT(),
+            jwtToken: getJWT(),
         }).then(res => {
             if (res.data.result !== "success") {
                 this.props.router.navigate("/login");
@@ -47,7 +47,7 @@ class MyProfileContainer extends React.Component {
 
         let formData = new FormData();
     	formData.append("file", photoFile, "image");
-        formData.append("jwt", getJWT());
+        formData.append("jwtToken", getJWT());
 
         axios.post("http://localhost:5000/update_user_profile_photo", formData).then(res => {
             if (res.data.result !== "success") {
