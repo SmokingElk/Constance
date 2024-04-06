@@ -1,14 +1,14 @@
 const SET_PROFILE_DATA = "SET-PROFILE-DATA";
 
 const initialState = {
-    demo: true, 
+    demo: false, 
 
     profileData: {
-        firstname: "1",
-        lastname: "2",
-        social: "3",
-        phone: "4",
-        birthdate: "5",
+        firstname: "",
+        lastname: "",
+        social: "",
+        phone: "",
+        birthdate: "",
         photoName: "placeholder",
     }
 };

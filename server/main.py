@@ -128,7 +128,7 @@ def update_user_profile_photo():
   res['photoName'] = name_of_image
   return dumps(res)
 
-@app.route('/get_watch_profile_data')
+@app.route('/get_watch_profile_data', methods=['POST'])
 def get_watch_profile_data():
   data = request.get_json()
   jwt_token = data['jwtToken']
@@ -152,7 +152,7 @@ def get_watch_profile_data():
     "lastname": lastname,
     "social": social,
     "phone": phone,
-    "birthdate": birth,
+    "birthdate": str(birth),
     "photoName": photo_name,
   }
   res['profileData'] = profile_data
