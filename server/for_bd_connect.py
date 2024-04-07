@@ -31,14 +31,14 @@ class Database_manager:
         cursor.close()
         return records[0][0]
 
-    def get_username_by_id(self, user_id):
+    def get_primary_data(self, user_id):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT username FROM "Autorisation" WHERE id=%s''', (user_id, ))
+        cursor.execute('''SELECT username, "Gender", "Date of birth" FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
         cursor.close()
         if len(records) == 0:
             return -1
-        return records[0][0]
+        return records[0]
 
     def is_user_exists(self, username: str):
         cursor = self.conn.cursor()
