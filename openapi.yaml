@@ -1,0 +1,307 @@
+openapi: 3.0.3
+
+servers:
+  - url: http://Constance/api/v1
+
+info:
+  version: 1.0.11
+  title: Constance open API documentation.
+  
+tags:
+  - name: user
+    description: Profile manipulation
+    
+  - name: profile
+    description: Profile manipulation
+      
+paths:
+  /user/auth:
+    get:
+      tags:
+        - user
+      summary: Enter and return jwt token
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+            example: Andrey
+        - name: password
+          in: query
+          required: true
+          schema:
+            type: string
+            example: k56f98G21
+      responses:
+        '200':
+          description: Successful authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthData'
+        '400':
+          description: User not found
+        
+  /user/sign_up:
+    post:
+      tags:
+        - user
+      summary: Sign up user and return jwt token
+      requestBody:
+        required: true
+        description: Data to sign up user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpData'
+      responses:
+        '201':
+          description: Successful sign up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthData'
+        '400':
+          description: Provided username or password are invalid
+        '409':
+          description: User with provided name already exists
+          
+  /user/primary_data:
+    get:
+      tags:
+        - user
+      summary: Get primary data of user
+      description: Get primary data of user (username, birthdate, sex).
+      parameters:
+        - name: jwtToken
+          in: query
+          required: true
+          schema:
+              type: string
+              example: "213-23213-2132"
+      responses:
+        '200':
+          description: Successful data getting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrimaryData'
+        '401':
+          description: User is not authorized
+  
+  /profile/get_data_to_edit:
+    get:
+      tags:
+        - profile
+      summary: Get editable profile data
+      description: Get data of user profile, which can be edit in personal profile page.
+      parameters:
+        - name: jwtToken
+          in: query
+          required: true
+          schema:
+              type: string
+              example: "213-23213-2132"
+      responses:
+        '200':
+          description: Successful data getting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyProfileData'
+        '401':
+          description: User is not authorized
+          
+  /profile/get_data_to_view/<int:userId>:
+    get:
+      tags:
+        - profile
+      summary: Get profile data to viewing
+      description: Get data of someone profile to view it in other profile page
+      parameters:
+        - name: jwtToken
+          in: query
+          required: true
+          schema:
+              type: string
+              example: "213-23213-2132"
+      responses:
+        '200':
+          description: Successful data getting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeoneProfileData'
+        '401':
+          description: User is not authorized
+        '404':
+          description: Requested user does not exist
+  
+  /profile/patch_text_data:
+    put:
+      tags:
+        - profile
+      summary: Update profile text data
+      description: Update profile text data of current user (which is firstname, lastname, social and phone number)
+      requestBody:
+        description: Profile patching data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jwtToken:
+                  type: string
+                  example: "213-23213-2132"
+                patch:
+                  $ref: '#/components/schemas/ProfilePatch'
+      responses:
+        '200':
+          description: Data successfully patched
+        '401':
+          description: User is not authorized
+        '404':
+          description: Unexpected patch key
+
+  /profile/set_photo:
+    put:
+      tags:
+        - profile
+      summary: Set profile photo
+      description: Sets user profile photo and returns its name in static folder
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                jwtToken:
+                  type: string
+                  example: "213-23213-2132"
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Photo successfully changed
+        '401':
+          description: User is not authorized
+              
+components:
+  schemas:
+    AuthData:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Ivan
+          description: name of authorized user
+        jwtToken:
+          type: string
+          description: jwt token with user id
+          
+    SignUpData:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Ivan
+          description: name of user
+        password:
+          type: string
+          description: password of future account
+          example: k56f98G21
+        birthdate:
+          type: string
+          example: 1999-10-10
+        sex:
+          type: boolean
+          description: true - male, false - female
+          
+    PrimaryData:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Ivan
+          description: name of user
+        birthdate:
+          type: string
+          example: 1999-10-10
+        sex:
+          type: boolean
+          description: true - male, false - female
+      
+    MyProfileData:
+      type: object
+      properties: 
+        firstname:
+          type: string
+          description: user firstname
+          example: Ivan
+        lastname:
+          type: string
+          description: user lastname
+          example: Ivanovich
+        social:
+          type: string
+          description: social media link
+          example: \@IvanIvanych
+        phone:
+          type: string
+          description: mobile phone number
+          example: +7(999)999-99-99
+        photoName:
+          type: string
+          description: image name in static folder
+          example: img0.png
+    
+    SomeoneProfileData:    
+      type: object
+      properties: 
+        firstname:
+          type: string
+          description: user firstname
+          example: Ivan
+        lastname:
+          type: string
+          description: user lastname
+          example: Ivanovich
+        social:
+          type: string
+          description: social media link
+          example: \@IvanIvanych
+        phone:
+          type: string
+          description: mobile phone number
+          example: +7(999)999-99-99
+        photoName:
+          type: string
+          description: image name in static folder
+          example: img0.png
+        birthdate:
+          type: string
+          example: 1999-10-10
+          
+    ProfilePatch:
+      type: object
+      properties: 
+        firstname:
+          type: string
+          description: user firstname
+          example: Ivan
+        lastname:
+          type: string
+          description: user lastname
+          example: Ivanovich
+        social:
+          type: string
+          description: social media link
+          example: \@IvanIvanych
+        phone:
+          type: string
+          description: mobile phone number
+          example: +7(999)999-99-99
