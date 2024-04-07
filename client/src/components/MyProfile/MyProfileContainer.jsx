@@ -10,21 +10,18 @@ class MyProfileContainer extends React.Component {
     componentDidMount () {
         if (this.props.demo) return;
 
-        axios.post("http://localhost:5000/get_user_profile_data", {
-            jwtToken: getJWT(),
+        axios.get("http://localhost:5000/api/v1/profile/get_data_to_edit", {
+            params: { jwtToken: getJWT() },
         }).then(res => {
-            if (res.data.result !== "success") {
-                this.props.router.navigate("/login");
-                return;
-            }
-
-            let profile = res.data.profile;
+            let profile = res.data;
 
             this.props.updateFirstname(profile.firstname);
             this.props.updateLastname(profile.lastname);
             this.props.updateSocial(profile.social);
             this.props.updatePhone(profile.phone);
             this.props.updatePhoto(profile.photo);
+        }).catch(error => {
+            this.props.router.navigate("/login");
         });
     }
 
