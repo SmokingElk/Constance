@@ -15,22 +15,20 @@ class LoginContainer extends React.Component {
             return;
         }
 
-        axios.post("http://localhost:5000/auth", {
-            username: this.props.usernameFieldValue,
-            password: this.props.passwordFieldValue,
+        axios.get("http://localhost:5000/api/v1/user/auth", {
+            params: {
+                username: this.props.usernameFieldValue,
+                password: this.props.passwordFieldValue,
+            }
         }).then(res => {
-            let authResult = res.data.result;
-
-            this.props.changeAuthStatus({
-                "success": AUTH_STATUS_SUCCESS,
-                "invalid data": AUTH_STATUS_INCORRECT_DATA,
-            }[authResult] ?? AUTH_STATUS_NONE);
-
-            if (authResult === "success") {
-                setJWT(res.data.jwtToken);
-                this.props.setEntered(res.data.username);
-                this.props.router.navigate("/");
-            } 
+            this.props.changeAuthStatus(AUTH_STATUS_SUCCESS);
+            setJWT(res.data.jwtToken);
+            this.props.setEntered(res.data.username);
+            this.props.router.navigate("/");
+        }).catch(error => {
+            let status = error.response.status;
+            if (status === 400) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA); 
+            if (status === 404) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA);
         });
     }
 
