@@ -16,26 +16,21 @@ class SignupContainer extends React.Component {
             return;
         }
 
-        axios.post("http://localhost:5000/sign_up", {
+        axios.post("http://localhost:5000/api/v1/user/sign_up", {
             username: this.props.usernameFieldValue,
             password: this.props.passwordFieldValue,
             birthdate: this.props.birthdate,
-            gender: this.props.isMale,
+            sex: this.props.isMale,
         }).then(res => {
-            let result = res.data.result;
-            
-            this.props.changeSignupStatus({
-                "success": SIGNUP_STATUS_SUCCESS,
-                "invalid data": SIGNUP_STATUS_INVALID_DATA,
-                "user already exists": SIGNUP_STATUS_ALREADY_EXISTS,
-                "younger than 18 are prohibited": SIGNUP_STATUS_TOO_YOUNG,
-            }[result] ?? SIGNUP_STATUS_NONE);
+            this.props.changeSignupStatus(SIGNUP_STATUS_SUCCESS);
 
-            if (result === "success") {
-                setJWT(res.data.jwtToken);
-                this.props.setEntered(res.data.username);
-                this.props.router.navigate("/");
-            } 
+            setJWT(res.data.jwtToken);
+            this.props.setEntered(res.data.username);
+            this.props.router.navigate("/");
+        }).catch(error => {
+            let status = error.response.status;
+            if (status === 400) this.props.changeSignupStatus(SIGNUP_STATUS_INVALID_DATA);
+            if (status === 409) his.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
         });
     }
 
