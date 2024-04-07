@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import Header from "./Header";
 import { setEntered, setUnentered } from "../../redux/enteredReducer";
-import axios from "axios";
 import { getJWT, getUserData } from "../../global_logic/userEnter";
 
 class HeaderContainer extends React.Component {
