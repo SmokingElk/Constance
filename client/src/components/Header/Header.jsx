@@ -1,17 +1,16 @@
 import classes from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import Logo from "./Logo/Logo";
+import Container from "../Utils/Container/Container";
+import Navbar from "./Navbar/Navbar";
 
 const Header = props => {
-    let linkToShow = <NavLink to="/login">войти</NavLink>;
-    if (props.isUserEntered) {
-        linkToShow = <NavLink to="/profile">{props.username}</NavLink>;
-    }
-
     return (
-        <div className={classes.layout}>
-            <div></div>
-            {linkToShow}
-        </div>
+        <Container>
+            <div className={classes.layout}>
+                <Logo />
+                <Navbar isUserEntered={props.isUserEntered} username={props.username} />
+            </div>
+        </Container>
     )
 }
 
