@@ -1,4 +1,5 @@
 import AdvertisementContainer from '../Advertisement/AdvertisementContainer';
+import Background from '../Background/Background';
 import Header from '../Header/Header';
 import HeaderContainer from '../Header/HeaderContainer';
 import LoginContainer from '../Login/LoginContainer';
@@ -11,6 +12,7 @@ import { Route, Routes } from 'react-router-dom';
 const App = props => {
 	return (
 		<div className={classes.app}>
+			<Background />
 			<HeaderContainer />
 
 			<Routes>

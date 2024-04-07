@@ -1,0 +1,15 @@
+.container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+
+    z-index: -2;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+}
