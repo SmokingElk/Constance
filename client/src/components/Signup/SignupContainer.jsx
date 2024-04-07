@@ -30,7 +30,7 @@ class SignupContainer extends React.Component {
         }).catch(error => {
             let status = error.response.status;
             if (status === 400) this.props.changeSignupStatus(SIGNUP_STATUS_INVALID_DATA);
-            if (status === 409) his.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
+            if (status === 409) this.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
         });
     }
 

@@ -91,6 +91,8 @@ paths:
                 $ref: '#/components/schemas/PrimaryData'
         '401':
           description: User is not authorized
+        '404':
+          description: User not found
   
   /profile/get_data_to_edit:
     get:
@@ -114,6 +116,8 @@ paths:
                 $ref: '#/components/schemas/MyProfileData'
         '401':
           description: User is not authorized
+        '404':
+          description: User not found
           
   /profile/get_data_to_view/<int:userId>:
     get:
@@ -164,8 +168,10 @@ paths:
           description: Data successfully patched
         '401':
           description: User is not authorized
-        '404':
+        '400':
           description: Unexpected patch key
+        '404':
+          description: User not found
 
   /profile/set_photo:
     put:
@@ -187,10 +193,20 @@ paths:
                   type: string
                   format: binary
       responses:
-        '204':
+        '200':
           description: Photo successfully changed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  photoName:
+                    type: string
+                    example: res0.png
         '401':
           description: User is not authorized
+        '404':
+          description: User not found
               
 components:
   schemas:
@@ -256,7 +272,7 @@ components:
           type: string
           description: mobile phone number
           example: +7(999)999-99-99
-        photoName:
+        photo:
           type: string
           description: image name in static folder
           example: img0.png
@@ -303,7 +319,7 @@ components:
           type: string
           description: social media link
           example: \@IvanIvanych
-        phone:
+        phone_number:
           type: string
           description: mobile phone number
           example: +7(999)999-99-99

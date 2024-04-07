@@ -7,7 +7,6 @@ from validators import validate_username, validate_password
 from add_profile_image import add_profile_image
 import datetime
 
-
 database = Database_manager()
 app = Flask(__name__, static_folder="static")
 CORS(app)
@@ -52,7 +51,7 @@ def sign_up():
 @app.route('/api/v1/profile/get_data_to_edit', methods=['GET'])
 def get_user_profile_data():
   data = request.args
-  jwt_token = data.get("jwt_Token")
+  jwt_token = data.get("jwtToken")
   if not jwt_generator.validate_token(jwt_token):
     abort(401)
   user_id = jwt_generator.extract_payload(jwt_token)['userId']
@@ -82,7 +81,7 @@ def update_user_profile_data():
     if key not in ['firstname', 'lastname', 'social', 'phone_number']:
       abort(400)
     database.patch_user_profile_data(user_id, key, value)
-  return make_response(204)
+  return make_response({}, 200)
 
 @app.route('/api/v1/profile/set_photo', methods=['PUT'])
 def update_user_profile_photo():
@@ -97,9 +96,9 @@ def update_user_profile_photo():
   database.patch_user_profile_data(user_id, 'photo_name', name_of_image)
   res = {"photoName": name_of_image,
          }
-  return make_response(res, 204)
+  return make_response(res, 200)
 
-@app.route('api/v1/profile/get_data_to_view/<int:userId>', methods=['GET'])
+@app.route('/api/v1/profile/get_data_to_view/<int:userId>', methods=['GET'])
 def get_watch_profile_data(userId):
   data = request.args
   jwt_token = data.get('jwtToken')
@@ -124,7 +123,7 @@ def get_watch_profile_data(userId):
 @app.route('/api/v1/user/primary_data', methods=['GET'])
 def get_primary_data():
   data = request.args
-  jwt_token = data.get("jwt_Token")
+  jwt_token = data.get("jwtToken")
 
   if not jwt_generator.validate_token(jwt_token):
     abort(401)
