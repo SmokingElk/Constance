@@ -10,35 +10,31 @@ class MyProfileContainer extends React.Component {
     componentDidMount () {
         if (this.props.demo) return;
 
-        axios.post("http://localhost:5000/get_user_profile_data", {
-            jwtToken: getJWT(),
+        axios.get("http://localhost:5000/api/v1/profile/get_data_to_edit", {
+            params: { jwtToken: getJWT() },
         }).then(res => {
-            if (res.data.result !== "success") {
-                this.props.router.navigate("/login");
-                return;
-            }
-
-            let profile = res.data.profile;
+            let profile = res.data;
 
             this.props.updateFirstname(profile.firstname);
             this.props.updateLastname(profile.lastname);
             this.props.updateSocial(profile.social);
             this.props.updatePhone(profile.phone);
             this.props.updatePhoto(profile.photo);
+        }).catch(error => {
+            this.props.router.navigate("/login");
         });
     }
 
     requestProfileDataUpdate (patch) {
         if (this.props.demo) return;
 
-        axios.post("http://localhost:5000/update_user_profile_data", {
+        axios.put("http://localhost:5000/api/v1/profile/patch_text_data", {
             patch,
             jwtToken: getJWT(),
-        }).then(res => {
-            if (res.data.result !== "success") {
-                this.props.router.navigate("/login");
-                return;
-            }
+        }).catch(error => {
+            let status = error.response.status;
+            if (status === 401) this.props.router.navigate("/login");
+            if (status === 404) return;
         });
     }
 
@@ -49,13 +45,10 @@ class MyProfileContainer extends React.Component {
     	formData.append("file", photoFile, "image");
         formData.append("jwtToken", getJWT());
 
-        axios.post("http://localhost:5000/update_user_profile_photo", formData).then(res => {
-            if (res.data.result !== "success") {
-                this.props.router.navigate("/login");
-                return;
-            }
-
+        axios.put("http://localhost:5000/api/v1/profile/set_photo", formData).then(res => {
             this.props.updatePhoto(res.data.photoName);
+        }).catch(error => {
+            this.props.router.navigate("/login");
         });
     }
 

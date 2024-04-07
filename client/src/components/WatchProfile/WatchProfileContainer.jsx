@@ -10,20 +10,18 @@ class WatchProfileContainer extends React.Component {
     componentDidMount () {
         if (this.props.demo) return;
 
-        axios.post("http://localhost:5000/get_watch_profile_data", {
-            jwtToken: getJWT(),
-            id: Number(this.props.router?.params?.userId ?? 0),
+        let id = Number(this.props.router?.params?.userId ?? 0);
+
+        axios.get(`http://localhost:5000/api/v1/profile/get_data_to_view/${id}`, {
+            params: {
+                jwtToken: getJWT(),
+            }
         }).then(res => {
-            if (res.data.result === "user is not login") {
-                this.props.router.navigate("/login");
-                return;
-            }
-
-            if (res.data.result === "requested user does not exist") {
-                return;
-            }
-
-            this.props.setProfileData(res.data.profileData);
+            this.props.setProfileData(res.data);
+        }).catch(error => {
+            let status = error.response.status;
+            if (status === 401) this.props.router.navigate("/login");
+            if (status === 404) return;
         });
     }
 
