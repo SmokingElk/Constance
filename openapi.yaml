@@ -41,6 +41,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthData'
         '400':
+          description: Wrong password
+        '404':
           description: User not found
         
   /user/sign_up:
