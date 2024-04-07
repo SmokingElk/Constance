@@ -10,8 +10,9 @@ class HeaderContainer extends React.Component {
         if (this.props.demo) return;
 
         getUserData(res => {
-            if (res.status === "success") this.props.setEntered(res.username);
-            else this.props.setUnentered();
+            this.props.setEntered(res.username);
+        }, () => {
+            this.props.setUnentered();
         });
     }
 
