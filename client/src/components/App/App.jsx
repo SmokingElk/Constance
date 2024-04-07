@@ -1,6 +1,5 @@
 import AdvertisementContainer from '../Advertisement/AdvertisementContainer';
 import Background from '../Background/Background';
-import Header from '../Header/Header';
 import HeaderContainer from '../Header/HeaderContainer';
 import LoginContainer from '../Login/LoginContainer';
 import MyProfileContainer from '../MyProfile/MyProfileContainer';
@@ -21,8 +20,6 @@ const App = props => {
 				<Route exact path="/profile" element={<MyProfileContainer />} />
 				<Route exact path="/profile/:userId" element={<WatchProfileContainer />} />
 			</Routes>
-		
-			<AdvertisementContainer />
 		</div>
 	);
 }
