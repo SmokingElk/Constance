@@ -5,6 +5,7 @@ const initialState = {
     demo: false,
     isUserEntered: false,
     username: "",
+    sex: true,
 };
 
 const enteredReducer = (state = initialState, action) => {
@@ -14,6 +15,7 @@ const enteredReducer = (state = initialState, action) => {
                 ...state,
                 isUserEntered: true,
                 username: action.username,
+                sex: action.sex,
             }
         }
 
@@ -29,7 +31,7 @@ const enteredReducer = (state = initialState, action) => {
     }
 }
 
-export const setEntered = username => ({type: SET_ENTERED, username});
+export const setEntered = (username, sex = true) => ({type: SET_ENTERED, username, sex});
 export const setUnentered = () => ({type: SET_UNENTERED});
 
 export default enteredReducer;
