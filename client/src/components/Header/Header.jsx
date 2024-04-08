@@ -8,7 +8,7 @@ const Header = props => {
         <Container>
             <div className={classes.layout}>
                 <Logo />
-                <Navbar isUserEntered={props.isUserEntered} username={props.username} />
+                <Navbar isUserEntered={props.isUserEntered} username={props.username} sex={props.sex} />
             </div>
         </Container>
     );

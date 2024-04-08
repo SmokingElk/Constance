@@ -7,6 +7,7 @@ const Navbar = props => {
     let enterNav = <NavItem 
     to={isEntered ? "/profile" : "/login"} 
     highlighted={isEntered} 
+    highlightMode={props.sex ? "blue" : "pink"}
     text={isEntered ? props.username : "Log in"} />;
     
     return (

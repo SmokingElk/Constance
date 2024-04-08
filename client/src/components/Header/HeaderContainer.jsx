@@ -9,7 +9,7 @@ class HeaderContainer extends React.Component {
         if (this.props.demo) return;
 
         getUserData(res => {
-            this.props.setEntered(res.username);
+            this.props.setEntered(res.username, res.sex);
         }, () => {
             this.props.setUnentered();
         });
@@ -23,6 +23,7 @@ class HeaderContainer extends React.Component {
 const mapStateToProps = state => ({
     isUserEntered: state.entered.isUserEntered,
     username: state.entered.username,
+    sex: state.entered.sex,
     demo: state.entered.demo,
 });
 

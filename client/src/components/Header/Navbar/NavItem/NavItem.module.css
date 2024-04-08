@@ -13,9 +13,16 @@
     color: #000;
 }
 
-.highlighted {
-    background-color: #114df2;
+.item.highlighted {
     border-radius: 1000px;
     box-sizing: border-box;
     padding: 5px 20px;
+}
+
+.item.highlighted.highlightBlue {
+    background-color: #225EFE;
+}
+
+.item.highlighted.highlightPink {
+    background-color: #FF01B7;
 }
