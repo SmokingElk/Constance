@@ -11,7 +11,7 @@ const Header = props => {
                 <Navbar isUserEntered={props.isUserEntered} username={props.username} />
             </div>
         </Container>
-    )
+    );
 }
 
 export default Header;
