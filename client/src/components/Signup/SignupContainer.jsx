@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { SIGNUP_STATUS_ALREADY_EXISTS, SIGNUP_STATUS_INCOMPLETE_DATA, SIGNUP_STATUS_INVALID_DATA, SIGNUP_STATUS_NONE, SIGNUP_STATUS_SUCCESS, SIGNUP_STATUS_TOO_YOUNG, changeSignupStatus, updateBirthdate, updateSex, updateSignupPassword, updateSignupUsername } from "../../redux/signupReducer";
 import axios from "axios";
 import { setEntered } from "../../redux/enteredReducer";
-import { setJWT } from "../../global_logic/userEnter";
+import { getJWT, setJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
 
 class SignupContainer extends React.Component {
@@ -23,14 +23,28 @@ class SignupContainer extends React.Component {
             sex: this.props.isMale,
         }).then(res => {
             this.props.changeSignupStatus(SIGNUP_STATUS_SUCCESS);
-
             setJWT(res.data.jwtToken);
-            this.props.setEntered(res.data.username);
-            this.props.router.navigate("/");
-        }).catch(error => {
+
+            return axios.get("http://localhost:5000/api/v1/user/primary_data", {
+                params: { jwtToken: getJWT() },
+            });
+        }, error => {
             let status = error.response.status;
             if (status === 400) this.props.changeSignupStatus(SIGNUP_STATUS_INVALID_DATA);
             if (status === 409) this.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
+            return {fail: true};
+        }).then(res => {
+            if (res.fail) return;
+
+            this.props.updateUsername("");
+            this.props.updatePassword("");
+
+            this.props.setEntered(res.data.username, res.data.sex);
+            this.props.router.navigate("/");
+        }, error => {
+            let status = error.response.status;
+            if (status === 401) this.props.changeAuthStatus(SIGNUP_STATUS_INVALID_DATA); 
+            if (status === 404) this.props.changeAuthStatus(SIGNUP_STATUS_INVALID_DATA);
         });
     }
 
