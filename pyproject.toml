@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "constance"
+version = "0.1.0"
+description = ""
+authors = ["WPN"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^3.0.3"
+flask-cors = "^4.0.0"
+psycopg2 = "^2.9.9"
+configparser = "^6.0.1"
+datetime = "^5.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
