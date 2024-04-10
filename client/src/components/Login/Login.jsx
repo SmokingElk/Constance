@@ -1,4 +1,6 @@
 import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS } from "../../redux/loginReducer";
+import Button from "../Utils/Button/Button";
+import Container from "../Utils/Container/Container";
 import classes from "./Login.module.css";
 import { NavLink } from "react-router-dom";
 
@@ -19,25 +21,28 @@ const Login = props => {
     }[props.authStatus] ?? "";
 
     return (
-        <div>
-            <div>Вход</div>
-            <div>Username</div>
-            <div>
-                <textarea onChange={onUsernameChange} value={props.usernameFieldValue}></textarea>
+        <Container>
+            <div className={classes.layout}>
+                <div className={classes.body}>
+                    <div className={classes.title}>Login</div>
+
+                    <div className={classes.label}>Username</div>
+                    <input type="text" className={"inputField " + classes.usernameField} onChange={onUsernameChange} value={props.usernameFieldValue}></input>
+
+                    <div className={classes.label}>Password</div>
+                    <input type="text" className={"inputField " + classes.passwordField} onChange={onPasswordChange} value={props.passwordFieldValue}></input>
+
+                    <div className={classes.authInfo}>{authInfo}</div>
+
+                    <div className={classes.loginBtn}>
+                        <Button onClick={() => props.sendAuthRequest()} text="Login" />
+                    </div>
+                    
+
+                    <div className={classes.hint}>Don't have an account? <NavLink to="/sign_up" className={classes.signUpLink}> Sign up</NavLink></div>
+                </div>
             </div>
-
-            <div>Password</div>
-            <div>
-                <textarea onChange={onPasswordChange} value={props.passwordFieldValue}></textarea>
-            </div>
-
-            <div>Нет аккаунта?</div>
-            <NavLink to="/sign_up">Зарегистрироваться</NavLink>
-
-            <div>{authInfo}</div>
-
-            <button onClick={() => props.sendAuthRequest()}>login</button>
-        </div>
+        </Container>
     );
 }
 

@@ -1,0 +1,28 @@
+.button {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #1E1E1F;
+    transition: color 0.3s;
+
+    background-color: #225EFE;
+    border-radius: 10000px;
+    box-sizing: border-box;
+    padding: 5px 30px;
+
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: #000000;
+}
+
+.button.pink {
+    background-color: #FF01B7;
+}

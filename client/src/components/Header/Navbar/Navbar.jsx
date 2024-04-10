@@ -8,7 +8,7 @@ const Navbar = props => {
     to={isEntered ? "/profile" : "/login"} 
     highlighted={isEntered} 
     highlightMode={props.sex ? "blue" : "pink"}
-    text={isEntered ? props.username : "Log in"} />;
+    text={isEntered ? props.username : "Login"} />;
     
     return (
         <div className={classes.layout}>
