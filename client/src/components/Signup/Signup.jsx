@@ -44,7 +44,7 @@ const Signup = props => {
                         <div className={classes.checkboxGroup}>
                             <Checkbox value={props.isMale} onClick={() => props.updateSex(true)} />
                             <label className={classes.checkboxLabel}>M</label>
-                            <Checkbox value={!props.isMale} onClick={() => props.updateSex(false)} />
+                            <Checkbox value={!props.isMale} onClick={() => props.updateSex(false)} pink={true} />
                             <label className={classes.checkboxLabel}>W</label>
                         </div>
                     </div>
@@ -57,7 +57,7 @@ const Signup = props => {
                     <div className={classes.signupInfo}>{signupInfo}</div>
 
                     <div className={classes.buttonContainer}>
-                        <Button onClick={() => props.sendSignupRequest()} text="Sign up" />
+                        <Button pink={!props.isMale} onClick={() => props.sendSignupRequest()} text="Sign up" />
                     </div>
 
                     <div className={classes.hint}> 
