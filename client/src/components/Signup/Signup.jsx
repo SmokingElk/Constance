@@ -1,5 +1,6 @@
 import { SIGNUP_STATUS_ALREADY_EXISTS, SIGNUP_STATUS_INCOMPLETE_DATA, SIGNUP_STATUS_INVALID_DATA, SIGNUP_STATUS_NONE, SIGNUP_STATUS_SUCCESS, SIGNUP_STATUS_TOO_YOUNG } from "../../redux/signupReducer";
 import Button from "../Utils/Button/Button";
+import Checkbox from "../Utils/Checkbox/Checkbox";
 import Container from "../Utils/Container/Container";
 import classes from "./Signup.module.css";
 import { NavLink } from "react-router-dom";
@@ -39,11 +40,11 @@ const Signup = props => {
                     <input type="text" className={"inputField" + " " + classes.fieldOffset} onChange={onPasswordChange} value={props.passwordFieldValue}></input>
                     
                     <div className={classes.row + " " + classes.fieldOffset}>
-                        <div className={classes.label + " " + classes.inlineLabel}>Select sex</div>
-                        <div>
-                            <input type="checkbox" checked={props.isMale ? "checked" : ""} onClick={() => props.updateSex(true)}></input>
+                        <div className={classes.label + " " + classes.inlineLabel}>Gender</div>
+                        <div className={classes.checkboxGroup}>
+                            <Checkbox value={props.isMale} onClick={() => props.updateSex(true)} />
                             <label className={classes.checkboxLabel}>M</label>
-                            <input type="checkbox" checked={props.isMale ? "" : "checked"} onClick={() => props.updateSex(false)}></input>
+                            <Checkbox value={!props.isMale} onClick={() => props.updateSex(false)} />
                             <label className={classes.checkboxLabel}>W</label>
                         </div>
                     </div>
@@ -58,7 +59,6 @@ const Signup = props => {
                     <div className={classes.buttonContainer}>
                         <Button onClick={() => props.sendSignupRequest()} text="Sign up" />
                     </div>
-                    
 
                     <div className={classes.hint}> 
                         Already have an account?

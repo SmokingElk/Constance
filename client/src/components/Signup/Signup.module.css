@@ -71,7 +71,14 @@
 }
 
 .checkboxLabel {
-    margin-right: 7px;
+    margin-right: 5px;
+}
+
+.checkboxGroup {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 3px;
 }
 
 .hint {
