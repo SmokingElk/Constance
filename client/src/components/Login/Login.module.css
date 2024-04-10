@@ -8,18 +8,18 @@
     grid-column: 5 / 9;
 
     box-sizing: border-box;
-    padding: 50px 33px 30px 33px;
+    padding: 30px 33px 30px 33px;
 
     background: rgba(255, 255, 255, 0.45);
     border-radius: 5px;
 }
 
 .usernameField {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .passwordField {
-    margin-bottom: 44px;
+    margin-bottom: 40px;
 }
 
 .title, .label, .authInfo, .hint {
@@ -40,14 +40,14 @@
     line-height: 46px;
     justify-content: center;
     
-    margin-bottom: 64px;
+    margin-bottom: 45px;
 }
 
 .label {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 27px;
 
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .authInfo {
@@ -64,7 +64,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 44px;
+    margin-bottom: 24px;
 }
 
 .hint {
