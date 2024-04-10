@@ -1,4 +1,7 @@
 import { SIGNUP_STATUS_ALREADY_EXISTS, SIGNUP_STATUS_INCOMPLETE_DATA, SIGNUP_STATUS_INVALID_DATA, SIGNUP_STATUS_NONE, SIGNUP_STATUS_SUCCESS, SIGNUP_STATUS_TOO_YOUNG } from "../../redux/signupReducer";
+import Button from "../Utils/Button/Button";
+import Checkbox from "../Utils/Checkbox/Checkbox";
+import Container from "../Utils/Container/Container";
 import classes from "./Signup.module.css";
 import { NavLink } from "react-router-dom";
 
@@ -25,40 +28,46 @@ const Signup = props => {
     }[props.signupStatus] ?? "";
 
     return (
-        <div>
-            <div>Зарегистрироваться</div>
-            <div>Username</div>
-            <div>
-                <textarea onChange={onUsernameChange} value={props.usernameFieldValue}></textarea>
+        <Container>
+            <div className={classes.layout}>
+                <div className={classes.body}>
+                    <div className={classes.title}>Sign up</div>
+
+                    <div className={classes.label}>Username</div>
+                    <input type="text" className={"inputField" + " " + classes.fieldOffset} onChange={onUsernameChange} value={props.usernameFieldValue}></input>
+
+                    <div className={classes.label}>Password</div>
+                    <input type="text" className={"inputField" + " " + classes.fieldOffset} onChange={onPasswordChange} value={props.passwordFieldValue}></input>
+                    
+                    <div className={classes.row + " " + classes.fieldOffset}>
+                        <div className={classes.label + " " + classes.inlineLabel}>Gender</div>
+                        <div className={classes.checkboxGroup}>
+                            <Checkbox value={props.isMale} onClick={() => props.updateSex(true)} />
+                            <label className={classes.checkboxLabel}>M</label>
+                            <Checkbox value={!props.isMale} onClick={() => props.updateSex(false)} pink={true} />
+                            <label className={classes.checkboxLabel}>W</label>
+                        </div>
+                    </div>
+
+                    <div className={classes.row + " " + classes.fieldsGroupOffset}>
+                        <div className={classes.label + " " + classes.inlineLabel}>Set birthday</div>
+                        <input type="date" value={props.birthdate} onChange={onBirthdateChange} className={classes.birthdateField}></input>
+                    </div>
+
+                    <div className={classes.signupInfo}>{signupInfo}</div>
+
+                    <div className={classes.buttonContainer}>
+                        <Button pink={!props.isMale} onClick={() => props.sendSignupRequest()} text="Sign up" />
+                    </div>
+
+                    <div className={classes.hint}> 
+                        Already have an account?
+                        <NavLink className={classes.loginLink} to="/login"> Login</NavLink>
+                    </div>
+                </div>
             </div>
-
-            <div>Password</div>
-            <div>
-                <textarea onChange={onPasswordChange} value={props.passwordFieldValue}></textarea>
-            </div>
-
-            <div>Set birthday</div>
-            <div>
-                <input type="date" value={props.birthdate} onChange={onBirthdateChange}></input>
-            </div>
-
-            <div>Select sex</div>
-            <div>
-                <input type="checkbox" checked={props.isMale ? "checked" : ""} onClick={() => props.updateSex(true)}></input>
-                <label>male</label>
-                <input type="checkbox" checked={props.isMale ? "" : "checked"} onClick={() => props.updateSex(false)}></input>
-                <label>female</label>
-            </div>
-            
-
-            <div>Уже есть аккаунт?</div>
-            <NavLink to="/login">Войти</NavLink>
-
-            <div>{signupInfo}</div>
-
-            <button onClick={() => props.sendSignupRequest()}>sign up</button>
-        </div>
-    )
+        </Container>
+    );
 }
 
 export default Signup;
