@@ -14,6 +14,24 @@
     border-radius: 5px;
 }
 
+@media (max-width: 1200px) {
+    .body {
+        grid-column: 4 / 10;
+    }
+}
+
+@media (max-width: 768px) {
+    .body {
+        grid-column: 3 / 11;
+    }
+}
+
+@media (max-width: 576px) {
+    .body {
+        grid-column: 1 / 13;
+    }
+}
+
 .fieldOffset {
     margin-bottom: 20px;
 }
