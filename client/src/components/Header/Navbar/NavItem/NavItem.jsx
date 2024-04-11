@@ -11,6 +11,7 @@ const NavItem = props => {
 
     return (
         <NavLink 
+        onClick={() => props.toggleNavbar(false)}
         to={props.to} 
         className={classes.item + " " + highlightingClasses}>{props.text}</NavLink>
     );

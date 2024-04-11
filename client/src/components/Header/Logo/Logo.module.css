@@ -3,6 +3,7 @@
     gap: 20px;
     align-items: center;
     justify-content: left;
+    z-index: 5;
 }
 
 .image {
@@ -18,4 +19,15 @@
     line-height: 52px;
 
     color: #1E1E1F;
+}
+
+@media (max-width: 768px) {
+    .appName {
+        font-size: 30px;
+    }
+
+    .image {
+        width: 55px;
+        height: 55px;
+    }
 }

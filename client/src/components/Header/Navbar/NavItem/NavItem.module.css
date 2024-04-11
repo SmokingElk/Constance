@@ -26,3 +26,9 @@
 .item.highlighted.highlightPink {
     background-color: #FF01B7;
 }
+
+@media (max-width: 768px) {
+    .item {
+        color: #FFF;
+    }
+}
