@@ -11,11 +11,17 @@ const Navbar = props => {
     text={isEntered ? props.username : "Login"} />;
     
     return (
-        <div className={classes.layout}>
-            <NavItem to="/" text="Home" />
-            <NavItem to="/search" text="Search" />
-            <NavItem to="/properites" text="Properites" />
-            {enterNav}
+        <div className={classes.container + " " + classes.open}>
+            <div className={classes.layout}>
+                <NavItem to="/" text="Home" />
+                <NavItem to="/search" text="Search" />
+                <NavItem to="/properites" text="Properites" />
+                {enterNav}
+            </div>
+
+            <div className={classes.burgerButton}>
+                <span></span>
+            </div>
         </div>
     );
 }
