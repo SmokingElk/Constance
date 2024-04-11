@@ -25,17 +25,6 @@ class SignupContainer extends React.Component {
             this.props.changeSignupStatus(SIGNUP_STATUS_SUCCESS);
             setJWT(res.data.jwtToken);
 
-            return axios.get("http://localhost:5000/api/v1/user/primary_data", {
-                params: { jwtToken: getJWT() },
-            });
-        }, error => {
-            let status = error.response.status;
-            if (status === 400) this.props.changeSignupStatus(SIGNUP_STATUS_INVALID_DATA);
-            if (status === 409) this.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
-            return {fail: true};
-        }).then(res => {
-            if (res.fail) return;
-
             this.props.updateUsername("");
             this.props.updatePassword("");
 
@@ -43,8 +32,8 @@ class SignupContainer extends React.Component {
             this.props.router.navigate("/");
         }, error => {
             let status = error.response.status;
-            if (status === 401) this.props.changeAuthStatus(SIGNUP_STATUS_INVALID_DATA); 
-            if (status === 404) this.props.changeAuthStatus(SIGNUP_STATUS_INVALID_DATA);
+            if (status === 400) this.props.changeSignupStatus(SIGNUP_STATUS_INVALID_DATA);
+            if (status === 409) this.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
         });
     }
 

@@ -23,25 +23,14 @@ class LoginContainer extends React.Component {
             this.props.changeAuthStatus(AUTH_STATUS_SUCCESS);
             setJWT(res.data.jwtToken);
 
-            return axios.get("http://localhost:5000/api/v1/user/primary_data", {
-                params: { jwtToken: getJWT() },
-            });
-        }, error => {
-            let status = error.response.status;
-            if (status === 400) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA); 
-            if (status === 404) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA);
-            return {fail: true};
-        }).then(res => {
-            if (res.fail) return;
-            
             this.props.updateUsername("");
             this.props.updatePassword("");
 
-            this.props.setEntered(res.data.username, res.data.sex);
+            this.props.setEntered(res.data.username, res.data.sex ?? true);
             this.props.router.navigate("/");
         }, error => {
             let status = error.response.status;
-            if (status === 401) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA); 
+            if (status === 400) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA); 
             if (status === 404) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA);
         });
     }
