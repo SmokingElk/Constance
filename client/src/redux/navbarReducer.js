@@ -9,7 +9,7 @@ const navbarReducer = (state = initialState, action) => {
         case TOGGLE_NAVBAR: {
             return {
                 ...state,
-                isOpen: !state.isOpen,
+                isOpen: action.isOpen,
             };
         }
 
@@ -18,7 +18,7 @@ const navbarReducer = (state = initialState, action) => {
     }
 }
 
-export const toggleNavbar = () => ({type: TOGGLE_NAVBAR});
+export const toggleNavbar = isOpen => ({type: TOGGLE_NAVBAR, isOpen});
 
 export default navbarReducer;
 

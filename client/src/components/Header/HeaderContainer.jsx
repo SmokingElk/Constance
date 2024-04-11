@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Header from "./Header";
 import { setEntered, setUnentered } from "../../redux/enteredReducer";
 import { getJWT, getUserData } from "../../global_logic/userEnter";
+import { toggleNavbar } from "../../redux/navbarReducer";
 
 class HeaderContainer extends React.Component {
     componentDidMount () {
@@ -24,12 +25,14 @@ const mapStateToProps = state => ({
     isUserEntered: state.entered.isUserEntered,
     username: state.entered.username,
     sex: state.entered.sex,
+    isNavbarOpen: state.navbar.isOpen,
     demo: state.entered.demo,
 });
 
 const mapDispatchToProps = {
     setEntered,
     setUnentered,
+    toggleNavbar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
