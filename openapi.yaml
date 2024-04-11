@@ -217,6 +217,12 @@ components:
           type: string
           example: Ivan
           description: name of authorized user
+        birthdate:
+          type: string
+          example: 1999-10-10
+        sex:
+          type: boolean
+          description: true - male, false - female
         jwtToken:
           type: string
           description: jwt token with user id
