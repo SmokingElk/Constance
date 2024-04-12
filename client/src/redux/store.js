@@ -6,6 +6,7 @@ import enteredReducer from "./enteredReducer";
 import myProfileReducer from "./myProfileReducer";
 import watchProfileReducer from "./watchProfileReducer";
 import navbarReducer from "./navbarReducer";
+import preferencesReducer from "./preferencesReducer";
 
 let store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ let store = configureStore({
         myProfile: myProfileReducer,
         watchProfile: watchProfileReducer,
         navbar: navbarReducer,
+        preferences: preferencesReducer,
     }
 }); 
 
