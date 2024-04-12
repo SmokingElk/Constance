@@ -9,7 +9,6 @@ class PreferencesContainer extends React.Component {
         axios.get("http://localhost:5000/static/properties_data.json").then(res => {
             this.props.setPossibleGroups(res.data.globalParams.groups);
             this.props.initPreferencesData(createPreferencesData(res.data));
-            debugger;
         });
     }
 
@@ -19,7 +18,8 @@ class PreferencesContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    
+    sex: state.entered.sex ? "male" : "female",
+    preferencesData: state.preferences.preferencesData,
 });
 
 const mapDispatchToProps = {
