@@ -26,7 +26,7 @@ const preferencesReducer = (state = initialState, action) => {
         case PATCH_PREFERENCES_DATA: {
             if (!state.groups.includes(action.group)) throw new Error(`Unexpected group ${action.group} in preferences patch`);
 
-            if (!state.groups[action.group].hasOwnProperty(action.id)) {
+            if (!state.preferencesData[action.group].hasOwnProperty(action.id)) {
                 throw new Error(`Property with id ${action.id} not found. In prefrences patch.`);
             }
 

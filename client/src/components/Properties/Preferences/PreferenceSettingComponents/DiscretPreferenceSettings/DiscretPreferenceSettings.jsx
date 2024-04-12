@@ -1,9 +1,16 @@
+import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import classes from "./DiscretPreferenceSettings.module.css";
 
 const DiscretPreferenceSettings = props => {
     return (
         <div>
-            Discrete: {props.name}
+            <h4>{props.name}</h4>
+
+            <ScaleCoeffitients 
+            patch={props.patch} 
+            positiveScale={props.positiveScale} 
+            negativeScale={props.negativeScale}
+            otherNegative={props.otherNegative} />
         </div>
     );
 }

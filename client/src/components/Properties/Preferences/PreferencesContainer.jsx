@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Preferences from "./Preferences";
 import axios from "axios";
-import { createPreferencesData, initPreferencesData, setPossibleGroups } from "../../../redux/preferencesReducer";
+import { createPreferencesData, initPreferencesData, patchPreferencesData, setPossibleGroups } from "../../../redux/preferencesReducer";
 
 class PreferencesContainer extends React.Component {
     componentDidMount () {
@@ -25,6 +25,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     setPossibleGroups,
     initPreferencesData,
+    patchPreferencesData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PreferencesContainer);

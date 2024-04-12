@@ -3,7 +3,7 @@ import ContinuousPreferenceSettings from "./PreferenceSettingComponents/Continou
 import DiscretPreferenceSettings from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettings";
 import classes from "./Preferences.module.css";
 
-const createGroups = (preferencesData, userSex) => {
+const createGroups = (preferencesData, userSex, patchPreference) => {
     let groups = [];
 
     for (let group in preferencesData) {
@@ -15,15 +15,17 @@ const createGroups = (preferencesData, userSex) => {
             // если both - показывает
             if (userSex === preferencesData[group][id].sex) continue;
 
+            let patchCallback = newData => patchPreference(group, id, newData);
+
             switch (preferencesData[group][id].type) {
                 case "binary":
-                    settingsElements.push(<BinaryPreferenceSettings {...preferencesData[group][id]} />);
+                    settingsElements.push(<BinaryPreferenceSettings {...preferencesData[group][id]} patch={patchCallback} />);
                     break;
                 case "continuous":
-                    settingsElements.push(<ContinuousPreferenceSettings {...preferencesData[group][id]} />);
+                    settingsElements.push(<ContinuousPreferenceSettings {...preferencesData[group][id]} patch={patchCallback} />);
                     break;
                 case "discrete":
-                    settingsElements.push(<DiscretPreferenceSettings {...preferencesData[group][id]} />);
+                    settingsElements.push(<DiscretPreferenceSettings {...preferencesData[group][id]} patch={patchCallback} />);
                     break;
             }
         }
@@ -39,7 +41,7 @@ const createGroups = (preferencesData, userSex) => {
 
 const Preferences = props => {
     let preferencesData = props.preferencesData;
-    let groups = createGroups(preferencesData, props.sex);
+    let groups = createGroups(preferencesData, props.sex, props.patchPreferencesData);
 
     return (
         <div>
