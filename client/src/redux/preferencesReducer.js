@@ -20,7 +20,7 @@ const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
     if (requiredType === "any") return;
 
     if (state.preferencesData[group][id].type != requiredType) {
-        throw new Error(`Not ${requiredType} property can't be patched by column coefficient.`);
+        throw new Error(`Not ${requiredType} property can't be patched.`);
     }
 }
 
@@ -77,12 +77,8 @@ const preferencesReducer = (state = initialState, action) => {
         case PATCH_CONTINUOUS_SPREAD: {
             validatePreferenceDataKeys(action.group, action.id, state, "continuous");
 
-            if (state.preferencesData[action.group][action.id].type != "discrete") {
-                throw new Error(`Not discrete property can't be patched by column coefficient.`);
-            }
-
             let spreadNew = [...state.preferencesData[action.group][action.id].spreadPoints];
-            spreadNew[action.y] = action.x;
+            spreadNew[action.x] = action.y;
             
             return {
                 ...state,
@@ -92,7 +88,7 @@ const preferencesReducer = (state = initialState, action) => {
                         ...state.preferencesData[action.group],
                         [action.id]: {
                             ...state.preferencesData[action.group][action.id],
-                            columnCoefs: spreadNew,
+                            spreadPoints: spreadNew,
                         },
                     }
                 }
@@ -144,7 +140,7 @@ export const createPreferencesData = propertiesData => {
                 break;
             case "continuous":
                 preferenceData.labels = i.labels;
-                preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(1.0);
+                preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(0).map(e => Math.random() * 2 - 1);
         }
 
         res[i.group][i.id] = preferenceData;
@@ -157,5 +153,6 @@ export const setPossibleGroups = groups => ({type: SET_POSSIBLE_GROUPS, groups})
 export const initPreferencesData = preferencesData => ({type: INIT_PREFERENCES_DATA, preferencesData});
 export const patchPreferencesData = (group, id, newData) => ({type: PATCH_PREFERENCES_DATA, group, id, newData});
 export const patchDiscretCoef = (group, id, col, newValue) => ({type: PATCH_DISCRET_COEF, group, id, col, newValue});
+export const patchContinuousSpread = (group, id, x, y) => ({type: PATCH_CONTINUOUS_SPREAD, group, id, x, y})
 
 export default preferencesReducer;

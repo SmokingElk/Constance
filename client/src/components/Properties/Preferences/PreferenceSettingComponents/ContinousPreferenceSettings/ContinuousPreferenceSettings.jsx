@@ -1,5 +1,6 @@
 import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import classes from "./ContinuousPreferenceSettings.module.css";
+import SpreadChart from "./SpreadChart/SpreadChart";
 
 const ContinuousPreferenceSettings = props => {
     return (
@@ -11,6 +12,8 @@ const ContinuousPreferenceSettings = props => {
             positiveScale={props.positiveScale} 
             negativeScale={props.negativeScale}
             otherNegative={props.otherNegative} />
+
+            <SpreadChart labels={props.labels} range={props.range} spreadPoints={props.spreadPoints} patch={props.patchSpread} />
         </div>
     );
 }
