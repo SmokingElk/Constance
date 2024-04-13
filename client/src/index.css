@@ -2,6 +2,19 @@
 	outline: none;
 }
 
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  	background: rgba(0, 0, 0, 0.0);
+}
+
+::-webkit-scrollbar-thumb {
+  	background-color: rgba(114, 114, 114, 0.48);
+  	border-radius: 3px;
+}
+
 html, body {
 	width: 100vw;
 	height: 100vh;
