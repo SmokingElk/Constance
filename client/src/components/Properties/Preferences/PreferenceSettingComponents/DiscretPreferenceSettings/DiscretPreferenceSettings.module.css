@@ -1,0 +1,31 @@
+.columnsContainer {
+    display: flex;
+    flex-shrink: 0;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: visible;
+    max-height: 1000px;
+}
+
+.columnBody {
+    width: 40px;
+    position: relative;
+    min-width: 0;
+}
+
+.columnSlider {
+    width: 150px;
+    height: 20px;
+    margin-bottom: 150px;
+
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+}
+
+.columnLabel {
+    writing-mode: vertical-rl;
+    display: inline-block;
+    text-wrap: nowrap;
+    transform: rotate(-45deg);
+    transform-origin: top right;
+}

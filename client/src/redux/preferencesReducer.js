@@ -1,10 +1,12 @@
 const SET_POSSIBLE_GROUPS = "SET-POSSIBLE-GROUPS";
 const INIT_PREFERENCES_DATA = "INIT-PREFERENCES-DATA";
 const PATCH_PREFERENCES_DATA = "PATCH-PREFERENCES-DATA";
+const PATCH_DISCRET_COEF = "PATCH-DISCRETE-COEF";
 
 const initialState = {
     groups: [],
     preferencesData: {},
+    preferencesTree: {},
 }
 
 const preferencesReducer = (state = initialState, action) => {
@@ -17,9 +19,51 @@ const preferencesReducer = (state = initialState, action) => {
         }
 
         case INIT_PREFERENCES_DATA: {
+            let preferencesTree = {};
+            for (let group in action.preferencesData) {
+                preferencesTree[group] = {};
+
+                for (let id in action.preferencesData[group]) {
+                    preferencesTree[group][id] = {
+                        sex: action.preferencesData[group][id].sex,
+                        type: action.preferencesData[group][id].type
+                    };
+                }
+            }
+
             return {
                 ...state,
                 preferencesData: action.preferencesData,
+                preferencesTree: preferencesTree,
+            };
+        }
+
+        case PATCH_DISCRET_COEF: {
+            if (!state.groups.includes(action.group)) throw new Error(`Unexpected group ${action.group} in preferences patch`);
+
+            if (!state.preferencesData[action.group].hasOwnProperty(action.id)) {
+                throw new Error(`Property with id ${action.id} not found. In prefrences patch.`);
+            }
+
+            if (state.preferencesData[action.group][action.id].type != "discrete") {
+                throw new Error(`Not discrete property can't be patched by column coefficient.`);
+            }
+
+            let newCoefs = [...state.preferencesData[action.group][action.id].columnCoefs];
+            newCoefs[action.col] = action.newValue;
+
+            return {
+                ...state,
+                preferencesData: {
+                    ...state.preferencesData,
+                    [action.group]: {
+                        ...state.preferencesData[action.group],
+                        [action.id]: {
+                            ...state.preferencesData[action.group][action.id],
+                            columnCoefs: newCoefs,
+                        },
+                    }
+                }
             };
         }
         
@@ -68,7 +112,7 @@ export const createPreferencesData = propertiesData => {
         switch (i.type) {
             case "discrete":
                 preferenceData.variants = i.variants;
-                preferenceData.columnCoefs = i.variants.map(e => 1.0);
+                preferenceData.columnCoefs = i.variants.map(e => 0.5);
                 break;
             case "continuous":
                 preferenceData.labels = i.labels;
@@ -84,5 +128,6 @@ export const createPreferencesData = propertiesData => {
 export const setPossibleGroups = groups => ({type: SET_POSSIBLE_GROUPS, groups});
 export const initPreferencesData = preferencesData => ({type: INIT_PREFERENCES_DATA, preferencesData});
 export const patchPreferencesData = (group, id, newData) => ({type: PATCH_PREFERENCES_DATA, group, id, newData});
+export const patchDiscretCoef = (group, id, col, newValue) => ({type: PATCH_DISCRET_COEF, group, id, col, newValue});
 
 export default preferencesReducer;

@@ -1,33 +1,38 @@
 import BinaryPreferenceSettings from "./PreferenceSettingComponents/BinaryPreferenceSettings/BinaryPreferenceSettings";
+import createBinaryPreferenceSettingsContainer from "./PreferenceSettingComponents/BinaryPreferenceSettings/BinaryPreferenceSettingsContainer";
 import ContinuousPreferenceSettings from "./PreferenceSettingComponents/ContinousPreferenceSettings/ContinuousPreferenceSettings";
+import createContinuousPreferenceSettingsContainer from "./PreferenceSettingComponents/ContinousPreferenceSettings/ContinuousPreferenceSettingsContainer";
+import createDiscretPreferenceSettingsContainer from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettingContainer";
 import DiscretPreferenceSettings from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettings";
 import classes from "./Preferences.module.css";
 
-const createGroups = (preferencesData, userSex, patchPreference) => {
+const createGroups = (preferencesTree, userSex, patchPreference, patchDiscretCoef) => {
     let groups = [];
 
-    for (let group in preferencesData) {
+    for (let group in preferencesTree) {
         let settingsElements = [];
 
-        for (let id in preferencesData[group]) {
+        for (let id in preferencesTree[group]) {
             // свойства, соответствующие полу пользователя не могут находится в его предпочтениях
             // не показывать их
             // если both - показывает
-            if (userSex === preferencesData[group][id].sex) continue;
+            if (userSex === preferencesTree[group][id].sex) continue;
 
-            let patchCallback = newData => patchPreference(group, id, newData);
+            let PreferenceSetting;
 
-            switch (preferencesData[group][id].type) {
+            switch (preferencesTree[group][id].type) {
                 case "binary":
-                    settingsElements.push(<BinaryPreferenceSettings {...preferencesData[group][id]} patch={patchCallback} />);
+                    PreferenceSetting = createBinaryPreferenceSettingsContainer(group, id);
                     break;
                 case "continuous":
-                    settingsElements.push(<ContinuousPreferenceSettings {...preferencesData[group][id]} patch={patchCallback} />);
+                    PreferenceSetting = createContinuousPreferenceSettingsContainer(group, id);
                     break;
                 case "discrete":
-                    settingsElements.push(<DiscretPreferenceSettings {...preferencesData[group][id]} patch={patchCallback} />);
+                    PreferenceSetting = createDiscretPreferenceSettingsContainer(group, id);
                     break;
             }
+
+            settingsElements.push(<PreferenceSetting />);
         }
 
         groups.push(<div>
@@ -40,8 +45,8 @@ const createGroups = (preferencesData, userSex, patchPreference) => {
 }
 
 const Preferences = props => {
-    let preferencesData = props.preferencesData;
-    let groups = createGroups(preferencesData, props.sex, props.patchPreferencesData);
+    let preferencesTree = props.preferencesTree;
+    let groups = createGroups(preferencesTree, props.sex, props.patchPreferencesData, props.patchDiscretCoef);
 
     return (
         <div>
