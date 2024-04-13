@@ -2,11 +2,26 @@ const SET_POSSIBLE_GROUPS = "SET-POSSIBLE-GROUPS";
 const INIT_PREFERENCES_DATA = "INIT-PREFERENCES-DATA";
 const PATCH_PREFERENCES_DATA = "PATCH-PREFERENCES-DATA";
 const PATCH_DISCRET_COEF = "PATCH-DISCRETE-COEF";
+const PATCH_CONTINUOUS_SPREAD = "PATCH-CONTINUOUS-SPREAD";
 
 const initialState = {
     groups: [],
     preferencesData: {},
     preferencesTree: {},
+}
+
+const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
+    if (!state.groups.includes(group)) throw new Error(`Unexpected group ${group} in preferences patch`);
+
+    if (!state.preferencesData[group].hasOwnProperty(id)) {
+        throw new Error(`Property with id ${id} not found. In prefrences patch.`);
+    }
+
+    if (requiredType === "any") return;
+
+    if (state.preferencesData[group][id].type != requiredType) {
+        throw new Error(`Not ${requiredType} property can't be patched by column coefficient.`);
+    }
 }
 
 const preferencesReducer = (state = initialState, action) => {
@@ -39,15 +54,7 @@ const preferencesReducer = (state = initialState, action) => {
         }
 
         case PATCH_DISCRET_COEF: {
-            if (!state.groups.includes(action.group)) throw new Error(`Unexpected group ${action.group} in preferences patch`);
-
-            if (!state.preferencesData[action.group].hasOwnProperty(action.id)) {
-                throw new Error(`Property with id ${action.id} not found. In prefrences patch.`);
-            }
-
-            if (state.preferencesData[action.group][action.id].type != "discrete") {
-                throw new Error(`Not discrete property can't be patched by column coefficient.`);
-            }
+            validatePreferenceDataKeys(action.group, action.id, state, "discrete");
 
             let newCoefs = [...state.preferencesData[action.group][action.id].columnCoefs];
             newCoefs[action.col] = action.newValue;
@@ -66,13 +73,34 @@ const preferencesReducer = (state = initialState, action) => {
                 }
             };
         }
+
+        case PATCH_CONTINUOUS_SPREAD: {
+            validatePreferenceDataKeys(action.group, action.id, state, "continuous");
+
+            if (state.preferencesData[action.group][action.id].type != "discrete") {
+                throw new Error(`Not discrete property can't be patched by column coefficient.`);
+            }
+
+            let spreadNew = [...state.preferencesData[action.group][action.id].spreadPoints];
+            spreadNew[action.y] = action.x;
+            
+            return {
+                ...state,
+                preferencesData: {
+                    ...state.preferencesData,
+                    [action.group]: {
+                        ...state.preferencesData[action.group],
+                        [action.id]: {
+                            ...state.preferencesData[action.group][action.id],
+                            columnCoefs: spreadNew,
+                        },
+                    }
+                }
+            };
+        }
         
         case PATCH_PREFERENCES_DATA: {
-            if (!state.groups.includes(action.group)) throw new Error(`Unexpected group ${action.group} in preferences patch`);
-
-            if (!state.preferencesData[action.group].hasOwnProperty(action.id)) {
-                throw new Error(`Property with id ${action.id} not found. In prefrences patch.`);
-            }
+            validatePreferenceDataKeys(action.group, action.id, state);
 
             return {
                 ...state,

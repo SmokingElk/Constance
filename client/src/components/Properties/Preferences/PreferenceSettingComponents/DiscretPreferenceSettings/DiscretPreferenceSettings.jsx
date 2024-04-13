@@ -6,7 +6,7 @@ const createSliders = (labels, values, patch) => {
 
 
     for (let i = 0; i < values.length; i++) {
-        res.push(<div className={classes.columnBody}>
+        res.push(<div key={i} className={classes.columnBody}>
             <div>
             <input 
             className={classes.columnSlider}

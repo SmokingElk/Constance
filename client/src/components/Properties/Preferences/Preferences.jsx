@@ -32,7 +32,7 @@ const createGroups = (preferencesTree, userSex, patchPreference, patchDiscretCoe
                     break;
             }
 
-            settingsElements.push(<PreferenceSetting />);
+            settingsElements.push(<PreferenceSetting key={id} />);
         }
 
         groups.push(<div>
