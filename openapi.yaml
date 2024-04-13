@@ -468,6 +468,9 @@ components:
         id: 
           type: "number"
           example: 1
+        group:
+          type: "string"
+          example: "appearance"
         positiveScale: 
           type: number
           example: 1.0
@@ -483,10 +486,13 @@ components:
       properties:
         prefType:
           type: "string"
-          example: "discret"
+          example: "discrete"
         id: 
           type: "number"
           example: 1
+        group:
+          type: "string"
+          example: "appearance"
         positiveScale: 
           type: number
           example: 1.0
@@ -505,10 +511,13 @@ components:
       properties:
         prefType:
           type: "string"
-          example: "discret"
+          example: "continuous"
         id: 
           type: "number"
           example: 1
+        group:
+          type: "string"
+          example: "appearance"
         positiveScale: 
           type: number
           example: 1.0
@@ -518,9 +527,15 @@ components:
         otherNegative:
           type: boolean
           example: false
-        spreadPoints:
-          type: array
-          example: [1.0, 2.0, 0.4]
+        point:
+          type: object
+          properties: 
+            x: 
+              type: number
+              example: 1
+            y: 
+              type: number
+              example: 0.5
     
     BinaryPatch:
       type: object

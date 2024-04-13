@@ -3,8 +3,10 @@ const INIT_PREFERENCES_DATA = "INIT-PREFERENCES-DATA";
 const PATCH_PREFERENCES_DATA = "PATCH-PREFERENCES-DATA";
 const PATCH_DISCRET_COEF = "PATCH-DISCRETE-COEF";
 const PATCH_CONTINUOUS_SPREAD = "PATCH-CONTINUOUS-SPREAD";
+const LOAD_PREFERENCES_DATA = "LOAD-PREFERENCES-DATA";
 
 const initialState = {
+    demo: true,
     groups: [],
     preferencesData: {},
     preferencesTree: {},
@@ -50,6 +52,24 @@ const preferencesReducer = (state = initialState, action) => {
                 ...state,
                 preferencesData: action.preferencesData,
                 preferencesTree: preferencesTree,
+            };
+        }
+
+        case LOAD_PREFERENCES_DATA: {
+            let newPreferencesData = JSON.parse(JSON.stringify(state.preferencesData));
+
+            for (let i of action.loadData) {
+                let preferenceData = newPreferencesData[i.group][i.id];
+                preferenceData.positiveScale = i.positiveScale;
+                preferenceData.negativeScale = i.negativeScale;
+                preferenceData.otherNegative = i.otherNegative;
+                if (i.prefType === "discret") preferenceData.columnCoefs = i.columnCoefs;
+                if (i.prefType === "continuous") preferenceData.spreadPoints = i.spreadPoints;
+            }
+
+            return {
+                ...state,
+                preferenceData: newPreferencesData,
             };
         }
 
@@ -140,7 +160,7 @@ export const createPreferencesData = propertiesData => {
                 break;
             case "continuous":
                 preferenceData.labels = i.labels;
-                preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(0).map(e => Math.random() * 2 - 1);
+                preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(0);
         }
 
         res[i.group][i.id] = preferenceData;
@@ -151,6 +171,7 @@ export const createPreferencesData = propertiesData => {
 
 export const setPossibleGroups = groups => ({type: SET_POSSIBLE_GROUPS, groups});
 export const initPreferencesData = preferencesData => ({type: INIT_PREFERENCES_DATA, preferencesData});
+export const loadPreferencesData = loadData => ({type: LOAD_PREFERENCES_DATA, loadData});
 export const patchPreferencesData = (group, id, newData) => ({type: PATCH_PREFERENCES_DATA, group, id, newData});
 export const patchDiscretCoef = (group, id, col, newValue) => ({type: PATCH_DISCRET_COEF, group, id, col, newValue});
 export const patchContinuousSpread = (group, id, x, y) => ({type: PATCH_CONTINUOUS_SPREAD, group, id, x, y})
