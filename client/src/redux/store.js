@@ -7,6 +7,7 @@ import myProfileReducer from "./myProfileReducer";
 import watchProfileReducer from "./watchProfileReducer";
 import navbarReducer from "./navbarReducer";
 import preferencesReducer from "./preferencesReducer";
+import characteristicsReducer from "./characteristicsReducer";
 
 let store = configureStore({
     reducer: {
@@ -18,6 +19,7 @@ let store = configureStore({
         watchProfile: watchProfileReducer,
         navbar: navbarReducer,
         preferences: preferencesReducer,
+        characteristics: characteristicsReducer,
     }
 }); 
 

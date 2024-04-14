@@ -597,6 +597,9 @@ components:
         id: 
           type: "number"
           example: 1
+        group:
+          type: "string"
+          example: "appearance"
         value:
           type: "boolean"
           example: true
