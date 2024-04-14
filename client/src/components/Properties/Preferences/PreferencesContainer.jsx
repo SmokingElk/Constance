@@ -6,8 +6,6 @@ import { createPreferencesData, initPreferencesData, loadPreferencesData, patchD
 import { getJWT } from "../../../global_logic/userEnter.js";
 import withRouter from "../../Utils/WithRouter.jsx";
 
-setPossiblePreferencesGroups
-
 class PreferencesContainer extends React.Component {
     componentDidMount () {
         axios.get("http://localhost:5000/static/properties_data.json").then(res => {
@@ -40,7 +38,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    setPossibleGroups,
+    setPossiblePreferencesGroups,
     initPreferencesData,
     patchPreferencesData,
     patchDiscretCoef,
