@@ -1,0 +1,13 @@
+.sliderBlock {
+    width: 50%;
+}
+
+.slider {
+    width: 100%;
+}
+
+.labelsRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

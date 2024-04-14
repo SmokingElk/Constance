@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import Preferences from "./Preferences";
 import axios from "axios";
-import { createPreferencesData, initPreferencesData, loadPreferencesData, patchDiscretCoef, patchPreferencesData, setPossibleGroups } from "../../../redux/preferencesReducer";
+import { createPreferencesData, initPreferencesData, loadPreferencesData, setPossiblePreferencesGroups, } from "../../../redux/preferencesReducer";
 import { getJWT } from "../../../global_logic/userEnter.js";
 import withRouter from "../../Utils/WithRouter.jsx";
 
 class PreferencesContainer extends React.Component {
     componentDidMount () {
         axios.get("http://localhost:5000/static/properties_data.json").then(res => {
-            this.props.setPossibleGroups(res.data.globalParams.groups);
+            this.props.setPossiblePreferencesGroups(res.data.globalParams.groups);
             this.props.initPreferencesData(createPreferencesData(res.data));
         });
 
@@ -38,10 +38,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    setPossibleGroups,
+    setPossiblePreferencesGroups,
     initPreferencesData,
-    patchPreferencesData,
-    patchDiscretCoef,
     loadPreferencesData,    
 };
 

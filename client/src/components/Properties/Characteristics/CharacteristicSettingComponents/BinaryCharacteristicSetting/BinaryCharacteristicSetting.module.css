@@ -1,0 +1,11 @@
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}

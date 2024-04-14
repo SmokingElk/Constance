@@ -1,6 +1,7 @@
 import { NavLink, Route, Router } from "react-router-dom";
 import classes from "./Properties.module.css";
 import PreferencesContainer from "./Preferences/PreferencesContainer";
+import CharacteristicsContainer from "./Characteristics/CharacteristicsContainer";
 
 const Properties = props => {
     return (
@@ -10,7 +11,7 @@ const Properties = props => {
                 <NavLink to="/properties/characteristics">Characteristics</NavLink>
             </div>
 
-            <div>{props.showPreferences ? <PreferencesContainer /> : <div>Characteristics (tmp)</div>}</div>
+            <div>{props.showPreferences ? <PreferencesContainer /> : <CharacteristicsContainer />}</div>
         </div>
     );
 }

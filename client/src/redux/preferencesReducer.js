@@ -16,13 +16,13 @@ const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
     if (!state.groups.includes(group)) throw new Error(`Unexpected group ${group} in preferences patch`);
 
     if (!state.preferencesData[group].hasOwnProperty(id)) {
-        throw new Error(`Property with id ${id} not found. In prefrences patch.`);
+        throw new Error(`Preference with id ${id} not found. In prefrences patch.`);
     }
 
     if (requiredType === "any") return;
 
     if (state.preferencesData[group][id].type != requiredType) {
-        throw new Error(`Not ${requiredType} property can't be patched.`);
+        throw new Error(`Not ${requiredType} preference can't be patched.`);
     }
 }
 
@@ -161,6 +161,7 @@ export const createPreferencesData = propertiesData => {
             case "continuous":
                 preferenceData.labels = i.labels;
                 preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(0);
+                break;
         }
 
         res[i.group][i.id] = preferenceData;
@@ -169,7 +170,7 @@ export const createPreferencesData = propertiesData => {
     return res;
 };
 
-export const setPossibleGroups = groups => ({type: SET_POSSIBLE_GROUPS, groups});
+export const setPossiblePreferencesGroups = groups => ({type: SET_POSSIBLE_GROUPS, groups});
 export const initPreferencesData = preferencesData => ({type: INIT_PREFERENCES_DATA, preferencesData});
 export const loadPreferencesData = loadData => ({type: LOAD_PREFERENCES_DATA, loadData});
 export const patchPreferencesData = (group, id, newData) => ({type: PATCH_PREFERENCES_DATA, group, id, newData});
