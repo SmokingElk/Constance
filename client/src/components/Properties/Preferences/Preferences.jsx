@@ -3,8 +3,12 @@ import createContinuousPreferenceSettingsContainer from "./PreferenceSettingComp
 import createDiscretPreferenceSettingsContainer from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettingContainer";
 import classes from "./Preferences.module.css";
 
-const createGroups = (preferencesTree, userSex) => {
+const createGroups = (preferencesTree, sex) => {
     let groups = [];
+    let userSex = {
+        [true]: "male",
+        [false]: "female",
+    }[sex];
 
     for (let group in preferencesTree) {
         let settingsElements = [];
