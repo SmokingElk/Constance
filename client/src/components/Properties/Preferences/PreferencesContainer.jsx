@@ -32,7 +32,7 @@ class PreferencesContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    sex: state.entered.sex ? "male" : "female",
+    sex: state.entered.sex,
     preferencesTree: state.preferences.preferencesTree,
     demo: state.preferences.demo,
 });

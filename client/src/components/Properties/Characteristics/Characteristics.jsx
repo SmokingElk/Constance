@@ -3,8 +3,13 @@ import createContinuousCharacteristicSettingContainer from "./CharacteristicSett
 import createDiscretCharacteristicSettingContainer from "./CharacteristicSettingComponents/DiscretCharacteristicSetting/DiscretCharacteristicSettingContainer";
 import classes from "./Characteristics.module.css";
 
-const createGroups = (characteristicsTree, userSex) => {
+const createGroups = (characteristicsTree, sex) => {
     let groups = [];
+
+    let userSex = {
+        [true]: "male",
+        [false]: "female", 
+    }[sex];
 
     for (let group in characteristicsTree) {
         let settingsElements = [];
