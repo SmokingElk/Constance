@@ -1,9 +1,10 @@
 import React from "react";
 import Characteristics from "./Characteristics";
 import { connect } from "react-redux";
-import { createCharacteristicsData, initCharacteristicsData, setPossibleCharacteristicsGroups } from "../../../redux/characteristicsReducer";
+import { createCharacteristicsData, initCharacteristicsData, loadCharacteristicsData, setPossibleCharacteristicsGroups } from "../../../redux/characteristicsReducer";
 import axios from "axios";
 import withRouter from "../../Utils/WithRouter";
+import { getJWT } from "../../../global_logic/userEnter";
 
 class CharacteristicsContainer extends React.Component {
     componentDidMount () {
@@ -13,6 +14,16 @@ class CharacteristicsContainer extends React.Component {
         });
 
         if (this.props.demo) return;
+
+        axios.get("http://localhost:5000/api/v1/chars/get_all", {
+            params: { jwtToken: getJWT() }
+        }).then(res => {
+            this.props.loadCharacteristicsData(res.data);
+        }).catch(error => {
+            let status = error.response.status;
+            if (status === 401) this.props.router.navigate("/login");
+            if (status === 404) this.props.router.navigate("/login");
+        });
     }
 
     render () {
@@ -29,6 +40,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     setPossibleCharacteristicsGroups,
     initCharacteristicsData,
+    loadCharacteristicsData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CharacteristicsContainer));
