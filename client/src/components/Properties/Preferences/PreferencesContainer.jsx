@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Preferences from "./Preferences";
 import axios from "axios";
-import { createPreferencesData, initPreferencesData, loadPreferencesData, patchDiscretCoef, patchPreferencesData, setPossiblePreferencesGroups, } from "../../../redux/preferencesReducer";
+import { createPreferencesData, initPreferencesData, loadPreferencesData, setPossiblePreferencesGroups, } from "../../../redux/preferencesReducer";
 import { getJWT } from "../../../global_logic/userEnter.js";
 import withRouter from "../../Utils/WithRouter.jsx";
 
@@ -40,8 +40,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     setPossiblePreferencesGroups,
     initPreferencesData,
-    patchPreferencesData,
-    patchDiscretCoef,
     loadPreferencesData,    
 };
 

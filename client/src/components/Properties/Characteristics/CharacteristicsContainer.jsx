@@ -1,9 +1,9 @@
 import React from "react";
 import Characteristics from "./Characteristics";
 import { connect } from "react-redux";
-import withRouter from "../../Utils/WithRouter";
 import { createCharacteristicsData, initCharacteristicsData, setPossibleCharacteristicsGroups } from "../../../redux/characteristicsReducer";
 import axios from "axios";
+import withRouter from "../../Utils/WithRouter";
 
 class CharacteristicsContainer extends React.Component {
     componentDidMount () {
@@ -23,7 +23,7 @@ class CharacteristicsContainer extends React.Component {
 const mapStateToProps = state => ({
     sex: state.entered.sex,
     demo: state.characteristics.demo,
-    characteristicsTree: state.characteristicsTree,
+    characteristicsTree: state.characteristics.characteristicsTree,
 });
 
 const mapDispatchToProps = {

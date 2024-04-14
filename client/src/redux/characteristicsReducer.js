@@ -13,13 +13,13 @@ const initialState = {
 const validateCharacteristicsDataKeys = (group, id, state, requiredType = "any") => {
     if (!state.groups.includes(group)) throw new Error(`Unexpected group ${group} in characteristic patch`);
 
-    if (!state.preferencesData[group].hasOwnProperty(id)) {
+    if (!state.characteristicsData[group].hasOwnProperty(id)) {
         throw new Error(`Characteristic with id ${id} not found. In characteristic patch.`);
     }
 
     if (requiredType === "any") return;
 
-    if (state.preferencesData[group][id].type != requiredType) {
+    if (state.characteristicsData[group][id].type != requiredType) {
         throw new Error(`Not ${requiredType} characteristic can't be patched.`);
     }
 }
@@ -69,7 +69,7 @@ const characteristicsReducer = (state = initialState, action) => {
         }
 
         case PATCH_CHARACTERISTICS_DATA: {
-            validateCharacteristicsDataKeys(action.group, action.id);
+            validateCharacteristicsDataKeys(action.group, action.id, state);
 
             return {
                 ...state,

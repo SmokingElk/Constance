@@ -1,12 +1,9 @@
-import BinaryPreferenceSettings from "./PreferenceSettingComponents/BinaryPreferenceSettings/BinaryPreferenceSettings";
 import createBinaryPreferenceSettingsContainer from "./PreferenceSettingComponents/BinaryPreferenceSettings/BinaryPreferenceSettingsContainer";
-import ContinuousPreferenceSettings from "./PreferenceSettingComponents/ContinousPreferenceSettings/ContinuousPreferenceSettings";
 import createContinuousPreferenceSettingsContainer from "./PreferenceSettingComponents/ContinousPreferenceSettings/ContinuousPreferenceSettingsContainer";
 import createDiscretPreferenceSettingsContainer from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettingContainer";
-import DiscretPreferenceSettings from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettings";
 import classes from "./Preferences.module.css";
 
-const createGroups = (preferencesTree, userSex, patchPreference, patchDiscretCoef) => {
+const createGroups = (preferencesTree, userSex) => {
     let groups = [];
 
     for (let group in preferencesTree) {
@@ -46,7 +43,7 @@ const createGroups = (preferencesTree, userSex, patchPreference, patchDiscretCoe
 
 const Preferences = props => {
     let preferencesTree = props.preferencesTree;
-    let groups = createGroups(preferencesTree, props.sex, props.patchPreferencesData, props.patchDiscretCoef);
+    let groups = createGroups(preferencesTree, props.sex);
 
     return (
         <div>
