@@ -1,4 +1,5 @@
 import createBinaryCharacteristicSettingsContainer from "./CharacteristicSettingComponents/BinaryCharacteristicSetting/BinaryCharacteristicSettingContainer";
+import createContinuousCharacteristicSettingContainer from "./CharacteristicSettingComponents/ContinuousCharacteristicSetting/ContinuousCharacteristicSettingContainer";
 import classes from "./Characteristics.module.css";
 
 const createGroups = (characteristicsTree, userSex) => {
@@ -10,7 +11,7 @@ const createGroups = (characteristicsTree, userSex) => {
         for (let id in characteristicsTree[group]) {
             if (userSex !== characteristicsTree[group][id].sex && characteristicsTree[group][id].sex !== "both") continue;
 
-            if (characteristicsTree[group][id].type !== "binary") continue;
+            if (characteristicsTree[group][id].type === "discrete") continue;
 
             let CharacteristicSetting;
 
@@ -19,10 +20,9 @@ const createGroups = (characteristicsTree, userSex) => {
                     CharacteristicSetting = createBinaryCharacteristicSettingsContainer(group, id);
                     break;
                 case "continuous":
-                    
+                    CharacteristicSetting = createContinuousCharacteristicSettingContainer(group, id);
                     break;
                 case "discrete":
-                    
                     break;
             }
 

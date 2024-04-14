@@ -6,8 +6,8 @@ import withRouter from "../../../../Utils/WithRouter";
 import { patchCharacteristicsData } from "../../../../../redux/characteristicsReducer";
 
 class BinaryCharacteristicSettingsContainer extends React.Component {
-    patch (newData) {
-        this.props.patchCharacteristicsData(this.props.group, this.props.id, newData);
+    patch (newValue) {
+        this.props.patchCharacteristicsData(this.props.group, this.props.id, {value: newValue});
     }
 
     render () {
