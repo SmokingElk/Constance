@@ -134,5 +134,5 @@ dist
 
 #ignore python cache
 __pycache__/
-
+initializator_for_bd_devel.py
 images/
