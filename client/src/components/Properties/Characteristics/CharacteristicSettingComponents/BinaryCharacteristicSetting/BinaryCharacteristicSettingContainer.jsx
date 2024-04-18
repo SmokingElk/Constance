@@ -12,12 +12,12 @@ class BinaryCharacteristicSettingsContainer extends React.Component {
 
         if (this.props.demo) return;
 
-        axios.put("http://localhost:5000/api/v1/prefs/patch_pref", {
+        axios.put("http://localhost:5000/api/v1/chars/patch_chars", {
             jwtToken: getJWT(),
             id: this.props.id,
             value: newValue,
         }).catch(error => {
-            let status = error.response.status;
+            let status = error?.response?.status ?? -1;
             if (status === 400) return;
             if (status === 401) this.props.router.navigate("/login");
             if (status === 404) this.props.router.navigate("/login");

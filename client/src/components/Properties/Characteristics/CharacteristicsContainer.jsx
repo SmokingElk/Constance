@@ -20,7 +20,7 @@ class CharacteristicsContainer extends React.Component {
         }).then(res => {
             this.props.loadCharacteristicsData(res.data);
         }).catch(error => {
-            let status = error.response.status;
+            let status = error?.response?.status ?? -1;
             if (status === 401) this.props.router.navigate("/login");
             if (status === 404) this.props.router.navigate("/login");
         });

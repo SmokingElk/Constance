@@ -5,7 +5,7 @@ def get_datatype(i):
     a = a.read()
     a = json.loads(a)
     b = a['propertiesData']
-    c = b[i]['type']
+    c = b[int(i)]['type']
     return c
 
 def get_default(i):
@@ -43,6 +43,6 @@ def get_data(i, key):
         new = [1.0 for i in range(len(lst))]
     else:
         lst = b[i]['labels']
-        new = [1.0 for i in range(len(lst))]
+        new = [1.0 for i in range(a['globalParams']['segmentsInPartion'])]
     return new
 
