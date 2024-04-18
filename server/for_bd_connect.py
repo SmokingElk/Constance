@@ -1,6 +1,7 @@
 import psycopg2
 import configparser
-
+import json
+from analyzer import get_datatype, get_default, get_data
 class Database_manager:
     def __init__(self):
         config = configparser.ConfigParser()
@@ -87,5 +88,127 @@ class Database_manager:
             return -1
         return records[0][0]
 
+    def set_chars(self, user_id: int, id_of_ch: int, patch: dict):
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT exists (select true from "characteristics" where id=%s)', (user_id,))
+        records = cursor.fetchall()
+        id_of_char = 'id_' + str(id_of_ch)
+        if not records[0][0]:
+            cursor.execute('''INSERT INTO "characteristics" (id) VALUES (%s)''', (user_id, ))
+            for i in range(0, 84):
+                cursor = self.conn.cursor()
+                k = 'id_' + str(i)
+                to_bd = {
+                    '''charType''': get_datatype(i),
+                    '''id''': i,
+                    '''value''': get_default(i)
+                }
+                cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''', (k, json.dumps(to_bd, ensure_ascii=False,), user_id))
+
+        to_bd = {
+            "charType": get_datatype(id_of_ch),
+            "id": id_of_ch,
+            "value": patch['value']
+        }
+        cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''', (id_of_char, json.dumps(to_bd, ensure_ascii=False,), user_id))
+        self.conn.commit()
+        cursor.close()
+
+    def getting_all_chars(self, user_id: int):
+        cursor = self.conn.cursor()
+        data_for_return = []
+        cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
+        records = cursor.fetchall()
+        data = list(records[0])[1:]
+        for i in data:
+            new = json.loads(i)
+            data_for_return.append(new)
+        return data_for_return
 
 
+    def getting_all_prefs(self, user_id: int):
+        cursor = self.conn.cursor()
+        data_for_return = []
+        cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
+        records = cursor.fetchall()
+        data = list(records[0])[1:]
+        for i in data:
+            new = json.loads(i)
+            data_for_return.append(new)
+        return data_for_return
+
+    def set_prefs(self, user_id: int, id_of_ch: int, patch: dict):
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT exists (select true from "preferences" where id=%s)', (user_id,))
+        records = cursor.fetchall()
+        id_of_char = 'id_' + str(id_of_ch)
+        if not records[0][0]:
+            cursor.execute('''INSERT INTO "preferences" (id) VALUES (%s)''', (user_id,))
+            for i in range(0, 84):
+                cursor = self.conn.cursor()
+                t = get_datatype(i)
+                if t == 'binary':
+                    to_bd = {
+                    'prefType': t,
+                    'id': i,
+                    'positiveScale': 1.0,
+                    'negativeScale': 1.0,
+                    'otherNegative': False
+                    }
+                elif t == 'discrete':
+                    to_bd = {
+                    'prefType': t,
+                    'id': i,
+                    'positiveScale': 1.0,
+                    'negativeScale': 1.0,
+                    'otherNegative': False,
+                    'columnsCoefs': get_data(i, 'columnsCoefs')
+                    }
+                elif t == 'continuous':
+                    to_bd = {
+                        'prefType': t,
+                        'id': i,
+                        'positiveScale': 1.0,
+                        'negativeScale': 1.0,
+                        'otherNegative': False,
+                        'spreadPoints': get_data(i, 'spreadPoints')
+                    }
+                k = f'id_{i}'
+                cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',(k, json.dumps(to_bd, ensure_ascii=False, ), user_id))
+
+        t = get_datatype(id_of_ch)
+        if t == 'binary':
+            to_bd = {
+                'prefType': t,
+                'id': id_of_ch,
+                'positiveScale': 1.0,
+                'negativeScale': 1.0,
+                'otherNegative': False
+            }
+        elif t == 'discrete':
+            to_bd = {
+                'prefType': t,
+                'id': id_of_ch,
+                'positiveScale': 1.0,
+                'negativeScale': 1.0,
+                'otherNegative': False,
+                'columnsCoefs': get_data(id_of_ch, 'columnsCoefs')
+            }
+        elif t == 'continuous':
+            to_bd = {
+                'prefType': t,
+                'id': id_of_ch,
+                'positiveScale': 1.0,
+                'negativeScale': 1.0,
+                'otherNegative': False,
+                'spreadPoints': get_data(id_of_ch, 'spreadPoints')
+            }
+        for key, value in patch.items():
+            to_bd[key] = value
+        cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',
+                       (f'id_{id_of_ch}', json.dumps(to_bd, ensure_ascii=False, ), user_id))
+        self.conn.commit()
+        cursor.close()
+
+d = Database_manager()
+d.set_prefs(7, 0, {'positiveScale': 88.0})

@@ -7,10 +7,13 @@ from validators import validate_username, validate_password
 from add_profile_image import add_profile_image
 import datetime
 
+
 database = Database_manager()
 app = Flask(__name__, static_folder="static")
 CORS(app)
 jwt_generator = ForJWTGenerating()
+
+
 @app.route("/api/v1/user/auth", methods=['GET'])
 def authorization():
   data = request.args
@@ -41,12 +44,15 @@ def sign_up():
   if d:
     abort(400)
   user_id = database.adding_user(username, password, gender, birth)
-  res = {'username': None,
-         'jwtToken': None,
+  res = {'username': username,
+         'jwtToken': jwt_generator.generate_jwt_token(user_id),
+         'birthdate': birth,
+         'sex': gender
          }
-  res['username'] = username
-  res['jwtToken'] = jwt_generator.generate_jwt_token(user_id)
+  database.set_chars(user_id, 0, {'value': 18})
+  database.set_prefs(user_id, 0, {'positiveScale': 1.0})
   return make_response(res, 201)
+
 
 @app.route('/api/v1/profile/get_data_to_edit', methods=['GET'])
 def get_user_profile_data():
@@ -66,6 +72,7 @@ def get_user_profile_data():
     "photo": profile_data[4],
   }
   return make_response(adding_to_profile, 200)
+
 
 @app.route('/api/v1/profile/patch_text_data', methods=['PUT'])
 def update_user_profile_data():
@@ -98,6 +105,7 @@ def update_user_profile_photo():
          }
   return make_response(res, 200)
 
+
 @app.route('/api/v1/profile/get_data_to_view/<int:userId>', methods=['GET'])
 def get_watch_profile_data(userId):
   data = request.args
@@ -105,7 +113,6 @@ def get_watch_profile_data(userId):
   if not jwt_generator.validate_token(jwt_token):
     abort(401)
   id_of_requested_user = userId
-  user_id = jwt_generator.extract_payload(jwt_token)['userId']
   if not database.is_user_exists_by_id(id_of_requested_user):
     abort(404)
   birth = database.getting_birthdate(id_of_requested_user)
@@ -117,8 +124,10 @@ def get_watch_profile_data(userId):
     "phone": phone,
     "birthdate": str(birth),
     "photoName": photo_name,
+    "username": database.get_primary_data(id_of_requested_user)[0]
   }
   return make_response(profile_data, 200)
+
 
 @app.route('/api/v1/user/primary_data', methods=['GET'])
 def get_primary_data():
@@ -139,6 +148,76 @@ def get_primary_data():
                      "sex": user_data[1],
                      }
   return make_response(data_for_return, 200)
+
+
+@app.route('/api/v1/chars/get_all', methods=['GET'])
+def get_all_chars():
+  data = request.args
+  jwt_token = data.get("jwtToken")
+
+  if not jwt_generator.validate_token(jwt_token):
+    abort(401)
+
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  user_data = database.get_primary_data(user_id)
+
+  if user_data == -1:
+    abort(404)
+  data = database.getting_all_chars(user_id)
+  ans = []
+  for i in data:
+    new = {
+      "charType": i["charType"],
+      "id": i["id"],
+      "value": i["value"],
+      "group": i(data["id"])
+    }
+    ans.append(new)
+  return make_response(ans, 200)
+
+@app.route('/api/v1/chars/patch_chars', methods=['PUT'])
+def patch_chars():
+  data = request.get_json()
+  jwt_token = data['jwtToken']
+  id_of_char = data['id']
+  patch = {'value': data['value']}
+  if not jwt_generator.validate_token(jwt_token):
+    abort(401)
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  if not database.is_user_exists_by_id(user_id):
+    abort(404)
+  database.set_chars(user_id, id_of_char, patch)
+  make_response(200)
+
+@app.route('/api/v1/prefs/get_all', methods=['GET'])
+def get_all_prefs():
+  data = request.args
+  jwt_token = data.get("jwtToken")
+
+  if not jwt_generator.validate_token(jwt_token):
+    abort(401)
+
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  user_data = database.get_primary_data(user_id)
+
+  if user_data == -1:
+    abort(404)
+  data = database.getting_all_chars(user_id)
+  return make_response(data, 200)
+
+@app.route('/api/v1/prefs/patch_pref', methods=['PUT'])
+def patch_pref():
+  data = request.get_json()
+  jwt_token = data['jwtToken']
+  id_of_pref = data['id']
+  patch = data['patch']
+  if not jwt_generator.validate_token(jwt_token):
+    abort(401)
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  if not database.is_user_exists_by_id(user_id):
+    abort(404)
+  database.set_prefs(user_id, id_of_pref, patch)
+  make_response(200)
 
 
 if __name__ == "__main__":
