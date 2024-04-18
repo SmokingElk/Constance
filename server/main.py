@@ -164,16 +164,8 @@ def get_all_chars():
   if user_data == -1:
     abort(404)
   data = database.getting_all_chars(user_id)
-  ans = []
-  for i in data:
-    new = {
-      "charType": i["charType"],
-      "id": i["id"],
-      "value": i["value"],
-      "group": i(data["id"])
-    }
-    ans.append(new)
-  return make_response(ans, 200)
+
+  return make_response(data, 200)
 
 @app.route('/api/v1/chars/patch_chars', methods=['PUT'])
 def patch_chars():
@@ -187,7 +179,7 @@ def patch_chars():
   if not database.is_user_exists_by_id(user_id):
     abort(404)
   database.set_chars(user_id, id_of_char, patch)
-  make_response(200)
+  return make_response({}, 200)
 
 @app.route('/api/v1/prefs/get_all', methods=['GET'])
 def get_all_prefs():
@@ -202,8 +194,10 @@ def get_all_prefs():
 
   if user_data == -1:
     abort(404)
-  data = database.getting_all_chars(user_id)
+  data = database.getting_all_prefs(user_id)
+
   return make_response(data, 200)
+
 
 @app.route('/api/v1/prefs/patch_pref', methods=['PUT'])
 def patch_pref():
@@ -217,7 +211,8 @@ def patch_pref():
   if not database.is_user_exists_by_id(user_id):
     abort(404)
   database.set_prefs(user_id, id_of_pref, patch)
-  make_response(200)
+  
+  return make_response({}, 200)
 
 
 if __name__ == "__main__":

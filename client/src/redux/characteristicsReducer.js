@@ -4,7 +4,7 @@ const LOAD_CHARACTERISTICS_DATA = "LOAD-CHARACTERISTICS-DATA"
 const PATCH_CHARACTERISTICS_DATA = "PATCH-CHARACTERISTICS-DATA";
 
 const initialState = {
-    demo: true,
+    demo: false,
     groups: [],
     characteristicsTree: {},
     characteristicsData: {},
@@ -64,7 +64,7 @@ const characteristicsReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                preferenceData: newCharacteristicsData,
+                characteristicsData: newCharacteristicsData,
             };
         }
 

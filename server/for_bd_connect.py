@@ -1,7 +1,7 @@
 import psycopg2
 import configparser
 import json
-from analyzer import get_datatype, get_default, get_data
+from analyzer import get_datatype, get_default, get_data, get_group
 class Database_manager:
     def __init__(self):
         config = configparser.ConfigParser()
@@ -122,6 +122,7 @@ class Database_manager:
         data = list(records[0])[1:]
         for i in data:
             new = json.loads(i)
+            new["group"] = get_group(int(new["id"]))
             data_for_return.append(new)
         return data_for_return
 
@@ -134,6 +135,7 @@ class Database_manager:
         data = list(records[0])[1:]
         for i in data:
             new = json.loads(i)
+            new["group"] = get_group(new["id"])
             data_for_return.append(new)
         return data_for_return
 
@@ -176,39 +178,22 @@ class Database_manager:
                 k = f'id_{i}'
                 cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',(k, json.dumps(to_bd, ensure_ascii=False, ), user_id))
 
+        cursor.execute('''SELECT "'id_''' + str(id_of_ch) + ''''" FROM "preferences" WHERE id=%s''', (user_id,))
+        records = cursor.fetchall()
+
+        to_bd = json.loads(records[0][0])
+
+        for key in ["positiveScale", "negativeScale", "otherNegative"]:
+            if key in patch:
+                to_bd[key] = patch[key]
+
         t = get_datatype(id_of_ch)
-        if t == 'binary':
-            to_bd = {
-                'prefType': t,
-                'id': id_of_ch,
-                'positiveScale': 1.0,
-                'negativeScale': 1.0,
-                'otherNegative': False
-            }
-        elif t == 'discrete':
-            to_bd = {
-                'prefType': t,
-                'id': id_of_ch,
-                'positiveScale': 1.0,
-                'negativeScale': 1.0,
-                'otherNegative': False,
-                'columnsCoefs': get_data(id_of_ch, 'columnsCoefs')
-            }
-        elif t == 'continuous':
-            to_bd = {
-                'prefType': t,
-                'id': id_of_ch,
-                'positiveScale': 1.0,
-                'negativeScale': 1.0,
-                'otherNegative': False,
-                'spreadPoints': get_data(id_of_ch, 'spreadPoints')
-            }
-        for key, value in patch.items():
-            to_bd[key] = value
+        if t == "continuous" and "point" in patch:
+            to_bd["spreadPoints"][patch["point"]["x"]] = patch["point"]["y"]
+        elif t == "discrete" and "columnCoef" in patch:
+            to_bd["columnsCoefs"][patch["columnCoef"]["columnNumber"]] = patch["columnCoef"]["coef"]
+
         cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',
                        (f'id_{id_of_ch}', json.dumps(to_bd, ensure_ascii=False, ), user_id))
         self.conn.commit()
         cursor.close()
-
-d = Database_manager()
-d.set_prefs(7, 0, {'positiveScale': 88.0})

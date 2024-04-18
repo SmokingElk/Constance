@@ -6,7 +6,7 @@ const PATCH_CONTINUOUS_SPREAD = "PATCH-CONTINUOUS-SPREAD";
 const LOAD_PREFERENCES_DATA = "LOAD-PREFERENCES-DATA";
 
 const initialState = {
-    demo: true,
+    demo: false,
     groups: [],
     preferencesData: {},
     preferencesTree: {},
@@ -55,7 +55,7 @@ const preferencesReducer = (state = initialState, action) => {
             };
         }
 
-        case LOAD_PREFERENCES_DATA: {
+        case LOAD_PREFERENCES_DATA: {            
             let newPreferencesData = JSON.parse(JSON.stringify(state.preferencesData));
 
             for (let i of action.loadData) {
@@ -63,13 +63,13 @@ const preferencesReducer = (state = initialState, action) => {
                 preferenceData.positiveScale = i.positiveScale;
                 preferenceData.negativeScale = i.negativeScale;
                 preferenceData.otherNegative = i.otherNegative;
-                if (i.prefType === "discret") preferenceData.columnCoefs = i.columnCoefs;
+                if (i.prefType === "discrete") preferenceData.columnCoefs = i.columnsCoefs;
                 if (i.prefType === "continuous") preferenceData.spreadPoints = i.spreadPoints;
             }
 
             return {
                 ...state,
-                preferenceData: newPreferencesData,
+                preferencesData: newPreferencesData,
             };
         }
 
