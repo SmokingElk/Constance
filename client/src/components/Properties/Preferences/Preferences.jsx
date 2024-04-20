@@ -36,8 +36,8 @@ const createGroups = (preferencesTree, sex) => {
             settingsElements.push(<PreferenceSetting key={id} />);
         }
 
-        groups.push(<div>
-            <h3>{group}</h3>
+        groups.push(<div className={classes.group}>
+            <h3 className={classes.groupName}>{group}</h3>
             {settingsElements}
         </div>);
     }
@@ -50,11 +50,11 @@ const Preferences = props => {
     let groups = createGroups(preferencesTree, props.sex);
 
     return (
-        <div>
-            <div>Preferences</div>
+        <div className={classes.body}>
+            <h2 className={classes.pageTitle}>Preferences</h2>
             <div className={classes.preferencesContainer}>{groups}</div>
         </div>
-    )
-};
+    );
+}
 
 export default Preferences;
