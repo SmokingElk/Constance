@@ -19,6 +19,9 @@ tags:
 
   - name: chars
     description: Characteristics manipulation
+
+  - name: search
+    description: Search manipulation
       
 paths:
   /user/auth:
@@ -335,7 +338,45 @@ paths:
           description: User is not authorized
         '404':
           description: User not found
-                  
+
+  /search/get_pack:
+    get:
+      tags:
+        - search
+      summary: Get users search data
+      parameters:
+        - name: jwtToken
+          in: query
+          required: true
+          schema:
+              type: string
+              example: "213-23213-2132"
+        - name: pack_number
+          in: query
+          required: true
+          schema:
+              type: string
+              example: "213-23213-2132"
+      responses:
+        '200':
+          description: Data successfully sended.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_end: 
+                    type: boolean
+                    example: false
+                    description: Is packs end last.
+                  pack_items:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/FoundUserData"
+
+        '401':
+          description: User is not authorized          
 
 components:
   schemas:
@@ -411,6 +452,13 @@ components:
           type: string
           description: image name in static folder
           example: img0.png
+        about_me:
+          type: string
+          description: Short description of user.
+        location:
+          type: string
+          description: City of user.
+          example: Moscow
     
     SomeoneProfileData:    
       type: object
@@ -438,6 +486,13 @@ components:
         birthdate:
           type: string
           example: 1999-10-10
+        about_me:
+          type: string
+          description: Short description of user.
+        location:
+          type: string
+          description: City of user.
+          example: Moscow
           
     ProfilePatch:
       type: object
@@ -458,6 +513,13 @@ components:
           type: string
           description: mobile phone number
           example: +7(999)999-99-99
+        about_me:
+          type: string
+          description: Short description of user.
+        location:
+          type: string
+          description: City of user.
+          example: Moscow
 
     BinaryPrefData:
       type: object
@@ -629,3 +691,27 @@ components:
         value:
           type: "number"
           example: 0.5
+
+
+    FoundUserData:
+      type: object
+      properties:
+        firstname:
+          type: string
+          description: user firstname
+          example: Ivan
+        about_me:
+          type: string
+          description: Short description of user.
+        photo:
+          type: string
+          description: image name in static folder
+          example: img0.png
+        rate:
+          type: number
+          description: Accordance level between -inf and 1.
+          example: 0.5
+        id: 
+          type: number
+          description: Id of founded user
+          example: 1
