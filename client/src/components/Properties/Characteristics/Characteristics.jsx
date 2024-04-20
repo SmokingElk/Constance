@@ -34,8 +34,8 @@ const createGroups = (characteristicsTree, sex) => {
             settingsElements.push(<CharacteristicSetting key={id} />);
         }
 
-        groups.push(<div>
-            <h3>{group}</h3>
+        groups.push(<div className={classes.group}>
+            <h3 className={classes.groupName}>{group}</h3>
             {settingsElements}
         </div>);
     }
@@ -47,8 +47,7 @@ const Characteristics = props => {
     const groups = createGroups(props.characteristicsTree, props.sex);
 
     return (
-        <div>
-            <div>Characteristics</div>
+        <div className={classes.body}>
             <div className={classes.characteristicsContainer}>{groups}</div>
         </div>
     );
