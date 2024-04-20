@@ -20,7 +20,7 @@ const Properties = props => {
                             to="/properties/characteristics">Characteristics</NavLink>
                         </div>
 
-                        <div>{props.showPreferences ? <PreferencesContainer /> : <CharacteristicsContainer />}</div>
+                        <div className={classes.settingsContainer}>{props.showPreferences ? <PreferencesContainer /> : <CharacteristicsContainer />}</div>
                     </div>
                 </div>
             </div>    

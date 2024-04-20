@@ -1,25 +1,24 @@
 import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import classes from "./DiscretPreferenceSettings.module.css";
+import common from "../PreferenceSettingCommon.module.css";
 
 const createSliders = (labels, values, patch) => {
     let res = [];
 
 
     for (let i = 0; i < values.length; i++) {
-        res.push(<div key={i} className={classes.columnBody}>
-            <div>
+        let needWrap = labels[i].length > 30;
+        res.push(<div key={i} className={classes.rowBody + " " + (needWrap ? classes.rowWrap : "")}>
+            <div className={classes.rowLabel}>{labels[i]}</div>
+
             <input 
-            className={classes.columnSlider}
+            className={classes.rowSlider}
             type="range" 
             value={-values[i]} 
             min={-1} 
             max={1}
             step={0.01}
             onChange={e => patch(i, -e.target.value)}/>
-            </div>
-            
-
-            <div className={classes.columnLabel}>{labels[i]}</div>
         </div>)
     }
 
@@ -30,8 +29,8 @@ const DiscretPreferenceSettings = props => {
     let sliders = createSliders(props.variants, props.columnCoefs, props.patchCoef);
 
     return (
-        <div>
-            <h4>{props.name}</h4>
+        <div className={common.settingBlock}>
+            <h4 className={common.settingName}>{props.name}</h4>
 
             <ScaleCoeffitients 
             patch={props.patch} 
@@ -39,7 +38,7 @@ const DiscretPreferenceSettings = props => {
             negativeScale={props.negativeScale}
             otherNegative={props.otherNegative} />
 
-            <div className={classes.columnsContainer}>
+            <div className={classes.rowsContainer}>
                 {sliders}
             </div>
         </div>

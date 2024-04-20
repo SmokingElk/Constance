@@ -1,6 +1,5 @@
 * {
 	outline: none;
-	overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -14,6 +13,20 @@
 ::-webkit-scrollbar-thumb {
   	background-color: rgba(114, 114, 114, 0.48);
   	border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #FFF;
+    border-radius: 100px;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background-color: #FF01B7;
+	color: #FF01B7;
+	-webkit-appearance: none;
+    -moz-appearance: none;
+	appearance: none;
 }
 
 html, body {

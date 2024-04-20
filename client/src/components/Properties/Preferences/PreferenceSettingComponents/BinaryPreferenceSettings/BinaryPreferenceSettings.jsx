@@ -1,10 +1,11 @@
 import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import classes from "./BinaryPreferenceSettings.module.css";
+import common from "../PreferenceSettingCommon.module.css";
 
 const BinaryPreferenceSettings = props => {
     return (
-        <div>
-            <h4>{props.name}</h4>
+        <div className={common.settingBlock}>
+            <h4 className={common.settingName}>{props.name}</h4>
 
             <ScaleCoeffitients 
             patch={props.patch} 

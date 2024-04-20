@@ -51,7 +51,6 @@ const Preferences = props => {
 
     return (
         <div className={classes.body}>
-            <h2 className={classes.pageTitle}>Preferences</h2>
             <div className={classes.preferencesContainer}>{groups}</div>
         </div>
     );
