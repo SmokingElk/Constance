@@ -46,11 +46,23 @@ class SpreadChart extends React.Component {
         ctx.clearRect(0, 0, width, height);
 
         ctx.strokeStyle = "#1E1E1F";
+        ctx.lineCap = "round";
+
         ctx.beginPath();
         ctx.moveTo(20, height / 2);
         ctx.lineTo(width - 20, height / 2);
         ctx.moveTo(20, 20);
         ctx.lineTo(20, height - 20);
+
+        ctx.moveTo(20, 20);
+        ctx.lineTo(20 - 5, 25);
+        ctx.moveTo(20, 20);
+        ctx.lineTo(20 + 5, 25);
+
+        ctx.moveTo(width - 20, height / 2);
+        ctx.lineTo(width - 20 - 5, height / 2 - 5);
+        ctx.moveTo(width - 20, height / 2);
+        ctx.lineTo(width - 20 - 5, height / 2 + 5);
 
         let stepSize = (width - 40) / this.props.spreadPoints.length;
         let maxHeight = (height - 40) / 2;
@@ -63,6 +75,12 @@ class SpreadChart extends React.Component {
         }
 
         ctx.stroke();
+
+        ctx.fillStyle = "#1E1E1F";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "top";
+        ctx.font = "14px Inter";
+        ctx.fillText(this.props.axisName ?? "", width - 20, height / 2 + 14);
     }
 
     componentDidMount () {

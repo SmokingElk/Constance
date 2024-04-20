@@ -1,9 +1,10 @@
 import classes from "./ContinuousCharacteristicSetting.module.css";
+import common from "../CharacteristicSettingCommon.module.css";
 
 const ContinuousCharacteristicSetting = props => {
     return (
-        <div>
-            <h4>{props.name}</h4>
+        <div className={common.settingBlock}>
+            <h4 className={common.settingName}>{props.name}</h4>
 
             <div className={classes.sliderBlock}>
                 <input 

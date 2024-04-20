@@ -160,6 +160,7 @@ export const createPreferencesData = propertiesData => {
                 break;
             case "continuous":
                 preferenceData.labels = i.labels;
+                preferenceData.axisName = i.axisName;
                 preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(0);
                 break;
         }
