@@ -71,3 +71,8 @@
     box-sizing: border-box;
     padding: 5px;
 }
+
+.tallPlace {
+    height: 200px;
+    align-items: baseline;
+}

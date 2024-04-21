@@ -71,7 +71,7 @@ const MyProfile = props => {
 
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>About me</div>
-                                <textarea maxLength={100} className={"inputField" + " " + classes.aboutMe} type="text" placeholder="God of math, best programmer." value={props.aboutMeFieldValue} onChange={onAboutMeChange}></textarea>
+                                <textarea maxLength={300} className={"inputField" + " " + classes.aboutMe} type="text" placeholder="God of math, best programmer." value={props.aboutMeFieldValue} onChange={onAboutMeChange}></textarea>
                             </div>
                         </div>
                     </div>

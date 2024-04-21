@@ -6,3 +6,9 @@
 	padding: 0 20px;
 	overflow-y: scroll;
 }
+
+.content {
+	width: 100%;
+	box-sizing: border-box;
+	padding-top: 100px;
+}
