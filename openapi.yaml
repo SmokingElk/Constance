@@ -463,6 +463,10 @@ components:
     SomeoneProfileData:    
       type: object
       properties: 
+        username:
+          type: string
+          description: user firstname
+          example: Vano
         firstname:
           type: string
           description: user firstname
