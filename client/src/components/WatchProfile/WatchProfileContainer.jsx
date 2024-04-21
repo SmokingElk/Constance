@@ -33,7 +33,6 @@ class WatchProfileContainer extends React.Component {
 const mapStateToProps = state => ({
     demo: state.watchProfile.demo, 
     profileData: state.watchProfile.profileData,
-    username: "Placeholder (tmp)",
 });
 
 const mapDispatchToProps = {

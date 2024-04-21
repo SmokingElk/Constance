@@ -4,6 +4,7 @@ const initialState = {
     demo: false, 
 
     profileData: {
+        username: "placeholder",
         firstname: "",
         lastname: "",
         social: "",

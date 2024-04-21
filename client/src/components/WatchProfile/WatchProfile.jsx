@@ -9,7 +9,7 @@ const WatchProfile = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Profile of {props.username}</div>
+                    <div className={classes.title}>Profile of {profileData.username}</div>
 
                     <div className={classes.columns}>
                         <div className={classes.imgColumn}>
