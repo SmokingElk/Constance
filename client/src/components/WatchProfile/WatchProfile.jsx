@@ -31,6 +31,12 @@ const WatchProfile = props => {
 
                             <div className={classes.label}>Birthdate</div>
                             <div className={classes.profileDataPlace}>{birthdate}</div>
+
+                            <div className={classes.label}>Location</div>
+                            <div className={classes.profileDataPlace}>{profileData.location}</div>
+
+                            <div className={classes.label}>About me</div>
+                            <div className={classes.profileDataPlace + " " + classes.tallPlace}>{profileData.about_me}</div>
                         </div>
                     </div>  
                 </div>

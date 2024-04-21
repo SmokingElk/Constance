@@ -5,12 +5,14 @@ import Navbar from "./Navbar/Navbar";
 
 const Header = props => {
     return (
-        <Container>
-            <div className={classes.layout}>
-                <Logo />
-                <Navbar toggle={props.toggleNavbar} isOpen={props.isNavbarOpen} isUserEntered={props.isUserEntered} username={props.username} sex={props.sex} />
-            </div>
-        </Container>
+        <div className={classes.wrapper}>
+            <Container>
+                <div className={classes.layout}>
+                    <Logo />
+                    <Navbar toggle={props.toggleNavbar} isOpen={props.isNavbarOpen} isUserEntered={props.isUserEntered} username={props.username} sex={props.sex} />
+                </div>
+            </Container>
+        </div>
     );
 }
 

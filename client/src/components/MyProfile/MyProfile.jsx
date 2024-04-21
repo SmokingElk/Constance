@@ -3,7 +3,6 @@ import photoPlaceholder from "../../assets/imgs/teamlid_avatar.jpg";
 import Container from "../Utils/Container/Container";
 
 const MyProfile = props => {
-
     const onFirstnameChange = event => {
         props.updateFirstname(event.target.value);
         props.requestProfileDataUpdate({firstname: event.target.value});
@@ -17,6 +16,16 @@ const MyProfile = props => {
     const onSocialChange = event => {
         props.updateSocial(event.target.value);
         props.requestProfileDataUpdate({social: event.target.value});
+    };
+
+    const onAboutMeChange = event => {
+        props.updateAboutMe(event.target.value);
+        props.requestProfileDataUpdate({about_me: event.target.value});
+    };
+
+    const onLocationChange = event => {
+        props.updateLocation(event.target.value);
+        props.requestProfileDataUpdate({location: event.target.value});
     };
 
     const onPhoneChange = event => {
@@ -53,6 +62,16 @@ const MyProfile = props => {
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Phone number</div>
                                 <input className={"inputField"} type="tel" pattern="+7([0-9]{3})[0-9]{3}-[0-9]{3}" placeholder="+7(999)999-99-99" value={props.phoneNumberFieldValue} onChange={onPhoneChange} />
+                            </div>
+
+                            <div className={classes.fieldBlock}>
+                                <div className={classes.label}>Location</div>
+                                <input className={"inputField"} type="text" placeholder="Moscow" value={props.locationFieldValue} onChange={onLocationChange}></input>
+                            </div>
+
+                            <div className={classes.fieldBlock}>
+                                <div className={classes.label}>About me</div>
+                                <textarea maxLength={300} className={"inputField" + " " + classes.aboutMe} type="text" placeholder="God of math, best programmer." value={props.aboutMeFieldValue} onChange={onAboutMeChange}></textarea>
                             </div>
                         </div>
                     </div>

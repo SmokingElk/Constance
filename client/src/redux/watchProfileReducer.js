@@ -8,6 +8,8 @@ const initialState = {
         lastname: "",
         social: "",
         phone: "",
+        about_me: "",
+        location: "",
         birthdate: "",
         photoName: "placeholder",
     }
@@ -18,7 +20,10 @@ const watchProfileReducer = (state = initialState, action) => {
         case SET_PROFILE_DATA: {
             return {
                 ...state,
-                profileData: action.profileData,
+                profileData: {
+                    ...state.profileData,
+                    ...action.profileData,
+                }
             }
         }
 
