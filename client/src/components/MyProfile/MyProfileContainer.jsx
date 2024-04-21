@@ -1,7 +1,7 @@
 import React from "react";
 import MyProfile from "./MyProfile";
 import { connect } from "react-redux";
-import { updateMyProfileFirstname, updateMyProfileLastname, updateMyProfilePhone, updateMyProfilePhoto, updateMyProfileSocial } from "../../redux/myProfileReducer";
+import { updateMyProfileAboutMe, updateMyProfileFirstname, updateMyProfileLastname, updateMyProfileLocation, updateMyProfilePhone, updateMyProfilePhoto, updateMyProfileSocial } from "../../redux/myProfileReducer";
 import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
@@ -19,6 +19,8 @@ class MyProfileContainer extends React.Component {
             this.props.updateLastname(profile.lastname);
             this.props.updateSocial(profile.social);
             this.props.updatePhone(profile.phone);
+            this.props.updateAboutMe(profile.about_me ?? "");
+            this.props.updateAboutMe(profile.location ?? "");
             this.props.updatePhoto(profile.photo);
         }).catch(error => {
             this.props.router.navigate("/login");
@@ -80,6 +82,8 @@ const mapStateToProps = state => ({
     lastnameFieldValue: state.myProfile.lastnameFieldValue,
     socialFieldValue: state.myProfile.socialFieldValue,
     phoneNumberFieldValue: state.myProfile.phoneNumberFieldValue,
+    aboutMeFieldValue: state.myProfile.aboutMeFieldValue,
+    locationFieldValue: state.myProfile.locationFieldValue,
     photoName: state.myProfile.photoName,
 });
 
@@ -88,6 +92,8 @@ const mapDispathToProps = {
     updateLastname: updateMyProfileLastname,
     updateSocial: updateMyProfileSocial,
     updatePhone: updateMyProfilePhone,
+    updateAboutMe: updateMyProfileAboutMe,
+    updateLocation: updateMyProfileLocation,
     updatePhoto: updateMyProfilePhoto,
 };
 
