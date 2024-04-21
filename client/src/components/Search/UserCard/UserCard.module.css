@@ -1,0 +1,14 @@
+.body {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 5px;
+}
+
+.userPhoto {
+    width: 150px;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+}

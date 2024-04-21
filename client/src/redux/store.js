@@ -8,6 +8,7 @@ import watchProfileReducer from "./watchProfileReducer";
 import navbarReducer from "./navbarReducer";
 import preferencesReducer from "./preferencesReducer";
 import characteristicsReducer from "./characteristicsReducer";
+import searchReducer from "./searchReducer";
 
 let store = configureStore({
     reducer: {
@@ -20,6 +21,7 @@ let store = configureStore({
         navbar: navbarReducer,
         preferences: preferencesReducer,
         characteristics: characteristicsReducer,
+        search: searchReducer,
     }
 }); 
 
