@@ -48,7 +48,6 @@ class MyProfileContainer extends React.Component {
         formData.append("jwtToken", getJWT());
 
         axios.put("http://localhost:5000/api/v1/profile/set_photo", formData).then(res => {
-            console.log(res);
             this.props.updatePhoto(res.data.photoName);
         }).catch(error => {
             this.props.router.navigate("/login");

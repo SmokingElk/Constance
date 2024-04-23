@@ -2,7 +2,7 @@ const RESET = "RESET";
 const ADD_PACK = "ADD-PACK";
 
 const initialState = {
-    demo: true,
+    demo: false,
 
     isEnded: false,
     packsLoaded: 0,

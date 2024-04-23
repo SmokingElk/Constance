@@ -18,21 +18,26 @@ class GetterOfRates:
 
     def get_rates(self, prefs_of_id, user_id):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT id FROM "preferences"''')
-        lst_of_users = cursor.fetchall()[0]
-        lst_of_users =[i for i in lst_of_users if i != user_id]
+        cursor.execute('''SELECT id, "Gender" FROM "Autorisation"''')
+
+        records = list(cursor.fetchall())
+        user_gender = [i[1] for i in records if i[0] == user_id][0]
+        lst_of_users = [i[0] for i in records if i[1] != user_gender]
         ans = []
         for_sort = []
+
+        cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
+        chars_of_user = list(cursor.fetchall())[0][1:]
+        
         for i in lst_of_users:
             res = {}
             cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (i, ))
-            chars_of_current = list(cursor.fetchall())[1:]
-            cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
-            chars_of_user = list(cursor.fetchall())[1:]
+            chars_of_current = list(cursor.fetchall())[0][1:]
+            
             cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (i,))
-            prefs_of_current = list(cursor.fetchall())[1:]
-            rate_1_2 = self.count_rate(chars_of_current, prefs_of_id)
-            rate_2_1 = self.count_rate(chars_of_user, prefs_of_current)
+            prefs_of_current = list(cursor.fetchall())[0][1:]
+            rate_1_2 = self.count_rate([json.loads(i) for i in chars_of_current], [json.loads(i) for i in prefs_of_id])
+            rate_2_1 = self.count_rate([json.loads(i) for i in chars_of_user], [json.loads(i) for i in prefs_of_current])
             t_s = self.func(rate_1_2, rate_2_1)
             res = {
                 'id': i,
@@ -84,29 +89,30 @@ class GetterOfRates:
 
     def count_rate(self, chars, prefs):
         n_f_of_id = 0.0
+
         for i in prefs:
             n_f_of_id += i['positiveScale']
         ans_value = 0.0
         for i in range(len(prefs)):
-            if chars[i]['prefType'] == 'binary':
+            if chars[i]['charType'] == 'binary':
                 if chars[i]['value'] == True:
-                    ans_value += prefs['positiveScale'] / n_f_of_id
+                    ans_value += prefs[i]['positiveScale'] / n_f_of_id
                 else:
-                    ans_value -= prefs['negativeScale'] / n_f_of_id
-            elif chars[i]['prefType'] == 'discrete':
+                    ans_value -= prefs[i]['negativeScale'] / n_f_of_id
+            elif chars[i]['charType'] == 'discrete':
                 v = chars[i]['value']
                 ind = self.get_index_for_descrete(i, v)
                 value_of_coef = float(prefs[i]['columnsCoefs'][ind])
                 if value_of_coef >= 0:
-                     ans_value += float(prefs['positiveScale']) * float(value_of_coef) / n_f_of_id
+                     ans_value += float(prefs[i]['positiveScale']) * float(value_of_coef) / n_f_of_id
                 else:
-                    ans_value -= float(prefs['negativeScale']) * float(value_of_coef) / n_f_of_id
-            elif chars[i]['prefType'] == 'continious':
+                    ans_value -= float(prefs[i]['negativeScale']) * float(value_of_coef) / n_f_of_id
+            elif chars[i]['charType'] == 'continious':
                 cur_char = chars[i]['value']
                 spread = prefs[i]['spreadPoints']
                 res = self.get_index_for_continious(cur_char, spread, i)
                 if res >= 0:
-                    ans_value += float(prefs['positiveScale']) * float(res) / n_f_of_id
+                    ans_value += float(prefs[i]['positiveScale']) * float(res) / n_f_of_id
                 else:
-                    ans_value -= float(prefs['negativeScale']) * float(res) / n_f_of_id
+                    ans_value -= float(prefs[i]['negativeScale']) * float(res) / n_f_of_id
         return ans_value
