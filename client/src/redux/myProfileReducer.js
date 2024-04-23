@@ -51,7 +51,7 @@ const myProfileReducer = (state = initialState, action) => {
         case UPDATE_ABOUT_ME: {
             return {
                 ...state,
-                aboutMeNumberFieldValue: action.fieldValue,
+                aboutMeFieldValue: action.fieldValue,
             }
         }
 

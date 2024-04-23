@@ -24,7 +24,7 @@ const Search = props => {
                 {cards}
             </div>
             
-            {!props.isEnded && <button className={classes.loadMoreBtn} onClick={props.loadNextPack}>load more</button>}
+            {!props.isEnded && <button className={classes.loadMoreBtn} onClick={() => props.loadNextPack()}>load more</button>}
         </Container>
     );
 }

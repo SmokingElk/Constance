@@ -20,7 +20,7 @@ class MyProfileContainer extends React.Component {
             this.props.updateSocial(profile.social);
             this.props.updatePhone(profile.phone);
             this.props.updateAboutMe(profile.about_me ?? "");
-            this.props.updateAboutMe(profile.location ?? "");
+            this.props.updateLocation(profile.location ?? "");
             this.props.updatePhoto(profile.photo);
         }).catch(error => {
             this.props.router.navigate("/login");
@@ -48,7 +48,6 @@ class MyProfileContainer extends React.Component {
         formData.append("jwtToken", getJWT());
 
         axios.put("http://localhost:5000/api/v1/profile/set_photo", formData).then(res => {
-            console.log(res);
             this.props.updatePhoto(res.data.photoName);
         }).catch(error => {
             this.props.router.navigate("/login");

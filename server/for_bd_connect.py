@@ -208,6 +208,7 @@ class Database_manager:
         getter = GetterOfRates()
         records = records[0][1:]
         rates = getter.get_rates(records, user_id)
+        
         pack = []
         for i in rates:
             user = self.get_my_profile_data(i['id'])
@@ -219,7 +220,7 @@ class Database_manager:
                 "id": i['id']
             }
             pack.append(to_return)
-        if pack_number * PACK_SIZE > len(pack):
+        if pack_number * PACK_SIZE >= len(pack):
             return {"is_end": True,
                     "pack_items": []}
         else:
@@ -228,7 +229,7 @@ class Database_manager:
                 new_i = i + PACK_SIZE * pack_number
                 data_for_return.append(pack[new_i])
         ans = {
-            "is_end": False,
+            "is_end": ost <= PACK_SIZE,
             "pack_items": data_for_return
         }
         return ans
