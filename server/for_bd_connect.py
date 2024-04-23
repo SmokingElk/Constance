@@ -2,6 +2,8 @@ import psycopg2
 import configparser
 import json
 from analyzer import get_datatype, get_default, get_data, get_group
+from getter_of_rates import GetterOfRates
+PACK_SIZE = 2
 class Database_manager:
     def __init__(self):
         config = configparser.ConfigParser()
@@ -59,7 +61,7 @@ class Database_manager:
 
     def get_my_profile_data(self, user_id: int):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name FROM "profile_data" WHERE id=%s''', (user_id,))
+        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me, location FROM "profile_data" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
         cursor.close()
         if len(records) == 0:
@@ -197,3 +199,38 @@ class Database_manager:
                        (f'id_{id_of_ch}', json.dumps(to_bd, ensure_ascii=False, ), user_id))
         self.conn.commit()
         cursor.close()
+
+    def get_search_data(self, user_id: int, pack_number: int):
+        cursor = self.conn.cursor()
+        data_for_return = []
+        cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
+        records = cursor.fetchall()
+        getter = GetterOfRates()
+        records = records[0][1:]
+        rates = getter.get_rates(records, user_id)
+        pack = []
+        for i in rates:
+            user = self.get_my_profile_data(i['id'])
+            to_return = {
+                'firstname': user[0],
+                "about_me": user[5],
+                "photo": user[4],
+                "rate": i['rate'],
+                "id": i['id']
+            }
+            pack.append(to_return)
+        if pack_number * PACK_SIZE > len(pack):
+            return {"is_end": True,
+                    "pack_items": []}
+        else:
+            ost = len(pack) - pack_number * PACK_SIZE
+            for i in range(0, min(ost, PACK_SIZE)):
+                new_i = i + PACK_SIZE * pack_number
+                data_for_return.append(pack[new_i])
+        ans = {
+            "is_end": False,
+            "pack_items": data_for_return
+        }
+        return ans
+
+
