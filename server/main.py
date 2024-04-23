@@ -70,6 +70,8 @@ def get_user_profile_data():
     "social": profile_data[2],
     "phone": profile_data[3],
     "photo": profile_data[4],
+    "about_me": profile_data[5],
+    "location": profile_data[6]
   }
   return make_response(adding_to_profile, 200)
 
@@ -85,7 +87,7 @@ def update_user_profile_data():
   if not database.is_user_exists_by_id(user_id):
     abort(404)
   for key, value in patch.items():
-    if key not in ['firstname', 'lastname', 'social', 'phone_number']:
+    if key not in ['firstname', 'lastname', 'social', 'phone_number', 'about_me', 'location']:
       abort(400)
     database.patch_user_profile_data(user_id, key, value)
   return make_response({}, 200)
@@ -116,7 +118,7 @@ def get_watch_profile_data(userId):
   if not database.is_user_exists_by_id(id_of_requested_user):
     abort(404)
   birth = database.getting_birthdate(id_of_requested_user)
-  firstname, lastname, social, phone, photo_name = database.get_my_profile_data(id_of_requested_user)
+  firstname, lastname, social, phone, photo_name, about_me, location  = database.get_my_profile_data(id_of_requested_user)
   profile_data = {
     "firstname": firstname,
     "lastname": lastname,
@@ -124,7 +126,9 @@ def get_watch_profile_data(userId):
     "phone": phone,
     "birthdate": str(birth),
     "photoName": photo_name,
-    "username": database.get_primary_data(id_of_requested_user)[0]
+    "username": database.get_primary_data(id_of_requested_user)[0],
+    "about_me": about_me,
+    "location": location
   }
   return make_response(profile_data, 200)
 
@@ -213,6 +217,18 @@ def patch_pref():
   database.set_prefs(user_id, id_of_pref, patch)
   
   return make_response({}, 200)
+
+@app.route('/api/v1//search/get_pack', methods=['GET'])
+def search():
+  data = request.args
+  jwt_token = data.get("jwtToken")
+  pack_number = int(data['pack_number'])
+  if not jwt_generator.validate_token(jwt_token):
+    abort(401)
+  user_id = jwt_generator.extract_payload(jwt_token)['userId']
+  data_to_return = database.get_search_data(user_id, pack_number)
+  return make_response(data_to_return, 200)
+
 
 
 if __name__ == "__main__":
