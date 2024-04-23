@@ -20,7 +20,7 @@ class MyProfileContainer extends React.Component {
             this.props.updateSocial(profile.social);
             this.props.updatePhone(profile.phone);
             this.props.updateAboutMe(profile.about_me ?? "");
-            this.props.updateAboutMe(profile.location ?? "");
+            this.props.updateLocation(profile.location ?? "");
             this.props.updatePhoto(profile.photo);
         }).catch(error => {
             this.props.router.navigate("/login");
