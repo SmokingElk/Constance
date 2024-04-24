@@ -1,6 +1,11 @@
 import React from "react";
 import classes from "./SpreadChart.module.css";
 
+const config = {
+    rangeOffset: 50,
+    divisionFactor: 5,
+};
+
 class SpreadChart extends React.Component {
     state = {wrapperWidth: 0, wrapperHeight: 0};
     wrapperRef = React.createRef();
@@ -27,7 +32,7 @@ class SpreadChart extends React.Component {
         const columnsCount = this.props.spreadPoints.length;
         const columnMaxHeight = (canvasRect.height - 40) / 2;
 
-        let columnNumber = (Math.max(20, Math.min(canvasRect.width - 20 - 1, x)) - 20) / (canvasRect.width - 40) * columnsCount | 0;
+        let columnNumber = (Math.max(20 + config.rangeOffset, Math.min(canvasRect.width - 20 - config.rangeOffset - 1, x)) - 20 - config.rangeOffset) / (canvasRect.width - 40 - 2 * config.rangeOffset) * columnsCount | 0;
         let columnHeight = -Math.max(-1, Math.min(1, (y - (canvasRect.height / 2)) / columnMaxHeight));
 
         this.props.patch(Math.max(0, Math.min(columnsCount - 1, columnNumber)), columnHeight);
@@ -47,6 +52,10 @@ class SpreadChart extends React.Component {
 
         ctx.strokeStyle = "#1E1E1F";
         ctx.lineCap = "round";
+        ctx.fillStyle = "#1E1E1F";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.font = "12px Inter";
 
         ctx.beginPath();
         ctx.moveTo(20, height / 2);
@@ -64,11 +73,30 @@ class SpreadChart extends React.Component {
         ctx.moveTo(width - 20, height / 2);
         ctx.lineTo(width - 20 - 5, height / 2 + 5);
 
-        let stepSize = (width - 40) / this.props.spreadPoints.length;
+        const rangeWidth = width - 40 - config.rangeOffset * 2;
+        const divisionsCount = (this.props.labels.length - 1) * config.divisionFactor + 1;
+        const labelSpread = rangeWidth / (divisionsCount - 1);
+
+        for (let i = 0; i < divisionsCount; i++) {
+            let x = 20 + config.rangeOffset + i * labelSpread;
+            let drawLabel = i % config.divisionFactor === 0;
+            let size = drawLabel ? 11 : 5;
+            ctx.moveTo(x, height / 2 - size);
+            ctx.lineTo(x, height / 2 + size);
+
+            if (drawLabel) {
+                ctx.textAlign = "center";
+                if (i === 0) ctx.textAlign = "left";
+                if (i === divisionsCount - 1) ctx.textAlign = "right";
+                ctx.fillText(this.props.labels[i / config.divisionFactor], x, height / 2 + size + 5);
+            }
+        }
+
+        let stepSize = (width - 40 - config.rangeOffset * 2) / (this.props.spreadPoints.length - 1);
         let maxHeight = (height - 40) / 2;
 
         for (let i = 0; i < this.props.spreadPoints.length; i++) {
-            let x = 20 + i * stepSize;
+            let x = 20 + config.rangeOffset + i * stepSize;
             let y = -this.props.spreadPoints[i] * maxHeight + height / 2;
 
             i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
@@ -76,11 +104,9 @@ class SpreadChart extends React.Component {
 
         ctx.stroke();
 
-        ctx.fillStyle = "#1E1E1F";
         ctx.textAlign = "right";
-        ctx.textBaseline = "top";
-        ctx.font = "14px Inter";
-        ctx.fillText(this.props.axisName ?? "", width - 20, height / 2 + 14);
+        ctx.textBaseline = "bottom"
+        ctx.fillText(this.props.axisName ?? "", width - 20, height / 2 - 20);
     }
 
     componentDidMount () {
