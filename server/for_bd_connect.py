@@ -4,7 +4,9 @@ import json
 from analyzer import get_datatype, get_default, get_data, get_group
 from getter_of_rates import GetterOfRates
 PACK_SIZE = 2
-class Database_manager:
+
+
+class DatabaseManager:
     def __init__(self):
         config = configparser.ConfigParser()
         config.read('for_bd.cfg')
@@ -13,14 +15,15 @@ class Database_manager:
         password_of_database = config.get('Settings_of_bd', 'password')
         name_of_host = config.get('Settings_of_bd', 'host')
         self.conn = psycopg2.connect(dbname=data_base_name, user=username_of_database,
-                                password=password_of_database, host=name_of_host)
+                                     password=password_of_database, host=name_of_host)
 
     def __del__(self):
         self.conn.close()
 
     def checking_for_authorized_user(self, username: str, password: str):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT id FROM "Autorisation" WHERE username=%s AND password=%s ''', (username, password))
+        cursor.execute('''SELECT id FROM "Autorisation" WHERE username=%s AND password=%s ''',
+                       (username, password))
         records = cursor.fetchall()
         cursor.close()
         if len(records) == 0:
@@ -53,15 +56,20 @@ class Database_manager:
     def adding_user(self, username: str, password: str, gender: bool, birthday: str):
         cursor = self.conn.cursor()
         user_id = self.counting_users() + 1
-        cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth") VALUES (%s, %s, %s, %s, %s)''', (user_id, username, password, gender, birthday))
-        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name) VALUES (%s, %s, %s, %s, %s, %s)''', (user_id, '', '', '', '', ''))
+        cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth")\
+                                VALUES (%s, %s, %s, %s, %s)''',
+                       (user_id, username, password, gender, birthday))
+        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name)\
+                                VALUES (%s, %s, %s, %s, %s, %s)''',
+                       (user_id, '', '', '', '', ''))
         self.conn.commit()
         cursor.close()
         return user_id
 
     def get_my_profile_data(self, user_id: int):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me, location FROM "profile_data" WHERE id=%s''', (user_id,))
+        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me, location \
+                                 FROM "profile_data" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
         cursor.close()
         if len(records) == 0:
@@ -105,14 +113,16 @@ class Database_manager:
                     '''id''': i,
                     '''value''': get_default(i)
                 }
-                cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''', (k, json.dumps(to_bd, ensure_ascii=False,), user_id))
+                cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''',
+                               (k, json.dumps(to_bd, ensure_ascii=False,), user_id))
 
         to_bd = {
             "charType": get_datatype(id_of_ch),
             "id": id_of_ch,
             "value": patch['value']
         }
-        cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''', (id_of_char, json.dumps(to_bd, ensure_ascii=False,), user_id))
+        cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''',
+                       (id_of_char, json.dumps(to_bd, ensure_ascii=False,), user_id))
         self.conn.commit()
         cursor.close()
 
@@ -127,7 +137,6 @@ class Database_manager:
             new["group"] = get_group(int(new["id"]))
             data_for_return.append(new)
         return data_for_return
-
 
     def getting_all_prefs(self, user_id: int):
         cursor = self.conn.cursor()
@@ -145,40 +154,38 @@ class Database_manager:
         cursor = self.conn.cursor()
         cursor.execute('SELECT exists (select true from "preferences" where id=%s)', (user_id,))
         records = cursor.fetchall()
-        id_of_char = 'id_' + str(id_of_ch)
         if not records[0][0]:
             cursor.execute('''INSERT INTO "preferences" (id) VALUES (%s)''', (user_id,))
             for i in range(0, 84):
                 cursor = self.conn.cursor()
                 t = get_datatype(i)
+                to_bd = {}
                 if t == 'binary':
-                    to_bd = {
-                    'prefType': t,
-                    'id': i,
-                    'positiveScale': 1.0,
-                    'negativeScale': 1.0,
-                    'otherNegative': False
-                    }
+                    to_bd = {'prefType': t,
+                             'id': i,
+                             'positiveScale': 1.0,
+                             'negativeScale': 1.0,
+                             'otherNegative': False
+                             }
                 elif t == 'discrete':
-                    to_bd = {
-                    'prefType': t,
-                    'id': i,
-                    'positiveScale': 1.0,
-                    'negativeScale': 1.0,
-                    'otherNegative': False,
-                    'columnsCoefs': get_data(i, 'columnsCoefs')
-                    }
+                    to_bd = {'prefType': t,
+                             'id': i,
+                             'positiveScale': 1.0,
+                             'negativeScale': 1.0,
+                             'otherNegative': False,
+                             'columnsCoefs': get_data(i, 'columnsCoefs')
+                             }
                 elif t == 'continuous':
-                    to_bd = {
-                        'prefType': t,
-                        'id': i,
-                        'positiveScale': 1.0,
-                        'negativeScale': 1.0,
-                        'otherNegative': False,
-                        'spreadPoints': get_data(i, 'spreadPoints')
-                    }
+                    to_bd = {'prefType': t,
+                             'id': i,
+                             'positiveScale': 1.0,
+                             'negativeScale': 1.0,
+                             'otherNegative': False,
+                             'spreadPoints': get_data(i, 'spreadPoints')
+                             }
                 k = f'id_{i}'
-                cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',(k, json.dumps(to_bd, ensure_ascii=False, ), user_id))
+                cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',
+                               (k, json.dumps(to_bd, ensure_ascii=False, ), user_id))
 
         cursor.execute('''SELECT "'id_''' + str(id_of_ch) + ''''" FROM "preferences" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
@@ -208,7 +215,6 @@ class Database_manager:
         getter = GetterOfRates()
         records = records[0][1:]
         rates = getter.get_rates(records, user_id)
-        
         pack = []
         for i in rates:
             user = self.get_my_profile_data(i['id'])
@@ -233,5 +239,3 @@ class Database_manager:
             "pack_items": data_for_return
         }
         return ans
-
-

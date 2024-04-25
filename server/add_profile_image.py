@@ -1,6 +1,8 @@
 import os
 
 UPLOAD_FOLDER = './static/images'
+
+
 def add_profile_image(file):
     num_files = len([f for f in os.listdir(UPLOAD_FOLDER)
                      if os.path.isfile(os.path.join(UPLOAD_FOLDER, f))])

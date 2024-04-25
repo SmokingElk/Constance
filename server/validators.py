@@ -5,6 +5,6 @@ def validate_password(password: str) -> bool:
         return False
     return True
 
+
 def validate_username(username: str) -> bool:
     return len(username) != 0 and all(i.isalpha() or i.isdigit() or i == '_' for i in username)
-
