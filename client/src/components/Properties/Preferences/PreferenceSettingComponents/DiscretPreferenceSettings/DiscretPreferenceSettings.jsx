@@ -1,6 +1,7 @@
 import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import classes from "./DiscretPreferenceSettings.module.css";
 import common from "../PreferenceSettingCommon.module.css";
+import Range from "../../../../Utils/Range/Range";
 
 const createSliders = (labels, values, patch) => {
     let res = [];
@@ -11,14 +12,12 @@ const createSliders = (labels, values, patch) => {
         res.push(<div key={i} className={classes.rowBody + " " + (needWrap ? classes.rowWrap : "")}>
             <div className={classes.rowLabel}>{labels[i]}</div>
 
-            <input 
-            className={classes.rowSlider}
-            type="range" 
+            <Range 
             value={-values[i]} 
             min={-1} 
             max={1}
-            step={0.01}
-            onChange={e => patch(i, -e.target.value)}/>
+            width={needWrap ? "100%" : "220px"}
+            onChange={value => patch(i, -value)}/>
         </div>)
     }
 

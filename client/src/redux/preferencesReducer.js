@@ -142,7 +142,7 @@ export const createPreferencesData = propertiesData => {
     let res = {};
     for (let i of propertiesData.globalParams.groups) res[i] = {};
 
-    for (let i of propertiesData.properties) {
+    for (let i of propertiesData.propertiesData) {
         let preferenceData = {
             name: i.name,
             sex: i.sex,
