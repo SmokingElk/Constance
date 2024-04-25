@@ -11,7 +11,7 @@
     ]
   },
 
-  "properties": [
+  "propertiesData": [
     {
       "id": 0,
       "name": "Возраст",
