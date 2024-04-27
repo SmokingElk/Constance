@@ -9,6 +9,7 @@ const createCards = foundedUsersData => {
     aboutMe={e.about_me}
     photo={e.photo}
     rate={e.rate}
+    location={e.location ?? "Location placeholder"}
     userId={e.id}
     />);
 
