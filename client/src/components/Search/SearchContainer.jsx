@@ -39,6 +39,7 @@ const mapStateToProps = state => ({
     isEnded: state.search.isEnded,
     packsLoaded: state.search.packsLoaded,
     foundedUsersData: state.search.foundedUsersData,
+    userSex: state.entered.sex,
 });
 
 const mapDispatchToProps = {
