@@ -715,6 +715,10 @@ components:
           type: number
           description: Accordance level between -inf and 1.
           example: 0.5
+        location:
+          type: string
+          description: City of user.
+          example: Moscow
         id: 
           type: number
           description: Id of founded user
