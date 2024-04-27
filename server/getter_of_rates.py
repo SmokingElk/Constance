@@ -58,12 +58,12 @@ class GetterOfRates:
 
     @staticmethod
     def get_index_for_descrete(i: int, v: str) -> int:
-        a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
-        a = a.read()
+        file = open(PROPERTIES_FILE_PATH, encoding='utf-8')
+        a = file.read()
         a = json.loads(a)
         b = a['propertiesData']
         variants = b[i]['variants']
-        a.close()
+        file.close()
         for j in range(0, len(variants)):
             if variants[j] == v:
                 return j
@@ -71,11 +71,11 @@ class GetterOfRates:
 
     @staticmethod
     def get_index_for_continious(value, list_spread, i: int) -> float:
-        a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
-        a = a.read()
+        file = open(PROPERTIES_FILE_PATH, encoding='utf-8')
+        a = file.read()
         a = json.loads(a)
         b = a['propertiesData']
-        a.close()
+        file.close()
         value = float(value)
         variants_min = b[i]['range']['min']
         variants_max = b[i]['range']['max']
