@@ -1,6 +1,7 @@
 import psycopg2
 import configparser
 import json
+PROPERTIES_FILE_PATH = './static/properties_data.json'
 
 
 class GetterOfRates:
@@ -57,7 +58,7 @@ class GetterOfRates:
 
     @staticmethod
     def get_index_for_descrete(i: int, v: str) -> int:
-        a = open('properties_data.json', encoding='utf-8')
+        a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
         a = a.read()
         a = json.loads(a)
         b = a['propertiesData']
@@ -70,7 +71,7 @@ class GetterOfRates:
 
     @staticmethod
     def get_index_for_continious(value, list_spread, i: int) -> float:
-        a = open('properties_data.json', encoding='utf-8')
+        a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
         a = a.read()
         a = json.loads(a)
         b = a['propertiesData']
