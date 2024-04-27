@@ -1,8 +1,9 @@
 import json
+PROPERTIES_FILE_PATH = './static/properties_data.json'
 
 
 def get_datatype(i):
-    a = open('properties_data.json', encoding='utf-8')
+    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
     a = a.read()
     a = json.loads(a)
     b = a['propertiesData']
@@ -11,7 +12,7 @@ def get_datatype(i):
 
 
 def get_default(i):
-    a = open('properties_data.json', encoding='utf-8')
+    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
     a = a.read()
     a = json.loads(a)
     b = a['propertiesData']
@@ -28,7 +29,7 @@ def get_default(i):
 
 
 def get_group(i):
-    a = open('properties_data.json', encoding='utf-8')
+    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
     a = a.read()
     a = json.loads(a)
     b = a['propertiesData']
@@ -37,7 +38,7 @@ def get_group(i):
 
 
 def get_data(i, key):
-    a = open('properties_data.json', encoding='utf-8')
+    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
     a = a.read()
     a = json.loads(a)
     b = a['propertiesData']
