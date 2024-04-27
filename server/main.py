@@ -110,7 +110,7 @@ def update_user_profile_photo():
     return make_response(res, 200)
 
 
-@app.route('/api/v1/profile/get_data_to_view/<int:userId>', methods=['GET'])
+@app.route('/api/v1/profile/get_data_to_view/<int:user_id>', methods=['GET'])
 def get_watch_profile_data(user_id):
     data = request.args
     jwt_token = data.get('jwtToken')

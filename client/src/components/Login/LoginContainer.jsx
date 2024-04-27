@@ -25,7 +25,7 @@ class LoginContainer extends React.Component {
 
             this.props.updateUsername("");
             this.props.updatePassword("");
-
+            
             this.props.setEntered(res.data.username, res.data.sex ?? true);
             this.props.router.navigate("/");
         }, error => {

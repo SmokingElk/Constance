@@ -31,7 +31,7 @@ const Search = props => {
                         {cards}
                     </div>
                 
-                    {loadMoreBtn}
+                    {!props.isEnded && loadMoreBtn}
                 </div>
             </div>
             
