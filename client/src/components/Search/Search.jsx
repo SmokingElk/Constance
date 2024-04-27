@@ -2,7 +2,7 @@ import Container from "../Utils/Container/Container";
 import classes from "./Search.module.css";
 import UserCard from "./UserCard/UserCard";
 
-const createCards = foundedUsersData => {
+const createCards = (foundedUsersData, userSex) => {
     let res = foundedUsersData.map((e, i) => <UserCard
     ratingPosition={i}
     name={e.firstname}
@@ -11,21 +11,30 @@ const createCards = foundedUsersData => {
     rate={e.rate}
     location={e.location ?? "Location placeholder"}
     userId={e.id}
+    currentSex={userSex}
     />);
 
     return res;
 };
 
 const Search = props => {
-    const cards = createCards(props.foundedUsersData);
+    const cards = createCards(props.foundedUsersData, props.userSex);
+    const loadMoreBtn = <button 
+    className={classes.loadMoreBtn + " " + (props.userSex ? classes.pink : "")} 
+    onClick={() => props.loadNextPack()}>load more</button>;
     
     return (
         <Container>
-            <div className={classes.cardsContainer}>
-                {cards}
+            <div className={classes.body}>
+                <div className={classes.content}>
+                    <div className={classes.cardsContainer}>
+                        {cards}
+                    </div>
+                
+                    {!props.isEnded && loadMoreBtn}
+                </div>
             </div>
             
-            {!props.isEnded && <button className={classes.loadMoreBtn} onClick={() => props.loadNextPack()}>load more</button>}
         </Container>
     );
 }

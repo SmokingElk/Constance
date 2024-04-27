@@ -1,9 +1,51 @@
 .body {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.45);
+    background: #FFFFFF;
     border-radius: 5px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: space-between;
+}
+
+.ratingPositionNumber, .name, .location, .aboutMe, .rate {
+    display: grid;
+    font-family: 'Inter';
+    font-style: normal;
+    
+    color: #1E1E1F;
+}
+
+.name, .location, .rate {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.location, .rate {
+    justify-content: right;
+}
+
+.aboutMe {
+    font-size: 16px;
+}
+
+.ratingPositionNumber {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #2D61EB;
+
+    border-radius: 5px 0 0 5px;
+    font-size: 22px;
+    line-height: 34px;
+    font-weight: 600;
+}
+
+.ratingPositionNumber.pink {
+    background: #FF01B7;
 }
 
 .userPhoto {
@@ -11,4 +53,28 @@
     aspect-ratio: 3 / 4;
     object-fit: cover;
     display: block;
+    border-radius: 5px;
+}
+
+.content {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.contentLayout {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 20px;   
+}
+
+.contentHeader {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 200px;
+    margin-bottom: 12px;
+}
+
+.aboutMe {
+    width: 50%;
 }
