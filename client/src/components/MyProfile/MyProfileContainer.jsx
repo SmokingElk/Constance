@@ -1,7 +1,7 @@
 import React from "react";
 import MyProfile from "./MyProfile";
 import { connect } from "react-redux";
-import { updateMyProfileAboutMe, updateMyProfileFirstname, updateMyProfileLastname, updateMyProfileLocation, updateMyProfilePhone, updateMyProfilePhoto, updateMyProfileSocial } from "../../redux/myProfileReducer";
+import { setMyProfileFetching, updateMyProfileAboutMe, updateMyProfileFirstname, updateMyProfileLastname, updateMyProfileLocation, updateMyProfilePhone, updateMyProfilePhoto, updateMyProfileSocial } from "../../redux/myProfileReducer";
 import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
@@ -9,6 +9,8 @@ import withRouter from "../Utils/WithRouter";
 class MyProfileContainer extends React.Component {
     componentDidMount () {
         if (this.props.demo) return;
+
+        this.props.setMyProfileFetching(true);
 
         axios.get("http://localhost:5000/api/v1/profile/get_data_to_edit", {
             params: { jwtToken: getJWT() },
@@ -24,6 +26,8 @@ class MyProfileContainer extends React.Component {
             this.props.updatePhoto(profile.photo);
         }).catch(error => {
             this.props.router.navigate("/login");
+        }).finally(() => {
+            this.props.setMyProfileFetching(false);
         });
     }
 
@@ -84,6 +88,7 @@ const mapStateToProps = state => ({
     aboutMeFieldValue: state.myProfile.aboutMeFieldValue,
     locationFieldValue: state.myProfile.locationFieldValue,
     photoName: state.myProfile.photoName,
+    isFetching: state.myProfile.isFetching,
 });
 
 const mapDispathToProps = {
@@ -94,6 +99,7 @@ const mapDispathToProps = {
     updateAboutMe: updateMyProfileAboutMe,
     updateLocation: updateMyProfileLocation,
     updatePhoto: updateMyProfilePhoto,
+    setMyProfileFetching,
 };
 
 export default connect(mapStateToProps, mapDispathToProps)(withRouter(MyProfileContainer));

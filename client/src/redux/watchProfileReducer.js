@@ -1,10 +1,11 @@
 const SET_PROFILE_DATA = "SET-PROFILE-DATA";
+const SET_FETCHING = "SET-FETCHING";
 
 const initialState = {
     demo: false, 
 
     profileData: {
-        username: "placeholder",
+        username: "",
         firstname: "",
         lastname: "",
         social: "",
@@ -13,7 +14,9 @@ const initialState = {
         location: "",
         birthdate: "",
         photoName: "placeholder",
-    }
+    },
+
+    isFetching: false,
 };
 
 const watchProfileReducer = (state = initialState, action) => {
@@ -28,11 +31,19 @@ const watchProfileReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.value,
+            }
+        }
+
         default:
             return state;
     }
 };
 
 export const setWatchProfileData = profileData => ({type: SET_PROFILE_DATA, profileData});
+export const setWatchProfileFetching = value => ({type: SET_FETCHING, value});
 
 export default watchProfileReducer;

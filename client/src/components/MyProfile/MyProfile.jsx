@@ -1,6 +1,7 @@
 import classes from "./MyProfile.module.css";
 import photoPlaceholder from "../../assets/imgs/teamlid_avatar.jpg";
 import Container from "../Utils/Container/Container";
+import Loader from "../Utils/Loader/Loader";
 
 const MyProfile = props => {
     const onFirstnameChange = event => {
@@ -37,7 +38,7 @@ const MyProfile = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Profile</div>
+                    <div className={classes.title}>Profile {props.isFetching && <Loader size={40} black={true} />}</div>
                     <div className={classes.columns}>
                         <div className={classes.imgColumn}>
                             <img className={classes.profile_img} src={`http://localhost:5000/static/images/${props.photoName}`} onClick={() => props.selectPhoto()}/>

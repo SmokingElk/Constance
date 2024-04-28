@@ -1,4 +1,5 @@
 import Container from "../Utils/Container/Container";
+import Loader from "../Utils/Loader/Loader";
 import classes from "./WatchProfile.module.css";
 
 const WatchProfile = props => {
@@ -9,7 +10,7 @@ const WatchProfile = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Profile of {profileData.username}</div>
+                    <div className={classes.title}>Profile of {profileData.username} {props.isFetching && <Loader size={40} black={true} />}</div>
 
                     <div className={classes.columns}>
                         <div className={classes.imgColumn}>
