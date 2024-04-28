@@ -1,7 +1,7 @@
 import React from "react";
 import Characteristics from "./Characteristics";
 import { connect } from "react-redux";
-import { createCharacteristicsData, initCharacteristicsData, loadCharacteristicsData, setPossibleCharacteristicsGroups } from "../../../redux/characteristicsReducer";
+import { createCharacteristicsData, initCharacteristicsData, loadCharacteristicsData, setCharacteristicsFetching, setPossibleCharacteristicsGroups } from "../../../redux/characteristicsReducer";
 import axios from "axios";
 import withRouter from "../../Utils/WithRouter";
 import { getJWT } from "../../../global_logic/userEnter";
@@ -14,6 +14,7 @@ class CharacteristicsContainer extends React.Component {
         });
 
         if (this.props.demo) return;
+        this.props.setCharacteristicsFetching(true);
 
         axios.get("http://localhost:5000/api/v1/chars/get_all", {
             params: { jwtToken: getJWT() }
@@ -23,6 +24,8 @@ class CharacteristicsContainer extends React.Component {
             let status = error?.response?.status ?? -1;
             if (status === 401) this.props.router.navigate("/login");
             if (status === 404) this.props.router.navigate("/login");
+        }).finally(() => {
+            this.props.setCharacteristicsFetching(false);
         });
     }
 
@@ -35,12 +38,15 @@ const mapStateToProps = state => ({
     sex: state.entered.sex,
     demo: state.characteristics.demo,
     characteristicsTree: state.characteristics.characteristicsTree,
+    isFetching: state.characteristics.isFetching,
 });
 
 const mapDispatchToProps = {
     setPossibleCharacteristicsGroups,
     initCharacteristicsData,
     loadCharacteristicsData,
+    setCharacteristicsFetching,
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CharacteristicsContainer));
