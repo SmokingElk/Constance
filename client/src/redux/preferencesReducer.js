@@ -5,13 +5,17 @@ const PATCH_DISCRET_COEF = "PATCH-DISCRETE-COEF";
 const PATCH_CONTINUOUS_SPREAD = "PATCH-CONTINUOUS-SPREAD";
 const LOAD_PREFERENCES_DATA = "LOAD-PREFERENCES-DATA";
 const SET_FETCHING = "SET-FETCHING";
+const ADD_PATCHER = "ADD-PATCHER";
+const DELETE_PATCHER = "DELETE-PATCHER";
 
 const initialState = {
     demo: false,
     groups: [],
     preferencesData: {},
     preferencesTree: {},
-    isFetching: false
+    isFetching: false,
+    patchers: [],
+    isPatching: false,
 }
 
 const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
@@ -141,6 +145,24 @@ const preferencesReducer = (state = initialState, action) => {
                 isFetching: action.value,
             }
         }
+
+        case ADD_PATCHER: {
+            return {
+                ...state,
+                isPatching: true,
+                patchers: [...state.patchers, action.id], 
+            }
+        }
+
+        case DELETE_PATCHER: {
+            let patchers = state.patchers.filter(e => e !== action.id);
+
+            return {
+                ...state,
+                isPatching: patchers.length > 0,
+                patchers,
+            }
+        }
     
         default:
             return state;
@@ -187,5 +209,7 @@ export const patchPreferencesData = (group, id, newData) => ({type: PATCH_PREFER
 export const patchDiscretCoef = (group, id, col, newValue) => ({type: PATCH_DISCRET_COEF, group, id, col, newValue});
 export const patchContinuousSpread = (group, id, x, y) => ({type: PATCH_CONTINUOUS_SPREAD, group, id, x, y})
 export const setPreferencesFetching = value => ({type: SET_FETCHING, value});
+export const addPreferencesPatcher = id => ({type: ADD_PATCHER, id});
+export const deletePreferencesPatcher = id => ({type: DELETE_PATCHER, id});
 
 export default preferencesReducer;

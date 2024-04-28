@@ -3,6 +3,7 @@ import createBinaryCharacteristicSettingsContainer from "./CharacteristicSetting
 import createContinuousCharacteristicSettingContainer from "./CharacteristicSettingComponents/ContinuousCharacteristicSetting/ContinuousCharacteristicSettingContainer";
 import createDiscretCharacteristicSettingContainer from "./CharacteristicSettingComponents/DiscretCharacteristicSetting/DiscretCharacteristicSettingContainer";
 import classes from "./Characteristics.module.css";
+import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
 const createGroups = (characteristicsTree, sex) => {
     let groups = [];
@@ -51,6 +52,8 @@ const Characteristics = props => {
         <div className={classes.body}>
             {props.isFetching && <Loader size={80} black={true} />}
             <div className={classes.characteristicsContainer}>{groups}</div>
+
+            <SavingWrapper />
         </div>
     );
 }
