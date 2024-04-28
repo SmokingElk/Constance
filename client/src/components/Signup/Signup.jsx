@@ -57,7 +57,11 @@ const Signup = props => {
                     <div className={classes.signupInfo}>{signupInfo}</div>
 
                     <div className={classes.buttonContainer}>
-                        <Button pink={!props.isMale} onClick={() => props.sendSignupRequest()} text="Sign up" />
+                        <Button 
+                        pink={!props.isMale} 
+                        onClick={() => props.sendSignupRequest()} 
+                        text="Sign up" 
+                        showLoader={props.isFetching}/>
                     </div>
 
                     <div className={classes.hint}> 

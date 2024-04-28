@@ -1,3 +1,4 @@
+import Loader from "../../Utils/Loader/Loader";
 import createBinaryCharacteristicSettingsContainer from "./CharacteristicSettingComponents/BinaryCharacteristicSetting/BinaryCharacteristicSettingContainer";
 import createContinuousCharacteristicSettingContainer from "./CharacteristicSettingComponents/ContinuousCharacteristicSetting/ContinuousCharacteristicSettingContainer";
 import createDiscretCharacteristicSettingContainer from "./CharacteristicSettingComponents/DiscretCharacteristicSetting/DiscretCharacteristicSettingContainer";
@@ -48,6 +49,7 @@ const Characteristics = props => {
 
     return (
         <div className={classes.body}>
+            {props.isFetching && <Loader size={80} black={true} />}
             <div className={classes.characteristicsContainer}>{groups}</div>
         </div>
     );

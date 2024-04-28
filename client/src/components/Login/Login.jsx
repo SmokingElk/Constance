@@ -35,7 +35,7 @@ const Login = props => {
                     <div className={classes.authInfo}>{authInfo}</div>
 
                     <div className={classes.loginBtn}>
-                        <Button onClick={() => props.sendAuthRequest()} text="Login" />
+                        <Button onClick={() => props.sendAuthRequest()} text="Login" showLoader={props.isFetching}/>
                     </div>
                     
 

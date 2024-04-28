@@ -1,5 +1,6 @@
 const RESET = "RESET";
 const ADD_PACK = "ADD-PACK";
+const SET_FETCHING = "SET-FETCHING";
 
 const initialState = {
     demo: false,
@@ -7,6 +8,8 @@ const initialState = {
     isEnded: false,
     packsLoaded: 0,
     foundedUsersData: [],
+
+    isFetching: false,
 };
 
 const searchReducer = (state = initialState, action) => {
@@ -32,6 +35,13 @@ const searchReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.value,
+            }
+        }
+
         default:
             return state;
     }
@@ -39,5 +49,6 @@ const searchReducer = (state = initialState, action) => {
 
 export const resetSearchResults = () => ({type: RESET});
 export const addSearchPack = (pack, isEnded) => ({type: ADD_PACK, pack, isEnded});
+export const setSearchFetching = value => ({type: SET_FETCHING, value});
 
 export default searchReducer;

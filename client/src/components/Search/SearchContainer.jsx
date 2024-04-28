@@ -1,7 +1,7 @@
 import React from "react";
 import Search from "./Search";
 import { connect } from "react-redux";
-import { addSearchPack, resetSearchResults } from "../../redux/searchReducer";
+import { addSearchPack, resetSearchResults, setSearchFetching } from "../../redux/searchReducer";
 import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter.js";
 import withRouter from "../Utils/WithRouter.jsx";
@@ -16,6 +16,8 @@ class SearchContainer extends React.Component {
     loadNextPack (packNum = this.props.packsLoaded) {
         if (this.props.demo) return;
 
+        this.props.setSearchFetching(true);
+
         axios.get("http://localhost:5000/api/v1/search/get_pack", {
             params: {
                 jwtToken: getJWT(),
@@ -26,6 +28,8 @@ class SearchContainer extends React.Component {
         }).catch(error => {
             let status = error.response.status;
             if (status === 401) this.props.router.navigate("/login");
+        }).finally(() => {
+            this.props.setSearchFetching(false);
         });
     }
 
@@ -39,12 +43,14 @@ const mapStateToProps = state => ({
     isEnded: state.search.isEnded,
     packsLoaded: state.search.packsLoaded,
     foundedUsersData: state.search.foundedUsersData,
+    isFetching: state.search.isFetching,
     userSex: state.entered.sex,
 });
 
 const mapDispatchToProps = {
     resetSearchResults,
     addSearchPack,    
+    setSearchFetching,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchContainer));

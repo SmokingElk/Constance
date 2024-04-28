@@ -3,6 +3,7 @@ const UPDATE_PASSWORD = "UPDATE-PASSWORD";
 const UPDATE_SEX = "UPDATE-SEX";
 const UPDATE_BIRTHDATE = "UPDATE-BIRTHDATE";
 const CHANGE_SIGNUP_STATUS = "CHANGE-SIGNUP-STATUS";
+const SET_FETCHING = "SET-FETCHING";
 
 export const SIGNUP_STATUS_NONE = "SIGNUP-STATUS-NONE";
 export const SIGNUP_STATUS_INCOMPLETE_DATA = "SIGNUP-STATUS-INCOMPLETE-DATA";
@@ -17,6 +18,8 @@ const initialState = {
     isMale: true,
     birthdate: "",
     signupStatus: SIGNUP_STATUS_NONE,
+
+    isFetching: false,
 };
 
 const signupReducer = (state = initialState, action) => {
@@ -70,7 +73,14 @@ const signupReducer = (state = initialState, action) => {
                 birthdate: action.birthdate,
             }
         }
-    
+
+        case SET_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.value,
+            }
+        }
+
         default:
             return state;
     }
@@ -81,5 +91,6 @@ export const updateSignupPassword = password => ({type: UPDATE_PASSWORD, passwor
 export const updateSex = isMale => ({type: UPDATE_SEX, isMale});
 export const updateBirthdate = birthdate => ({type: UPDATE_BIRTHDATE, birthdate});
 export const changeSignupStatus = status => ({type: CHANGE_SIGNUP_STATUS, status});
+export const setSignupFetching = value => ({type: SET_FETCHING, value});
 
 export default signupReducer;

@@ -1,3 +1,4 @@
+import Loader from "../../Utils/Loader/Loader";
 import createBinaryPreferenceSettingsContainer from "./PreferenceSettingComponents/BinaryPreferenceSettings/BinaryPreferenceSettingsContainer";
 import createContinuousPreferenceSettingsContainer from "./PreferenceSettingComponents/ContinousPreferenceSettings/ContinuousPreferenceSettingsContainer";
 import createDiscretPreferenceSettingsContainer from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettingContainer";
@@ -51,6 +52,7 @@ const Preferences = props => {
 
     return (
         <div className={classes.body}>
+            {props.isFetching && <Loader size={80} black={true} />}
             <div className={classes.preferencesContainer}>{groups}</div>
         </div>
     );

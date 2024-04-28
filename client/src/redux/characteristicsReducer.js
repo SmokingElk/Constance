@@ -2,12 +2,14 @@ const SET_POSSIBLE_GROUPS = "SET-POSSIBLE-GROUPS";
 const INIT_CHARACTERISTICS_DATA = "INIT-CHARACTERISTICS-DATA";
 const LOAD_CHARACTERISTICS_DATA = "LOAD-CHARACTERISTICS-DATA" 
 const PATCH_CHARACTERISTICS_DATA = "PATCH-CHARACTERISTICS-DATA";
+const SET_FETCHING = "SET-FETCHING";
 
 const initialState = {
     demo: false,
     groups: [],
     characteristicsTree: {},
     characteristicsData: {},
+    isFetching: false
 }
 
 const validateCharacteristicsDataKeys = (group, id, state, requiredType = "any") => {
@@ -85,7 +87,14 @@ const characteristicsReducer = (state = initialState, action) => {
                 }
             };
         }
-    
+
+        case SET_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.value,
+            }
+        }
+
         default:
             return state;
     }
@@ -128,5 +137,6 @@ export const setPossibleCharacteristicsGroups = groups => ({type: SET_POSSIBLE_G
 export const initCharacteristicsData = characteristicsData => ({type: INIT_CHARACTERISTICS_DATA, characteristicsData});
 export const loadCharacteristicsData = loadData => ({type: LOAD_CHARACTERISTICS_DATA, loadData});
 export const patchCharacteristicsData = (group, id, newData) => ({type: PATCH_CHARACTERISTICS_DATA, group, id, newData});
+export const setCharacteristicsFetching = value => ({type: SET_FETCHING, value});
 
 export default characteristicsReducer;

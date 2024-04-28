@@ -4,12 +4,14 @@ const PATCH_PREFERENCES_DATA = "PATCH-PREFERENCES-DATA";
 const PATCH_DISCRET_COEF = "PATCH-DISCRETE-COEF";
 const PATCH_CONTINUOUS_SPREAD = "PATCH-CONTINUOUS-SPREAD";
 const LOAD_PREFERENCES_DATA = "LOAD-PREFERENCES-DATA";
+const SET_FETCHING = "SET-FETCHING";
 
 const initialState = {
     demo: false,
     groups: [],
     preferencesData: {},
     preferencesTree: {},
+    isFetching: false
 }
 
 const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
@@ -132,6 +134,13 @@ const preferencesReducer = (state = initialState, action) => {
                 }
             };
         }
+
+        case SET_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.value,
+            }
+        }
     
         default:
             return state;
@@ -177,5 +186,6 @@ export const loadPreferencesData = loadData => ({type: LOAD_PREFERENCES_DATA, lo
 export const patchPreferencesData = (group, id, newData) => ({type: PATCH_PREFERENCES_DATA, group, id, newData});
 export const patchDiscretCoef = (group, id, col, newValue) => ({type: PATCH_DISCRET_COEF, group, id, col, newValue});
 export const patchContinuousSpread = (group, id, x, y) => ({type: PATCH_CONTINUOUS_SPREAD, group, id, x, y})
+export const setPreferencesFetching = value => ({type: SET_FETCHING, value});
 
 export default preferencesReducer;

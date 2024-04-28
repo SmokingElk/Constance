@@ -1,7 +1,7 @@
 import React from "react";
 import Signup from "./Signup";
 import { connect } from "react-redux";
-import { SIGNUP_STATUS_ALREADY_EXISTS, SIGNUP_STATUS_INCOMPLETE_DATA, SIGNUP_STATUS_INVALID_DATA, SIGNUP_STATUS_NONE, SIGNUP_STATUS_SUCCESS, SIGNUP_STATUS_TOO_YOUNG, changeSignupStatus, updateBirthdate, updateSex, updateSignupPassword, updateSignupUsername } from "../../redux/signupReducer";
+import { SIGNUP_STATUS_ALREADY_EXISTS, SIGNUP_STATUS_INCOMPLETE_DATA, SIGNUP_STATUS_INVALID_DATA, SIGNUP_STATUS_NONE, SIGNUP_STATUS_SUCCESS, SIGNUP_STATUS_TOO_YOUNG, changeSignupStatus, setSignupFetching, updateBirthdate, updateSex, updateSignupPassword, updateSignupUsername } from "../../redux/signupReducer";
 import axios from "axios";
 import { setEntered } from "../../redux/enteredReducer";
 import { getJWT, setJWT } from "../../global_logic/userEnter";
@@ -15,6 +15,8 @@ class SignupContainer extends React.Component {
             this.props.changeSignupStatus(SIGNUP_STATUS_INCOMPLETE_DATA);
             return;
         }
+
+        this.props.setSignupFetching(true);
 
         axios.post("http://localhost:5000/api/v1/user/sign_up", {
             username: this.props.usernameFieldValue,
@@ -34,6 +36,8 @@ class SignupContainer extends React.Component {
             let status = error.response.status;
             if (status === 400) this.props.changeSignupStatus(SIGNUP_STATUS_INVALID_DATA);
             if (status === 409) this.props.changeSignupStatus(SIGNUP_STATUS_ALREADY_EXISTS);
+        }).finally(() => {
+            this.props.setSignupFetching(false);
         });
     }
 
@@ -48,6 +52,7 @@ const mapStateToProps = state => ({
     isMale: state.signup.isMale,
     birthdate: state.signup.birthdate,
     signupStatus: state.signup.signupStatus,
+    isFetching: state.signup.isFetching,
 });
 
 const mapDispatchToProps = {
@@ -56,6 +61,7 @@ const mapDispatchToProps = {
     updateBirthdate,
     updateSex,
     changeSignupStatus,
+    setSignupFetching,
     setEntered,
 };
 

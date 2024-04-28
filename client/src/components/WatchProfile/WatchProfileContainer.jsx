@@ -2,7 +2,7 @@ import React from "react";
 import WatchProfile from "./WatchProfile";
 import { connect } from "react-redux";
 import withRouter from "../Utils/WithRouter";
-import { setWatchProfileData } from "../../redux/watchProfileReducer";
+import { setWatchProfileData, setWatchProfileFetching } from "../../redux/watchProfileReducer";
 import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter";
 
@@ -11,6 +11,8 @@ class WatchProfileContainer extends React.Component {
         if (this.props.demo) return;
 
         let id = Number(this.props.router?.params?.userId ?? 0);
+
+        this.props.setWatchProfileFetching(true);
 
         axios.get(`http://localhost:5000/api/v1/profile/get_data_to_view/${id}`, {
             params: {
@@ -22,6 +24,8 @@ class WatchProfileContainer extends React.Component {
             let status = error.response.status;
             if (status === 401) this.props.router.navigate("/login");
             if (status === 404) return;
+        }).finally(() => {
+            this.props.setWatchProfileFetching(false);
         });
     }
 
@@ -33,10 +37,12 @@ class WatchProfileContainer extends React.Component {
 const mapStateToProps = state => ({
     demo: state.watchProfile.demo, 
     profileData: state.watchProfile.profileData,
+    isFetching: state.watchProfile.isFetching,
 });
 
 const mapDispatchToProps = {
     setProfileData: setWatchProfileData,
+    setWatchProfileFetching,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WatchProfileContainer));
