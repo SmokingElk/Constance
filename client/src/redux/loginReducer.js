@@ -1,6 +1,7 @@
 const UPDATE_USERNAME = "UPDATE-USERNAME";
 const UPDATE_PASSWORD = "UPDATE-PASSWORD";
 const CHANGE_AUTH_STATUS = "CHANGE-AUTH-STATUS";
+const SET_FETCHING = "SET-FETCHING";
 
 export const AUTH_STATUS_NONE = "AUTH-NONE";
 export const AUTH_STATUS_INCORRECT_DATA = "AUTH-STATUS-INCORRECT-DATA";
@@ -11,6 +12,8 @@ const initialState = {
     usernameFieldValue: "",
     passwordFieldValue: "",
     authStatus: AUTH_STATUS_NONE,
+
+    isFetching: false,
 };
 
 const loginReducer = (state = initialState, action) => {
@@ -49,6 +52,13 @@ const loginReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_FETCHING: {
+            return {
+                ...state,
+                isFetching: action.value,
+            }
+        }
+
         default:
             return state;
     }
@@ -57,5 +67,6 @@ const loginReducer = (state = initialState, action) => {
 export const updateLoginUsername = username => ({type: UPDATE_USERNAME, username});
 export const updateLoginPassword = password => ({type: UPDATE_PASSWORD, password});
 export const changeAuthStatus = status => ({type: CHANGE_AUTH_STATUS, status});
+export const setLoginFetching = value => ({type: SET_FETCHING, value});
 
 export default loginReducer;

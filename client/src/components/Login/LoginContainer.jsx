@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Login from "./Login";
-import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, updateLoginPassword, updateLoginUsername } from "../../redux/loginReducer";
+import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, setLoginFetching, updateLoginPassword, updateLoginUsername } from "../../redux/loginReducer";
 import axios from "axios";
 import { getJWT, setJWT } from "../../global_logic/userEnter";
 import { setEntered } from "../../redux/enteredReducer";
@@ -13,6 +13,8 @@ class LoginContainer extends React.Component {
             this.props.changeAuthStatus(AUTH_STATUS_INCOMPLETE_DATA);
             return;
         }
+
+        this.props.setLoginFetching(true);
 
         axios.get("http://localhost:5000/api/v1/user/auth", {
             params: {
@@ -32,6 +34,8 @@ class LoginContainer extends React.Component {
             let status = error.response.status;
             if (status === 400) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA); 
             if (status === 404) this.props.changeAuthStatus(AUTH_STATUS_INCORRECT_DATA);
+        }).finally(() => {
+            this.props.setLoginFetching(false);
         });
     }
 
@@ -44,6 +48,7 @@ const mapStateToProps = state => ({
     usernameFieldValue: state.login.usernameFieldValue,
     passwordFieldValue: state.login.passwordFieldValue,
     authStatus: state.login.authStatus,
+    isFetching: state.login.isFetching,
 });
 
 const mapDispatchToProps = {
@@ -51,6 +56,7 @@ const mapDispatchToProps = {
     updatePassword: updateLoginPassword,
     changeAuthStatus, 
     setEntered,
+    setLoginFetching,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginContainer));
