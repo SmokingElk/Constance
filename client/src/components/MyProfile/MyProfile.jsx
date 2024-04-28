@@ -3,6 +3,7 @@ import photoPlaceholder from "../../assets/imgs/teamlid_avatar.jpg";
 import checkedMark from "../../assets/imgs/check_mark.svg";
 import Container from "../Utils/Container/Container";
 import Loader from "../Utils/Loader/Loader";
+import SavingIndicator from "../Utils/SavingIndicator/SavingIndicator";
 
 const MyProfile = props => {
     const onFirstnameChange = event => {
@@ -34,9 +35,6 @@ const MyProfile = props => {
         props.updatePhone(event.target.value);
         props.requestProfileDataUpdate({phone_number: event.target.value});
     };
-
-    let savingContent = props.isPatching ? <><Loader size={30} /> saving...</> :
-    <><img src={checkedMark} className={classes.checkedMark} /> saved</>
 
     return (
         <Container>
@@ -83,9 +81,7 @@ const MyProfile = props => {
                 </div>
             </div>
             
-            <div className={classes.savingIndicator + " " + (props.isPatching ? classes.active : "")}>
-                {savingContent}
-            </div>
+            <SavingIndicator saving={props.isPatching} />
         </Container>
     );
 }

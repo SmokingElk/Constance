@@ -3,14 +3,18 @@ const INIT_CHARACTERISTICS_DATA = "INIT-CHARACTERISTICS-DATA";
 const LOAD_CHARACTERISTICS_DATA = "LOAD-CHARACTERISTICS-DATA" 
 const PATCH_CHARACTERISTICS_DATA = "PATCH-CHARACTERISTICS-DATA";
 const SET_FETCHING = "SET-FETCHING";
+const ADD_PATCHER = "ADD-PATCHER";
+const DELETE_PATCHER = "DELETE-PATCHER";
 
 const initialState = {
     demo: false,
     groups: [],
     characteristicsTree: {},
     characteristicsData: {},
-    isFetching: false
-}
+    isFetching: false,
+    patchers: [],
+    isPatching: false,
+};
 
 const validateCharacteristicsDataKeys = (group, id, state, requiredType = "any") => {
     if (!state.groups.includes(group)) throw new Error(`Unexpected group ${group} in characteristic patch`);
@@ -88,6 +92,24 @@ const characteristicsReducer = (state = initialState, action) => {
             };
         }
 
+        case ADD_PATCHER: {
+            return {
+                ...state,
+                isPatching: true,
+                patchers: [...state.patchers, action.id], 
+            }
+        }
+
+        case DELETE_PATCHER: {
+            let patchers = state.patchers.filter(e => e !== action.id);
+
+            return {
+                ...state,
+                isPatching: patchers.length > 0,
+                patchers,
+            }
+        }
+
         case SET_FETCHING: {
             return {
                 ...state,
@@ -138,5 +160,7 @@ export const initCharacteristicsData = characteristicsData => ({type: INIT_CHARA
 export const loadCharacteristicsData = loadData => ({type: LOAD_CHARACTERISTICS_DATA, loadData});
 export const patchCharacteristicsData = (group, id, newData) => ({type: PATCH_CHARACTERISTICS_DATA, group, id, newData});
 export const setCharacteristicsFetching = value => ({type: SET_FETCHING, value});
+export const addCharacteristicsPatcher = id => ({type: ADD_PATCHER, id});
+export const deleteCharacteristicsPatcher = id => ({type: DELETE_PATCHER, id});
 
 export default characteristicsReducer;

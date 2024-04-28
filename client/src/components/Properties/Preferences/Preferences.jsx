@@ -3,6 +3,7 @@ import createBinaryPreferenceSettingsContainer from "./PreferenceSettingComponen
 import createContinuousPreferenceSettingsContainer from "./PreferenceSettingComponents/ContinousPreferenceSettings/ContinuousPreferenceSettingsContainer";
 import createDiscretPreferenceSettingsContainer from "./PreferenceSettingComponents/DiscretPreferenceSettings/DiscretPreferenceSettingContainer";
 import classes from "./Preferences.module.css";
+import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
 const createGroups = (preferencesTree, sex) => {
     let groups = [];
@@ -54,6 +55,8 @@ const Preferences = props => {
         <div className={classes.body}>
             {props.isFetching && <Loader size={80} black={true} />}
             <div className={classes.preferencesContainer}>{groups}</div>
+
+            <SavingWrapper />
         </div>
     );
 }

@@ -12,7 +12,7 @@
     box-sizing: border-box;
 }
 
-.title, .label, .savingIndicator {
+.title, .label {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
