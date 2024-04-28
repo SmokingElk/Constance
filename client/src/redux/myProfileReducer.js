@@ -8,7 +8,8 @@ const initialState = {
     aboutMeNumberFieldValue: "",
     locationFieldValue: "",
     photoName: "placeholder",
-    isFetching: false
+    isFetching: false,
+    isPatching: false,
 };
 
 const UPDATE_FIRSTNAME = "UPDATE-FIRSTNAME";
@@ -19,6 +20,7 @@ const UPDATE_ABOUT_ME = "UPDATE-ABOUT-ME";
 const UPDATE_LOCATION = "UPDATE-LOCATION"; 
 const UPDATE_PHOTO = "UPDATE-PHOTO";
 const SET_FETCHING = "SET-FETCHING";
+const SET_PATCHING = "SET-PATCHING";
 
 const myProfileReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -77,6 +79,13 @@ const myProfileReducer = (state = initialState, action) => {
                 isFetching: action.value,
             }
         }
+
+        case SET_PATCHING: {
+            return {
+                ...state,
+                isPatching: action.value,
+            }
+        }
     
         default:
             return state;
@@ -91,5 +100,6 @@ export const updateMyProfileAboutMe = fieldValue => ({type: UPDATE_ABOUT_ME, fie
 export const updateMyProfileLocation = fieldValue => ({type: UPDATE_LOCATION, fieldValue});
 export const updateMyProfilePhoto = photoName => ({type: UPDATE_PHOTO, photoName});
 export const setMyProfileFetching = value => ({type: SET_FETCHING, value});
+export const setMyProfilePatching = value => ({type: SET_PATCHING, value});
 
 export default myProfileReducer;

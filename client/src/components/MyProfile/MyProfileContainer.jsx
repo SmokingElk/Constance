@@ -1,7 +1,7 @@
 import React from "react";
 import MyProfile from "./MyProfile";
 import { connect } from "react-redux";
-import { setMyProfileFetching, updateMyProfileAboutMe, updateMyProfileFirstname, updateMyProfileLastname, updateMyProfileLocation, updateMyProfilePhone, updateMyProfilePhoto, updateMyProfileSocial } from "../../redux/myProfileReducer";
+import { setMyProfileFetching, setMyProfilePatching, updateMyProfileAboutMe, updateMyProfileFirstname, updateMyProfileLastname, updateMyProfileLocation, updateMyProfilePhone, updateMyProfilePhoto, updateMyProfileSocial } from "../../redux/myProfileReducer";
 import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
@@ -37,6 +37,8 @@ class MyProfileContainer extends React.Component {
     requestProfileDataUpdate (patch) {
         if (this.props.demo) return;
 
+        this.props.setMyProfilePatching(true);
+
         clearTimeout(this.updateTimerId);
 
         this.nextPatch = {
@@ -57,7 +59,7 @@ class MyProfileContainer extends React.Component {
                 if (status === 401) this.props.router.navigate("/login");
                 if (status === 404) return;
             }).finally(() => {
-                console.log("patched", patchData);
+                if (this.updateTimerId === -1) this.props.setMyProfilePatching(false);
             });
         }, 3000);
     }
@@ -107,6 +109,7 @@ const mapStateToProps = state => ({
     locationFieldValue: state.myProfile.locationFieldValue,
     photoName: state.myProfile.photoName,
     isFetching: state.myProfile.isFetching,
+    isPatching: state.myProfile.isPatching,
 });
 
 const mapDispathToProps = {
@@ -118,6 +121,7 @@ const mapDispathToProps = {
     updateLocation: updateMyProfileLocation,
     updatePhoto: updateMyProfilePhoto,
     setMyProfileFetching,
+    setMyProfilePatching,
 };
 
 export default connect(mapStateToProps, mapDispathToProps)(withRouter(MyProfileContainer));
