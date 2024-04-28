@@ -1,4 +1,5 @@
 import Container from "../Utils/Container/Container";
+import Loader from "../Utils/Loader/Loader";
 import classes from "./Search.module.css";
 import UserCard from "./UserCard/UserCard";
 
@@ -19,9 +20,10 @@ const createCards = (foundedUsersData, userSex) => {
 
 const Search = props => {
     const cards = createCards(props.foundedUsersData, props.userSex);
+    
     const loadMoreBtn = <button 
     className={classes.loadMoreBtn + " " + (props.userSex ? classes.pink : "")} 
-    onClick={() => props.loadNextPack()}>load more</button>;
+    onClick={() => props.loadNextPack()}>load more {props.isFetching && <Loader />}</button>;
     
     return (
         <Container>
