@@ -10,19 +10,14 @@ class ContinuousPreferenceSettingsContainer extends React.Component {
     updateTimerId = -1;
     nextPatch = {};
 
-    patch (newData) {
-        this.props.patchPreferencesData(this.props.group, this.props.id, newData);
+    requestPatch (nextPatch) {
+        if (this.props.demo) return;
 
         this.props.addPreferencesPatcher(this.props.id);
 
-        if (this.props.demo) return;
-
         clearTimeout(this.updateTimerId);
 
-        this.nextPatch = {
-            ...this.nextPatch,
-            ...newData,
-        };
+        this.nextPatch = nextPatch;
 
         this.updateTimerId = setTimeout(() => {
             this.updateTimerId = -1;
@@ -44,22 +39,29 @@ class ContinuousPreferenceSettingsContainer extends React.Component {
         }, 3000);
     }
 
+    patch (newData) {
+        this.props.patchPreferencesData(this.props.group, this.props.id, newData);
+
+        this.requestPatch({
+            ...this.nextPatch,
+            ...newData,
+        });
+    }
+
     patchSpread (x, y) {
         this.props.patchContinuousSpread(this.props.group, this.props.id, x, y);
     
         if (this.props.demo) return;
 
-        axios.put("http://localhost:5000/api/v1/prefs/patch_pref", {
-            jwtToken: getJWT(),
-            id: this.props.id,
-            patch: {
-                point: { x, y },
-            },
-        }).catch(error => {
-            let status = error.response.status;
-            if (status === 400) return;
-            if (status === 401) this.props.router.navigate("/login");
-            if (status === 404) this.props.router.navigate("/login");
+        let points = (this.nextPatch.points ?? []).map(e => ({...e}));
+
+        let pointOld = points.find(e => e.x === x);
+        if (pointOld) pointOld.y = y;
+        else points.push({x, y});
+
+        this.requestPatch({
+            ...this.nextPatch,
+            points,
         });
     }
     
