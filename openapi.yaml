@@ -570,7 +570,15 @@ components:
           example: false
         columnsCoefs:
           type: array
-          example: [1.0, 2.0, 0.4]
+          items:
+            type: object
+            properties:
+              columnNumber:
+                type: number
+                example: 1
+              coef:
+                type: number
+                example: 0.5
     
     ContinousPrefData:
       type: object
@@ -593,15 +601,17 @@ components:
         otherNegative:
           type: boolean
           example: false
-        point:
-          type: object
-          properties: 
-            x: 
-              type: number
-              example: 1
-            y: 
-              type: number
-              example: 0.5
+        points:
+          type: array
+          items:
+            type: object
+            properties: 
+              x: 
+                type: number
+                example: 1
+              y: 
+                type: number
+                example: 0.5
     
     BinaryPatch:
       type: object
