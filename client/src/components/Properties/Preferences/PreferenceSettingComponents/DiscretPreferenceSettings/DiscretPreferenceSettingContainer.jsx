@@ -10,19 +10,14 @@ class DiscretPreferenceSettingsContainer extends React.Component {
     updateTimerId = -1;
     nextPatch = {};
 
-    patch (newData) {
-        this.props.patchPreferencesData(this.props.group, this.props.id, newData);
-
-        this.props.addPreferencesPatcher(this.props.id);
-
+    requestPatch (nextPatch) {
         if (this.props.demo) return;
+        
+        this.props.addPreferencesPatcher(this.props.id);
 
         clearTimeout(this.updateTimerId);
 
-        this.nextPatch = {
-            ...this.nextPatch,
-            ...newData,
-        };
+        this.nextPatch = nextPatch;
 
         this.updateTimerId = setTimeout(() => {
             this.updateTimerId = -1;
@@ -44,25 +39,29 @@ class DiscretPreferenceSettingsContainer extends React.Component {
         }, 3000);
     }
 
+    patch (newData) {
+        this.props.patchPreferencesData(this.props.group, this.props.id, newData);
+
+        this.requestPatch({
+            ...this.nextPatch,
+            ...newData,
+        });   
+    }
+
     patchCoef (column, newValue) {
         this.props.patchDiscretCoef(this.props.group, this.props.id, column, newValue);
     
         if (this.props.demo) return;
 
-        axios.put("http://localhost:5000/api/v1/prefs/patch_pref", {
-            jwtToken: getJWT(),
-            id: this.props.id,
-            patch: {
-                columnCoef: {
-                    columnNumber: column,
-                    coef: newValue,
-                }
-            },
-        }).catch(error => {
-            let status = error.response.status;
-            if (status === 400) return;
-            if (status === 401) this.props.router.navigate("/login");
-            if (status === 404) this.props.router.navigate("/login");
+        let columnsCoefs = (this.nextPatch.columnsCoefs ?? []).map(e => ({...e}));
+
+        let variantOld = columnsCoefs.find(e => e.columnNumber === column);
+        if (variantOld) variantOld.coef = newValue;
+        else columnsCoefs.push({columnNumber: column, coef: newValue});
+
+        this.requestPatch({
+            ...this.nextPatch,
+            columnsCoefs,
         });
     }
 
