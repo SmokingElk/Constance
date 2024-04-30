@@ -570,15 +570,7 @@ components:
           example: false
         columnsCoefs:
           type: array
-          items:
-            type: object
-            properties:
-              columnNumber:
-                type: number
-                example: 1
-              coef:
-                type: number
-                example: 0.5
+          example: [1.0, 2.0, 0.4]
     
     ContinousPrefData:
       type: object
@@ -601,17 +593,9 @@ components:
         otherNegative:
           type: boolean
           example: false
-        points:
+        spreadPoints:
           type: array
-          items:
-            type: object
-            properties: 
-              x: 
-                type: number
-                example: 1
-              y: 
-                type: number
-                example: 0.5
+          example: [1.0, 2.0, 0.4]
     
     BinaryPatch:
       type: object
@@ -638,15 +622,17 @@ components:
         otherNegative:
           type: boolean
           example: false
-        columnCoef:
-          type: object
-          properties:
-            columnNumber:
-              type: number
-              example: 0
-            coef:
-              type: number
-              example: 0.5
+        columnsCoefs:
+          type: array
+          items:
+            type: object
+            properties:
+              columnNumber:
+                type: number
+                example: 1
+              coef:
+                type: number
+                example: 0.5
 
     ContinousPatch:
       type: object
@@ -660,9 +646,17 @@ components:
         otherNegative:
           type: boolean
           example: false
-        spreadPoints:
+        points:
           type: array
-          example: [1.0, 2.0, 0.4]
+          items:
+            type: object
+            properties: 
+              x: 
+                type: number
+                example: 1
+              y: 
+                type: number
+                example: 0.5
 
     BinaryCharData:
       type: object
