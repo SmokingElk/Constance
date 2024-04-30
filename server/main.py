@@ -21,11 +21,16 @@ def authorization():
     password = data.get("password")
     if not database.is_user_exists(username):
         abort(404)
-    id_of_user = database.checking_for_authorized_user(username, password)
-    if id_of_user == -1:
+    user_id = database.checking_for_authorized_user(username, password)
+    if user_id == -1:
         abort(400)
+    data = database.get_primary_data(user_id)
+    sex = data[1]
+    date_of_birth = data[2]
     res = {"username": username,
-           "jwtToken": jwt_generator.generate_jwt_token(id_of_user)
+           "jwtToken": jwt_generator.generate_jwt_token(user_id),
+           "sex": sex,
+           "birthdate": date_of_birth
            }
     return make_response(res, 200)
 

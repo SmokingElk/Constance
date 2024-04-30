@@ -1,6 +1,7 @@
 import psycopg2
 import configparser
 import json
+import time
 PROPERTIES_FILE_PATH = './static/properties_data.json'
 
 
@@ -14,42 +15,40 @@ class GetterOfRates:
         name_of_host = config.get('Settings_of_bd', 'host')
         self.conn = psycopg2.connect(dbname=data_base_name, user=username_of_database,
                                      password=password_of_database, host=name_of_host)
+        self.date_of_last_change = 0
+        self.data_cache = []
 
     def __del__(self):
         self.conn.close()
 
     def get_rates(self, prefs_of_id, user_id):
-        cursor = self.conn.cursor()
-        cursor.execute('''SELECT id, "Gender" FROM "Autorisation"''')
-        records = list(cursor.fetchall())
-        user_gender = [i[1] for i in records if i[0] == user_id][0]
-        lst_of_users = [i[0] for i in records if i[1] != user_gender]
-        ans = []
-        for_sort = []
-        cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
-        chars_of_user = list(cursor.fetchall())[0][1:]
-        for i in lst_of_users:
-            cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (i, ))
-            chars_of_current = list(cursor.fetchall())[0][1:]
-            cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (i,))
-            prefs_of_current = list(cursor.fetchall())[0][1:]
-            rate_1_2 = self.count_rate([json.loads(i) for i in chars_of_current], [json.loads(i) for i in prefs_of_id])
-            rate_2_1 = self.count_rate([json.loads(i) for i in chars_of_user],
-                                       [json.loads(i) for i in prefs_of_current])
-            t_s = self.func(rate_1_2, rate_2_1)
-            res = {
-                'id': i,
-                'rate': rate_1_2,
-                'ts': t_s
-            }
-            for_sort.append([i, t_s])
-            ans.append(res)
-        for_sort = sorted(for_sort, key=lambda x: x[1], reverse=True)
+        if user_id in [i[0] for i in self.data_cache]:
+            last_data = self.data_finder(user_id)
+            date_of_last_count = last_data[2]
+            self.data_cache.remove(last_data)
+            if date_of_last_count > self.date_of_last_change:
+                last_data[2] = time.time()
+                if len(self.data_cache) >= 100:
+                    self.data_cache.pop(0)
+                self.data_cache.append(last_data)
+            else:
+                new_data_to_change = self.counter(user_id, prefs_of_id)
+                if len(self.data_cache) >= 100:
+                    self.data_cache.pop(0)
+                self.data_cache.append(new_data_to_change)
+        else:
+            ans = self.counter(user_id, prefs_of_id)
+            if len(self.data_cache) >= 100:
+                self.data_cache.pop(0)
+            self.data_cache.append(ans)
+        data_from_cache = self.data_finder(user_id)[1]
         data_for_return = []
-        for i in for_sort:
-            for j in ans:
-                if i[0] == j['id']:
-                    data_for_return.append(j)
+        for key, value in data_from_cache.items():
+            res = {'id': key,
+                   'rate': data_from_cache[key][0],
+                   'ts': data_from_cache[key][1],
+                   }
+            data_for_return.append(res)
         return data_for_return
 
     @staticmethod
@@ -67,7 +66,7 @@ class GetterOfRates:
         for j in range(0, len(variants)):
             if variants[j] == v:
                 return j
-        raise AssertionError()
+        return False
 
     @staticmethod
     def get_index_for_continious(value, list_spread, i: int) -> float:
@@ -118,3 +117,49 @@ class GetterOfRates:
                 else:
                     ans_value -= float(prefs[i]['negativeScale']) * float(res) / n_f_of_id
         return ans_value
+
+    def getter_of_last_update_in_tables(self, date_of_change):
+        self.date_of_last_change = date_of_change
+
+    def data_finder(self, user_id):
+        for i in self.data_cache:
+            if i[0] == user_id:
+                return i
+
+    def counter(self, user_id, prefs_of_id):
+        cursor = self.conn.cursor()
+        cursor.execute('''SELECT id, "Gender" FROM "Autorisation"''')
+        records = list(cursor.fetchall())
+        user_gender = [i[1] for i in records if i[0] == user_id][0]
+        lst_of_users = [i[0] for i in records if i[1] != user_gender]
+        ans = []
+        for_sort = []
+        cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
+        chars_of_user = list(cursor.fetchall())[0][1:]
+        for i in lst_of_users:
+            cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (i,))
+            chars_of_current = list(cursor.fetchall())[0][1:]
+            cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (i,))
+            prefs_of_current = list(cursor.fetchall())[0][1:]
+            rate_1_2 = self.count_rate([json.loads(i) for i in chars_of_current],
+                                       [json.loads(i) for i in prefs_of_id])
+            rate_2_1 = self.count_rate([json.loads(i) for i in chars_of_user],
+                                       [json.loads(i) for i in prefs_of_current])
+            t_s = self.func(rate_1_2, rate_2_1)
+            res = {
+                'id': i,
+                'rate': rate_1_2,
+                'ts': t_s
+            }
+            for_sort.append([i, t_s])
+            ans.append(res)
+        for_sort = sorted(for_sort, key=lambda x: x[1], reverse=True)
+        data_for_return = []
+        for i in for_sort:
+            for j in ans:
+                if i[0] == j['id']:
+                    data_for_return.append(j)
+        new_data = {}
+        for i in data_for_return:
+            new_data[i['id']] = [i['rate'], i['ts']]
+        return [user_id, new_data, int(time.time())]
