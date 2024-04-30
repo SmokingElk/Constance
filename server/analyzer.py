@@ -2,49 +2,40 @@ import json
 PROPERTIES_FILE_PATH = './static/properties_data.json'
 
 
-def get_datatype(i):
-    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
-    a = a.read()
-    a = json.loads(a)
-    b = a['propertiesData']
-    c = b[int(i)]['type']
-    return c
+class Analyzer:
+    def __init__(self):
+        f = open(PROPERTIES_FILE_PATH, encoding='utf-8')
+        f = f.read()
+        self.a = json.loads(f)
 
+    def get_datatype(self, i):
+        b = self.a['propertiesData']
+        c = b[int(i)]['type']
+        return c
 
-def get_default(i):
-    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
-    a = a.read()
-    a = json.loads(a)
-    b = a['propertiesData']
-    c = b[i]['type']
-    if c == 'binary' or c == 'discrete':
-        return b[i]['default']
-    else:
-        if c == 'continuous' and isinstance(b[i]['averageValue'], str):
-            mn = b[i]['range']['min']
-            mx = b[i]['range']['max']
-            return (mn + mx) / 2
+    def get_default(self, i):
+        b = self.a['propertiesData']
+        c = b[i]['type']
+        if c == 'binary' or c == 'discrete':
+            return b[i]['default']
         else:
-            return b[i]["averageValue"]
+            if c == 'continuous' and isinstance(b[i]['averageValue'], str):
+                mn = b[i]['range']['min']
+                mx = b[i]['range']['max']
+                return (mn + mx) / 2
+            else:
+                return b[i]["averageValue"]
 
+    def get_group(self, i):
+        b = self.a['propertiesData']
+        c = b[i]['group']
+        return c
 
-def get_group(i):
-    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
-    a = a.read()
-    a = json.loads(a)
-    b = a['propertiesData']
-    c = b[i]['group']
-    return c
-
-
-def get_data(i, key):
-    a = open(PROPERTIES_FILE_PATH, encoding='utf-8')
-    a = a.read()
-    a = json.loads(a)
-    b = a['propertiesData']
-    if key == 'columnsCoefs':
-        lst = b[i]['variants']
-        new = [1.0 for _ in range(len(lst))]
-    else:
-        new = [1.0 for _ in range(a['globalParams']['segmentsInPartion'])]
-    return new
+    def get_data(self, i, key):
+        b = self.a['propertiesData']
+        if key == 'columnsCoefs':
+            lst = b[i]['variants']
+            new = [1.0 for _ in range(len(lst))]
+        else:
+            new = [1.0 for _ in range(self.a['globalParams']['segmentsInPartion'])]
+        return new

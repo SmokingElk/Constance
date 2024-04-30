@@ -1,9 +1,12 @@
 import psycopg2
 import configparser
 import json
-from analyzer import get_datatype, get_default, get_data, get_group
+from analyzer import Analyzer
 from getter_of_rates import GetterOfRates
+import time
 PACK_SIZE = 2
+GETTER = GetterOfRates()
+ANALYZER = Analyzer()
 
 
 class DatabaseManager:
@@ -109,15 +112,15 @@ class DatabaseManager:
                 cursor = self.conn.cursor()
                 k = 'id_' + str(i)
                 to_bd = {
-                    '''charType''': get_datatype(i),
+                    '''charType''': ANALYZER.get_datatype(i),
                     '''id''': i,
-                    '''value''': get_default(i)
+                    '''value''': ANALYZER.get_default(i)
                 }
                 cursor.execute('''UPDATE "characteristics" SET "%s"=%s WHERE id=%s''',
                                (k, json.dumps(to_bd, ensure_ascii=False,), user_id))
 
         to_bd = {
-            "charType": get_datatype(id_of_ch),
+            "charType": ANALYZER.get_datatype(id_of_ch),
             "id": id_of_ch,
             "value": patch['value']
         }
@@ -125,6 +128,7 @@ class DatabaseManager:
                        (id_of_char, json.dumps(to_bd, ensure_ascii=False,), user_id))
         self.conn.commit()
         cursor.close()
+        GETTER.getter_of_last_update_in_tables(time.time())
 
     def getting_all_chars(self, user_id: int):
         cursor = self.conn.cursor()
@@ -134,7 +138,7 @@ class DatabaseManager:
         data = list(records[0])[1:]
         for i in data:
             new = json.loads(i)
-            new["group"] = get_group(int(new["id"]))
+            new["group"] = ANALYZER.get_group(int(new["id"]))
             data_for_return.append(new)
         return data_for_return
 
@@ -146,7 +150,7 @@ class DatabaseManager:
         data = list(records[0])[1:]
         for i in data:
             new = json.loads(i)
-            new["group"] = get_group(new["id"])
+            new["group"] = ANALYZER.get_group(new["id"])
             data_for_return.append(new)
         return data_for_return
 
@@ -158,7 +162,7 @@ class DatabaseManager:
             cursor.execute('''INSERT INTO "preferences" (id) VALUES (%s)''', (user_id,))
             for i in range(0, 84):
                 cursor = self.conn.cursor()
-                t = get_datatype(i)
+                t = ANALYZER.get_datatype(i)
                 to_bd = {}
                 if t == 'binary':
                     to_bd = {'prefType': t,
@@ -173,7 +177,7 @@ class DatabaseManager:
                              'positiveScale': 1.0,
                              'negativeScale': 1.0,
                              'otherNegative': False,
-                             'columnsCoefs': get_data(i, 'columnsCoefs')
+                             'columnsCoefs': ANALYZER.get_data(i, 'columnsCoefs')
                              }
                 elif t == 'continuous':
                     to_bd = {'prefType': t,
@@ -181,7 +185,7 @@ class DatabaseManager:
                              'positiveScale': 1.0,
                              'negativeScale': 1.0,
                              'otherNegative': False,
-                             'spreadPoints': get_data(i, 'spreadPoints')
+                             'spreadPoints': ANALYZER.get_data(i, 'spreadPoints')
                              }
                 k = f'id_{i}'
                 cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',
@@ -189,32 +193,30 @@ class DatabaseManager:
 
         cursor.execute('''SELECT "'id_''' + str(id_of_ch) + ''''" FROM "preferences" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
-
         to_bd = json.loads(records[0][0])
-
         for key in ["positiveScale", "negativeScale", "otherNegative"]:
             if key in patch:
                 to_bd[key] = patch[key]
-
-        t = get_datatype(id_of_ch)
-        if t == "continuous" and "point" in patch:
-            to_bd["spreadPoints"][patch["point"]["x"]] = patch["point"]["y"]
+        t = ANALYZER.get_datatype(id_of_ch)
+        if t == "continuous" and "points" in patch:
+            for i in patch["points"]:
+                to_bd["spreadPoints"][i["x"]] = i["y"]
         elif t == "discrete" and "columnCoef" in patch:
-            to_bd["columnsCoefs"][patch["columnCoef"]["columnNumber"]] = patch["columnCoef"]["coef"]
-
+            for i in patch["columnsCoefs"]:
+                to_bd["columnsCoefs"][i["columnNumber"]] = i["coef"]
         cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',
                        (f'id_{id_of_ch}', json.dumps(to_bd, ensure_ascii=False, ), user_id))
         self.conn.commit()
         cursor.close()
+        GETTER.getter_of_last_update_in_tables(time.time())
 
     def get_search_data(self, user_id: int, pack_number: int):
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
-        getter = GetterOfRates()
         records = records[0][1:]
-        rates = getter.get_rates(records, user_id)
+        rates = GETTER.get_rates(records, user_id)
         pack = []
         for i in rates:
             user = self.get_my_profile_data(i['id'])
@@ -223,7 +225,8 @@ class DatabaseManager:
                 "about_me": user[5],
                 "photo": user[4],
                 "rate": i['rate'],
-                "id": i['id']
+                "id": i['id'],
+                'location': user[6]
             }
             pack.append(to_return)
         if pack_number * PACK_SIZE >= len(pack):
