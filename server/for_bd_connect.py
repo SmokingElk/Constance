@@ -201,7 +201,7 @@ class DatabaseManager:
         if t == "continuous" and "points" in patch:
             for i in patch["points"]:
                 to_bd["spreadPoints"][i["x"]] = i["y"]
-        elif t == "discrete" and "columnCoef" in patch:
+        elif t == "discrete" and "columnsCoefs" in patch:
             for i in patch["columnsCoefs"]:
                 to_bd["columnsCoefs"][i["columnNumber"]] = i["coef"]
         cursor.execute('''UPDATE "preferences" SET "%s"=%s WHERE id=%s''',
