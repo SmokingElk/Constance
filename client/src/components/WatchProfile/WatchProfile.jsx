@@ -33,7 +33,7 @@ const WatchProfile = props => {
                             <div className={classes.label}>Дата рождения</div>
                             <div className={classes.profileDataPlace}>{birthdate}</div>
 
-                            <div className={classes.label}>Место жительства</div>
+                            <div className={classes.label}>Местоположение</div>
                             <div className={classes.profileDataPlace}>{profileData.location}</div>
 
                             <div className={classes.label}>Обо мне</div>

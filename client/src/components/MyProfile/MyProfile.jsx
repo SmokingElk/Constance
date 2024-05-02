@@ -68,7 +68,7 @@ const MyProfile = props => {
                             </div>
 
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>Место жительства</div>
+                                <div className={classes.label}>Местоположение</div>
                                 <input className={"inputField"} type="text" placeholder="Москва" value={props.locationFieldValue} onChange={onLocationChange}></input>
                             </div>
 
