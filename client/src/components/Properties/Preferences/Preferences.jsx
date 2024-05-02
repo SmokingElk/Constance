@@ -5,6 +5,15 @@ import createDiscretPreferenceSettingsContainer from "./PreferenceSettingCompone
 import classes from "./Preferences.module.css";
 import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
+const groupsTranslate = {
+    "appearance": "Внешность",
+    "intimate": "Вопросы интимного характера",
+    "personality": "Личностные качества",
+    "worldview": "Мировоззрение",
+    "experience": "Опыт",
+    "lifestyle": "Образ жизни"
+};
+
 const createGroups = (preferencesTree, sex) => {
     let groups = [];
     let userSex = {
@@ -39,7 +48,7 @@ const createGroups = (preferencesTree, sex) => {
         }
 
         groups.push(<div className={classes.group}>
-            <h3 className={classes.groupName}>{group}</h3>
+            <h3 className={classes.groupName}>{groupsTranslate[group]}</h3>
             {settingsElements}
         </div>);
     }

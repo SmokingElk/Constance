@@ -5,6 +5,15 @@ import createDiscretCharacteristicSettingContainer from "./CharacteristicSetting
 import classes from "./Characteristics.module.css";
 import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
+const groupsTranslate = {
+    "appearance": "Внешность",
+    "intimate": "Вопросы интимного характера",
+    "personality": "Личностные качества",
+    "worldview": "Мировоззрение",
+    "experience": "Опыт",
+    "lifestyle": "Образ жизни"
+};
+
 const createGroups = (characteristicsTree, sex) => {
     let groups = [];
 
@@ -37,7 +46,7 @@ const createGroups = (characteristicsTree, sex) => {
         }
 
         groups.push(<div className={classes.group}>
-            <h3 className={classes.groupName}>{group}</h3>
+            <h3 className={classes.groupName}>{groupsTranslate[group]}</h3>
             {settingsElements}
         </div>);
     }

@@ -10,7 +10,7 @@ const ScaleCoeffitients = props => {
     const enableNegative = () => props.patch({otherNegative: true});
 
     const negativeBlock = <div>
-        <div className={classes.coefLabel}>Negative scale coefficient</div>
+        <div className={classes.coefLabel}>Негативный масштабирующий коэффициент</div>
         <input 
         className={"inputField" + " " + classes.coefInput}
         type="number" 
@@ -22,7 +22,7 @@ const ScaleCoeffitients = props => {
     return (
         <div className={classes.body}>
             <div className={classes.positiveBlock}>
-                <div className={classes.coefLabel}>{props.otherNegative ? "Positive scale " : "Scale "} coefficient</div>
+                <div className={classes.coefLabel}>{props.otherNegative ? "Позитивный масштабирующий " : "Масштабирующий "} коэффициент</div>
                 <input 
                 className={"inputField" + " " + classes.coefInput}
                 type="number" 
