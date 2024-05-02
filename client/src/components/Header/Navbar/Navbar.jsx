@@ -9,14 +9,14 @@ const Navbar = props => {
     to={isEntered ? "/profile" : "/login"} 
     highlighted={isEntered} 
     highlightMode={props.sex ? "blue" : "pink"}
-    text={isEntered ? props.username : "Login"} />;
+    text={isEntered ? props.username : "Войти"} />;
     
     return (
         <div className={classes.container + " " + (props.isOpen ? classes.open : "")}>
             <div className={classes.layout}>
-                <NavItem toggleNavbar={props.toggle} to="/" text="Home" />
-                <NavItem toggleNavbar={props.toggle} to="/search" text="Search" />
-                <NavItem toggleNavbar={props.toggle} to="/properties/preferences" text="Properites" />
+                <NavItem toggleNavbar={props.toggle} to="/" text="Домой" />
+                <NavItem toggleNavbar={props.toggle} to="/search" text="Поиск" />
+                <NavItem toggleNavbar={props.toggle} to="/properties/preferences" text="Свойства" />
                 {enterNav}
             </div>
 
