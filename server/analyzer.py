@@ -8,12 +8,12 @@ class Analyzer:
         f = f.read()
         self.a = json.loads(f)
 
-    def get_datatype(self, i):
+    def get_datatype(self, i: int) -> str:
         b = self.a['propertiesData']
         c = b[int(i)]['type']
         return c
 
-    def get_default(self, i):
+    def get_default(self, i: int) -> float:
         b = self.a['propertiesData']
         c = b[i]['type']
         if c == 'binary' or c == 'discrete':
@@ -26,12 +26,12 @@ class Analyzer:
             else:
                 return b[i]["averageValue"]
 
-    def get_group(self, i):
+    def get_group(self, i: int) -> str:
         b = self.a['propertiesData']
         c = b[i]['group']
         return c
 
-    def get_data(self, i, key):
+    def get_data(self, i: int, key: str) -> list:
         b = self.a['propertiesData']
         if key == 'columnsCoefs':
             lst = b[i]['variants']
