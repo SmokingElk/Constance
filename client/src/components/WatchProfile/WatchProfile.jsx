@@ -10,7 +10,7 @@ const WatchProfile = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Profile of {profileData.username} {props.isFetching && <Loader size={40} black={true} />}</div>
+                    <div className={classes.title}>Профиль пользователя {profileData.username} {props.isFetching && <Loader size={40} black={true} />}</div>
 
                     <div className={classes.columns}>
                         <div className={classes.imgColumn}>
@@ -18,25 +18,25 @@ const WatchProfile = props => {
                         </div>
 
                         <div className={classes.fieldsColumn}>
-                            <div className={classes.label}>Firstname</div>
+                            <div className={classes.label}>Имя</div>
                             <div className={classes.profileDataPlace}>{profileData.firstname}</div>
 
-                            <div className={classes.label}>Lastname</div>
+                            <div className={classes.label}>Фамилия</div>
                             <div className={classes.profileDataPlace}>{profileData.lastname}</div>
 
-                            <div className={classes.label}>Social media</div>
+                            <div className={classes.label}>Профиль в соцсети</div>
                             <div className={classes.profileDataPlace}>{profileData.social}</div>
 
-                            <div className={classes.label}>Phone number</div>
+                            <div className={classes.label}>Номер мобильного телефона</div>
                             <div className={classes.profileDataPlace}>{profileData.phone}</div>
 
-                            <div className={classes.label}>Birthdate</div>
+                            <div className={classes.label}>Дата рождения</div>
                             <div className={classes.profileDataPlace}>{birthdate}</div>
 
-                            <div className={classes.label}>Location</div>
+                            <div className={classes.label}>Место жительства</div>
                             <div className={classes.profileDataPlace}>{profileData.location}</div>
 
-                            <div className={classes.label}>About me</div>
+                            <div className={classes.label}>Обо мне</div>
                             <div className={classes.profileDataPlace + " " + classes.tallPlace}>{profileData.about_me}</div>
                         </div>
                     </div>  
