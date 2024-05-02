@@ -23,7 +23,7 @@ class DatabaseManager:
     def __del__(self):
         self.conn.close()
 
-    def checking_for_authorized_user(self, username: str, password: str):
+    def checking_for_authorized_user(self, username: str, password: str) -> int:
         cursor = self.conn.cursor()
         cursor.execute('''SELECT id FROM "Autorisation" WHERE username=%s AND password=%s ''',
                        (username, password))
@@ -33,14 +33,14 @@ class DatabaseManager:
             return -1
         return records[0][0]
 
-    def counting_users(self):
+    def counting_users(self) -> int:
         cursor = self.conn.cursor()
         cursor.execute('''SELECT COUNT(1) FROM "Autorisation"''')
         records = cursor.fetchall()
         cursor.close()
         return records[0][0]
 
-    def get_primary_data(self, user_id):
+    def get_primary_data(self, user_id: int):
         cursor = self.conn.cursor()
         cursor.execute('''SELECT username, "Gender", "Date of birth" FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
@@ -56,7 +56,7 @@ class DatabaseManager:
         cursor.close()
         return len(records) != 0
 
-    def adding_user(self, username: str, password: str, gender: bool, birthday: str):
+    def adding_user(self, username: str, password: str, gender: bool, birthday: str) -> int:
         cursor = self.conn.cursor()
         user_id = self.counting_users() + 1
         cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth")\
@@ -85,7 +85,7 @@ class DatabaseManager:
         self.conn.commit()
         cursor.close()
 
-    def is_user_exists_by_id(self, user_id: int):
+    def is_user_exists_by_id(self, user_id: int) -> bool:
         cursor = self.conn.cursor()
         cursor.execute('''SELECT * FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
@@ -130,7 +130,7 @@ class DatabaseManager:
         cursor.close()
         GETTER.getter_of_last_update_in_tables(time.time())
 
-    def getting_all_chars(self, user_id: int):
+    def getting_all_chars(self, user_id: int) -> list:
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
@@ -142,7 +142,7 @@ class DatabaseManager:
             data_for_return.append(new)
         return data_for_return
 
-    def getting_all_prefs(self, user_id: int):
+    def getting_all_prefs(self, user_id: int) -> list:
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
@@ -210,12 +210,12 @@ class DatabaseManager:
         cursor.close()
         GETTER.getter_of_last_update_in_tables(time.time())
 
-    def get_search_data(self, user_id: int, pack_number: int):
+    def get_search_data(self, user_id: int, pack_number: int) -> dict:
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
-        records = records[0][1:]
+        records = list(records[0][1:])
         rates = GETTER.get_rates(records, user_id)
         pack = []
         for i in rates:

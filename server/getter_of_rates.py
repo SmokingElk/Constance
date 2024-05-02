@@ -21,7 +21,7 @@ class GetterOfRates:
     def __del__(self):
         self.conn.close()
 
-    def get_rates(self, prefs_of_id, user_id):
+    def get_rates(self, prefs_of_id: list, user_id: int) -> list:
         if user_id in [i[0] for i in self.data_cache]:
             last_data = self.data_finder(user_id)
             date_of_last_count = last_data[2]
@@ -69,7 +69,7 @@ class GetterOfRates:
         return False
 
     @staticmethod
-    def get_index_for_continious(value, list_spread, i: int) -> float:
+    def get_index_for_continious(value: float, list_spread: list, i: int) -> float:
         file = open(PROPERTIES_FILE_PATH, encoding='utf-8')
         a = file.read()
         a = json.loads(a)
@@ -80,16 +80,16 @@ class GetterOfRates:
         variants_max = b[i]['range']['max']
         range_len = abs(float(variants_max) - float(variants_min))
         spread_len = range_len / (len(list_spread) - 1)
-        left = (float(value) - variants_min) // spread_len
+        left = (float(value) - float(variants_min)) // spread_len
         right = left + 1.0
-        y_0 = list_spread[left]
-        y_1 = list_spread[right]
-        x_0 = variants_min + left * spread_len
-        x_1 = variants_max + right * spread_len
+        y_0 = float(list_spread[int(left)])
+        y_1 = float(list_spread[int(right)])
+        x_0 = float(variants_min) + float(left * spread_len)
+        x_1 = float(variants_max) + float(right * spread_len)
         f_x = y_0 + (y_1 - y_0) / (x_1 - x_0) * (value - x_0)
         return f_x
 
-    def count_rate(self, chars, prefs):
+    def count_rate(self, chars: list, prefs: list) -> float:
         n_f_of_id = 0.0
         for i in prefs:
             n_f_of_id += i['positiveScale']
@@ -118,15 +118,16 @@ class GetterOfRates:
                     ans_value -= float(prefs[i]['negativeScale']) * float(res) / n_f_of_id
         return ans_value
 
-    def getter_of_last_update_in_tables(self, date_of_change):
+    def getter_of_last_update_in_tables(self, date_of_change: float):
         self.date_of_last_change = date_of_change
 
-    def data_finder(self, user_id):
+    def data_finder(self, user_id: int) -> list:
         for i in self.data_cache:
             if i[0] == user_id:
                 return i
+        return []
 
-    def counter(self, user_id, prefs_of_id):
+    def counter(self, user_id: int, prefs_of_id: list) -> list:
         cursor = self.conn.cursor()
         cursor.execute('''SELECT id, "Gender" FROM "Autorisation"''')
         records = list(cursor.fetchall())
