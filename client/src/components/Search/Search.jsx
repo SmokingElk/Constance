@@ -23,7 +23,7 @@ const Search = props => {
     
     const loadMoreBtn = <button 
     className={classes.loadMoreBtn + " " + (props.userSex ? classes.pink : "")} 
-    onClick={() => props.loadNextPack()}>load more {props.isFetching && <Loader />}</button>;
+    onClick={() => props.loadNextPack()}>загрузить еще {props.isFetching && <Loader />}</button>;
     
     return (
         <Container>

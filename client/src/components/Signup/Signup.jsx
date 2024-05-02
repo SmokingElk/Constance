@@ -31,26 +31,26 @@ const Signup = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Sign up</div>
+                    <div className={classes.title}>Регистрация</div>
 
-                    <div className={classes.label}>Username</div>
+                    <div className={classes.label}>Имя пользователя</div>
                     <input type="text" className={"inputField" + " " + classes.fieldOffset} onChange={onUsernameChange} value={props.usernameFieldValue}></input>
 
-                    <div className={classes.label}>Password</div>
+                    <div className={classes.label}>Пароль</div>
                     <input type="text" className={"inputField" + " " + classes.fieldOffset} onChange={onPasswordChange} value={props.passwordFieldValue}></input>
                     
                     <div className={classes.row + " " + classes.fieldOffset}>
-                        <div className={classes.label + " " + classes.inlineLabel}>Gender</div>
+                        <div className={classes.label + " " + classes.inlineLabel}>Пол</div>
                         <div className={classes.checkboxGroup}>
                             <Checkbox value={props.isMale} onClick={() => props.updateSex(true)} />
-                            <label className={classes.checkboxLabel}>M</label>
+                            <label className={classes.checkboxLabel}>М</label>
                             <Checkbox value={!props.isMale} onClick={() => props.updateSex(false)} pink={true} />
-                            <label className={classes.checkboxLabel}>W</label>
+                            <label className={classes.checkboxLabel}>Ж</label>
                         </div>
                     </div>
 
                     <div className={classes.row + " " + classes.fieldsGroupOffset}>
-                        <div className={classes.label + " " + classes.inlineLabel}>Set birthday</div>
+                        <div className={classes.label + " " + classes.inlineLabel}>Дата рождения</div>
                         <input type="date" value={props.birthdate} onChange={onBirthdateChange} className={classes.birthdateField}></input>
                     </div>
 
@@ -60,13 +60,13 @@ const Signup = props => {
                         <Button 
                         pink={!props.isMale} 
                         onClick={() => props.sendSignupRequest()} 
-                        text="Sign up" 
+                        text="Зарегистрироваться" 
                         showLoader={props.isFetching}/>
                     </div>
 
                     <div className={classes.hint}> 
-                        Already have an account?
-                        <NavLink className={classes.loginLink} to="/login"> Login</NavLink>
+                        Уже есть аккаунт?
+                        <NavLink className={classes.loginLink} to="/login"> Войти</NavLink>
                     </div>
                 </div>
             </div>

@@ -13,11 +13,11 @@ const Properties = props => {
                         <div className={classes.innerNav}>
                             <NavLink 
                             className={classes.link + " " + (props.showPreferences ? classes.highlighted : "")} 
-                            to="/properties/preferences">Preferences</NavLink>
+                            to="/properties/preferences">Предпочтения</NavLink>
 
                             <NavLink
                             className={classes.link + " " + (!props.showPreferences ? classes.highlighted : "")} 
-                            to="/properties/characteristics">Characteristics</NavLink>
+                            to="/properties/characteristics">Характеристики</NavLink>
                         </div>
 
                         <div className={classes.settingsContainer}>{props.showPreferences ? <PreferencesContainer /> : <CharacteristicsContainer />}</div>

@@ -24,22 +24,22 @@ const Login = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Login</div>
+                    <div className={classes.title}>Вход</div>
 
-                    <div className={classes.label}>Username</div>
+                    <div className={classes.label}>Имя пользователя</div>
                     <input type="text" className={"inputField " + classes.usernameField} onChange={onUsernameChange} value={props.usernameFieldValue}></input>
 
-                    <div className={classes.label}>Password</div>
+                    <div className={classes.label}>Пароль</div>
                     <input type="text" className={"inputField " + classes.passwordField} onChange={onPasswordChange} value={props.passwordFieldValue}></input>
 
                     <div className={classes.authInfo}>{authInfo}</div>
 
                     <div className={classes.loginBtn}>
-                        <Button onClick={() => props.sendAuthRequest()} text="Login" showLoader={props.isFetching}/>
+                        <Button onClick={() => props.sendAuthRequest()} text="Войти" showLoader={props.isFetching}/>
                     </div>
                     
 
-                    <div className={classes.hint}>Don't have an account? <NavLink to="/sign_up" className={classes.signUpLink}> Sign up</NavLink></div>
+                    <div className={classes.hint}>Нет аккаунта? <NavLink to="/sign_up" className={classes.signUpLink}> Зарегистрироваться</NavLink></div>
                 </div>
             </div>
         </Container>

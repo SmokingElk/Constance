@@ -40,7 +40,7 @@ const MyProfile = props => {
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Profile {props.isFetching && <Loader size={40} black={true} />}</div>
+                    <div className={classes.title}>Профиль {props.isFetching && <Loader size={40} black={true} />}</div>
                     <div className={classes.columns}>
                         <div className={classes.imgColumn}>
                             <img className={classes.profile_img} src={`http://localhost:5000/static/images/${props.photoName}`} onClick={() => props.selectPhoto()}/>
@@ -48,33 +48,33 @@ const MyProfile = props => {
                         
                         <div className={classes.fieldsColumn}>
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>Firstname</div>
+                                <div className={classes.label}>Имя</div>
                                 <input type="text" className={"inputField"} value={props.firstnameFieldValue} placeholder="firstname" onChange={onFirstnameChange}></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>Lastname</div>
+                                <div className={classes.label}>Фамилия</div>
                                 <input type="text" className={"inputField"} value={props.lastnameFieldValue} placeholder="lastname" onChange={onLastnameChange}></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>Social media</div>
+                                <div className={classes.label}>Профиль в соцсети</div>
                                 <input type="text" className={"inputField"} value={props.socialFieldValue} placeholder="social" onChange={onSocialChange}></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>Phone number</div>
+                                <div className={classes.label}>Номер мобильного телефона</div>
                                 <input className={"inputField"} type="tel" pattern="+7([0-9]{3})[0-9]{3}-[0-9]{3}" placeholder="+7(999)999-99-99" value={props.phoneNumberFieldValue} onChange={onPhoneChange} />
                             </div>
 
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>Location</div>
-                                <input className={"inputField"} type="text" placeholder="Moscow" value={props.locationFieldValue} onChange={onLocationChange}></input>
+                                <div className={classes.label}>Место жительства</div>
+                                <input className={"inputField"} type="text" placeholder="Москва" value={props.locationFieldValue} onChange={onLocationChange}></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
-                                <div className={classes.label}>About me</div>
-                                <textarea maxLength={300} className={"inputField" + " " + classes.aboutMe} type="text" placeholder="God of math, best programmer." value={props.aboutMeFieldValue} onChange={onAboutMeChange}></textarea>
+                                <div className={classes.label}>Обо мне</div>
+                                <textarea maxLength={300} className={"inputField" + " " + classes.aboutMe} type="text" placeholder="Бог математики, лучший программист." value={props.aboutMeFieldValue} onChange={onAboutMeChange}></textarea>
                             </div>
                         </div>
                     </div>
