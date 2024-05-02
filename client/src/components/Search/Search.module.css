@@ -13,6 +13,16 @@
     grid-column: 2 / 12;
 }
 
+@media (max-width: 1200px) {
+    .content {
+        grid-column: 1 / 13;
+    }
+
+    .body {
+        padding: 42px 20px;
+    }
+}
+
 .cardsContainer {
     display: flex;
     flex-direction: column;
