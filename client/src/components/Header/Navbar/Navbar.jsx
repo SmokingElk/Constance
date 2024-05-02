@@ -16,7 +16,7 @@ const Navbar = props => {
             <div className={classes.layout}>
                 <NavItem toggleNavbar={props.toggle} to="/" text="Домой" />
                 <NavItem toggleNavbar={props.toggle} to="/search" text="Поиск" />
-                <NavItem toggleNavbar={props.toggle} to="/properties/preferences" text="Свойства" />
+                <NavItem toggleNavbar={props.toggle} to="/properties/preferences" text="Параметры" />
                 {enterNav}
             </div>
 
