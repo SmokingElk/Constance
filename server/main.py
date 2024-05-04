@@ -6,8 +6,16 @@ from for_bd_connect import DatabaseManager
 from validators import validate_username, validate_password
 from add_profile_image import add_profile_image
 import datetime
+from prometheus_client import start_http_server, Counter
 
-
+REQUESTS_FOR_SIGN_UP = Counter('sign_up_count',
+                   'Total number of sign up requests')
+REQUESTS_FOR_PATCH_CHARS = Counter('sign_up_patch_chars',
+                   'Total number of patching characteristics requests')
+REQUESTS_FOR_PATCH_PREFS = Counter('sign_up_patch_prefs',
+                   'Total number of patching preferences requests')
+REQUESTS_FOR_SEARCH = Counter('search_count',
+                   'Total number of searching requests')
 database = DatabaseManager()
 app = Flask(__name__, static_folder="static")
 CORS(app)
@@ -58,6 +66,7 @@ def sign_up():
            }
     database.set_chars(user_id, 0, {'value': 18})
     database.set_prefs(user_id, 0, {'positiveScale': 1.0})
+    REQUESTS_FOR_SIGN_UP.inc()
     return make_response(res, 201)
 
 
@@ -183,6 +192,7 @@ def patch_chars():
     if not database.is_user_exists_by_id(user_id):
         abort(404)
     database.set_chars(user_id, id_of_char, patch)
+    REQUESTS_FOR_PATCH_CHARS.inc()
     return make_response({}, 200)
 
 
@@ -212,6 +222,7 @@ def patch_pref():
     if not database.is_user_exists_by_id(user_id):
         abort(404)
     database.set_prefs(user_id, id_of_pref, patch)
+    REQUESTS_FOR_PATCH_PREFS.inc()
     return make_response({}, 200)
 
 
@@ -224,8 +235,10 @@ def search():
         abort(401)
     user_id = jwt_generator.extract_payload(jwt_token)['userId']
     data_to_return = database.get_search_data(user_id, pack_number)
+    REQUESTS_FOR_SEARCH.inc()
     return make_response(data_to_return, 200)
 
 
 if __name__ == "__main__":
+    start_http_server(8000)
     app.run()
