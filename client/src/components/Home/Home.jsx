@@ -1,9 +1,10 @@
+import Footer from "../Footer/Footer";
 import Container from "../Utils/Container/Container";
 import Spoiler from "../Utils/Spoiler/Spoiler";
 import classes from "./Home.module.css";
 
 const Home = props => {
-    return (
+    return <>
         <Container>
             <div className={classes.titleBlock}>
                 <div className={classes.title}>Constance</div>
@@ -67,9 +68,11 @@ const Home = props => {
                     становитесь идеальной парой.
                 </p>
             </Spoiler>
-
+            
         </Container>
-    );
+
+        <Footer />
+    </>;
 };
 
 export default Home;

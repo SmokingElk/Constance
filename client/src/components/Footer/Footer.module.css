@@ -1,0 +1,15 @@
+.layout {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.productName, .support, .privacyPolicy {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    color: #1E1E1F;
+}
