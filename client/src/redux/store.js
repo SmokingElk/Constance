@@ -9,6 +9,7 @@ import navbarReducer from "./navbarReducer";
 import preferencesReducer from "./preferencesReducer";
 import characteristicsReducer from "./characteristicsReducer";
 import searchReducer from "./searchReducer";
+import homeReducer from "./homeReducer";
 
 let store = configureStore({
     reducer: {
@@ -22,6 +23,7 @@ let store = configureStore({
         preferences: preferencesReducer,
         characteristics: characteristicsReducer,
         search: searchReducer,
+        home: homeReducer,
     }
 }); 
 

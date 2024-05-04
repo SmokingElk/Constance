@@ -1,6 +1,7 @@
 import AdvertisementContainer from '../Advertisement/AdvertisementContainer';
 import Background from '../Background/Background';
 import HeaderContainer from '../Header/HeaderContainer';
+import HomeContainer from '../Home/HomeContainer';
 import LoginContainer from '../Login/LoginContainer';
 import MyProfileContainer from '../MyProfile/MyProfileContainer';
 import Properties from '../Properties/Properties';
@@ -15,6 +16,7 @@ const App = props => {
 		<div className={classes.app}>
 			<Background />
 			<HeaderContainer />
+			
 			<div className={classes.content}>
 				<Routes>
 					<Route path="/login" element={<LoginContainer />} />
@@ -24,6 +26,7 @@ const App = props => {
 					<Route exact path="/profile" element={<MyProfileContainer />} />
 					<Route exact path="/profile/:userId" element={<WatchProfileContainer />} />
 					<Route path="/search" element={<SearchContainer />} />
+					<Route exact path="" element={<HomeContainer />} />
 				</Routes>
 			</div>
 		</div>
