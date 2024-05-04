@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const homeReducer = (state = initialState, action) => {
-    switch (state.type) {
+    switch (action.type) {
         case TOGGLE_INSTRUCTION: {
             return {
                 ...state,
