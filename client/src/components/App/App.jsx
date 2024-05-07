@@ -1,4 +1,3 @@
-import AdvertisementContainer from '../Advertisement/AdvertisementContainer';
 import Background from '../Background/Background';
 import HeaderContainer from '../Header/HeaderContainer';
 import HomeContainer from '../Home/HomeContainer';

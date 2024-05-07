@@ -1,18 +1,20 @@
-import classes from './Advertisement.module.css';
-import avatar from '../../assets/imgs/teamlid_avatar.jpg';
+import classes from "./Advertisement.module.css";
+import avatar from "../../assets/imgs/teamlid_avatar.jpg";
 
-const Advertisement = props => {
+const Advertisement = (props) => {
     return (
         <div className={classes.body + " " + (props.isOpen ? classes.open : "")}>
             <div className={classes.layout}>
-                <img src={avatar} className={classes.avatar} />
+                <img src={avatar} className={classes.avatar} alt="avatar" />
                 <div className={classes.textBlock}>
                     <div className={classes.title}>Анна в 300 метрах от вас</div>
-                    <div className={classes.description}>Ищу послушных мальчиков для разработки IT-проекта.</div>
+                    <div className={classes.description}>
+                        Ищу послушных мальчиков для разработки IT-проекта.
+                    </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Advertisement;

@@ -6,12 +6,12 @@ import classes from "./Characteristics.module.css";
 import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
 const groupsTranslate = {
-    "appearance": "Внешность",
-    "intimate": "Вопросы интимного характера",
-    "personality": "Личностные качества",
-    "worldview": "Мировоззрение",
-    "experience": "Опыт",
-    "lifestyle": "Образ жизни"
+    appearance: "Внешность",
+    intimate: "Вопросы интимного характера",
+    personality: "Личностные качества",
+    worldview: "Мировоззрение",
+    experience: "Опыт",
+    lifestyle: "Образ жизни",
 };
 
 const createGroups = (characteristicsTree, sex) => {
@@ -19,14 +19,18 @@ const createGroups = (characteristicsTree, sex) => {
 
     let userSex = {
         [true]: "male",
-        [false]: "female", 
+        [false]: "female",
     }[sex];
 
     for (let group in characteristicsTree) {
         let settingsElements = [];
 
         for (let id in characteristicsTree[group]) {
-            if (userSex !== characteristicsTree[group][id].sex && characteristicsTree[group][id].sex !== "both") continue;
+            if (
+                userSex !== characteristicsTree[group][id].sex &&
+                characteristicsTree[group][id].sex !== "both"
+            )
+                continue;
 
             let CharacteristicSetting;
 
@@ -35,26 +39,33 @@ const createGroups = (characteristicsTree, sex) => {
                     CharacteristicSetting = createBinaryCharacteristicSettingsContainer(group, id);
                     break;
                 case "continuous":
-                    CharacteristicSetting = createContinuousCharacteristicSettingContainer(group, id);
+                    CharacteristicSetting = createContinuousCharacteristicSettingContainer(
+                        group,
+                        id,
+                    );
                     break;
                 case "discrete":
                     CharacteristicSetting = createDiscretCharacteristicSettingContainer(group, id);
+                    break;
+                default:
                     break;
             }
 
             settingsElements.push(<CharacteristicSetting key={id} />);
         }
 
-        groups.push(<div className={classes.group}>
-            <h3 className={classes.groupName}>{groupsTranslate[group]}</h3>
-            {settingsElements}
-        </div>);
+        groups.push(
+            <div className={classes.group}>
+                <h3 className={classes.groupName}>{groupsTranslate[group]}</h3>
+                {settingsElements}
+            </div>,
+        );
     }
 
     return groups;
 };
 
-const Characteristics = props => {
+const Characteristics = (props) => {
     const groups = createGroups(props.characteristicsTree, props.sex);
 
     return (
@@ -65,6 +76,6 @@ const Characteristics = props => {
             <SavingWrapper />
         </div>
     );
-}
+};
 
 export default Characteristics;

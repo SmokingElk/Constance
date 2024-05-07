@@ -3,12 +3,12 @@ import SavingIndicator from "../../../Utils/SavingIndicator/SavingIndicator";
 import { connect } from "react-redux";
 
 class SavingWrapper extends React.Component {
-    render () {
+    render() {
         return <SavingIndicator saving={this.props.isPatching} />;
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     isPatching: state.characteristics.isPatching,
 });
 

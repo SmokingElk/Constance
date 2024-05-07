@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import Home from "./Home";
 
 class HomeContainer extends React.Component {
-    render () {
+    render() {
         return <Home {...this.props} />;
-    };
+    }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     instructionOpen: state.home.instructionOpen,
 });
 

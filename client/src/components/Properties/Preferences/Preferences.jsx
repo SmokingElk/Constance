@@ -6,12 +6,12 @@ import classes from "./Preferences.module.css";
 import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
 const groupsTranslate = {
-    "appearance": "Внешность",
-    "intimate": "Вопросы интимного характера",
-    "personality": "Личностные качества",
-    "worldview": "Мировоззрение",
-    "experience": "Опыт",
-    "lifestyle": "Образ жизни"
+    appearance: "Внешность",
+    intimate: "Вопросы интимного характера",
+    personality: "Личностные качества",
+    worldview: "Мировоззрение",
+    experience: "Опыт",
+    lifestyle: "Образ жизни",
 };
 
 const createGroups = (preferencesTree, sex) => {
@@ -42,21 +42,25 @@ const createGroups = (preferencesTree, sex) => {
                 case "discrete":
                     PreferenceSetting = createDiscretPreferenceSettingsContainer(group, id);
                     break;
+                default:
+                    break;
             }
 
             settingsElements.push(<PreferenceSetting key={id} />);
         }
 
-        groups.push(<div className={classes.group}>
-            <h3 className={classes.groupName}>{groupsTranslate[group]}</h3>
-            {settingsElements}
-        </div>);
+        groups.push(
+            <div className={classes.group}>
+                <h3 className={classes.groupName}>{groupsTranslate[group]}</h3>
+                {settingsElements}
+            </div>,
+        );
     }
 
     return groups;
-}
+};
 
-const Preferences = props => {
+const Preferences = (props) => {
     let preferencesTree = props.preferencesTree;
     let groups = createGroups(preferencesTree, props.sex);
 
@@ -68,6 +72,6 @@ const Preferences = props => {
             <SavingWrapper />
         </div>
     );
-}
+};
 
 export default Preferences;
