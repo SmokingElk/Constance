@@ -27,7 +27,7 @@ const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
 
     if (requiredType === "any") return;
 
-    if (state.preferencesData[group][id].type != requiredType) {
+    if (state.preferencesData[group][id].type !== requiredType) {
         throw new Error(`Not ${requiredType} preference can't be patched.`);
     }
 }
@@ -193,6 +193,8 @@ export const createPreferencesData = propertiesData => {
                 preferenceData.labels = i.labels;
                 preferenceData.axisName = i.axisName;
                 preferenceData.spreadPoints = new Array(propertiesData.globalParams.segmentsInPartion).fill(0);
+                break;
+            default:
                 break;
         }
 

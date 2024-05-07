@@ -25,7 +25,7 @@ const validateCharacteristicsDataKeys = (group, id, state, requiredType = "any")
 
     if (requiredType === "any") return;
 
-    if (state.characteristicsData[group][id].type != requiredType) {
+    if (state.characteristicsData[group][id].type !== requiredType) {
         throw new Error(`Not ${requiredType} characteristic can't be patched.`);
     }
 }
@@ -146,6 +146,8 @@ export const createCharacteristicsData = propertiesData => {
                 characteristicData.value = i.averageValue;
                 characteristicData.labels = i.labels;
                 characteristicData.range = i.range;
+                break;
+            default:
                 break;
         }
 

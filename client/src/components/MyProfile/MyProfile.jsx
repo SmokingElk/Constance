@@ -1,89 +1,137 @@
 import classes from "./MyProfile.module.css";
-import photoPlaceholder from "../../assets/imgs/teamlid_avatar.jpg";
-import checkedMark from "../../assets/imgs/check_mark.svg";
 import Container from "../Utils/Container/Container";
 import Loader from "../Utils/Loader/Loader";
 import SavingIndicator from "../Utils/SavingIndicator/SavingIndicator";
+import PhotoPlaceholder from "../../assets/imgs/photo_placeholder.png";
 
-const MyProfile = props => {
-    const onFirstnameChange = event => {
+const MyProfile = (props) => {
+    const onFirstnameChange = (event) => {
         props.updateFirstname(event.target.value);
-        props.requestProfileDataUpdate({firstname: event.target.value});
+        props.requestProfileDataUpdate({ firstname: event.target.value });
     };
 
-    const onLastnameChange = event => {
+    const onLastnameChange = (event) => {
         props.updateLastname(event.target.value);
-        props.requestProfileDataUpdate({lastname: event.target.value});
+        props.requestProfileDataUpdate({ lastname: event.target.value });
     };
 
-    const onSocialChange = event => {
+    const onSocialChange = (event) => {
         props.updateSocial(event.target.value);
-        props.requestProfileDataUpdate({social: event.target.value});
+        props.requestProfileDataUpdate({ social: event.target.value });
     };
 
-    const onAboutMeChange = event => {
+    const onAboutMeChange = (event) => {
         props.updateAboutMe(event.target.value);
-        props.requestProfileDataUpdate({about_me: event.target.value});
+        props.requestProfileDataUpdate({ about_me: event.target.value });
     };
 
-    const onLocationChange = event => {
+    const onLocationChange = (event) => {
         props.updateLocation(event.target.value);
-        props.requestProfileDataUpdate({location: event.target.value});
+        props.requestProfileDataUpdate({ location: event.target.value });
     };
 
-    const onPhoneChange = event => {
+    const onPhoneChange = (event) => {
         props.updatePhone(event.target.value);
-        props.requestProfileDataUpdate({phone_number: event.target.value});
+        props.requestProfileDataUpdate({ phone_number: event.target.value });
     };
+
+    const photoPath = props.photoName
+        ? `http://localhost:5000/static/images/${props.photoName}`
+        : PhotoPlaceholder;
 
     return (
         <Container>
             <div className={classes.layout}>
                 <div className={classes.body}>
-                    <div className={classes.title}>Профиль {props.isFetching && <Loader size={40} black={true} />}</div>
+                    <div className={classes.title}>
+                        Профиль {props.isFetching && <Loader size={40} black={true} />}
+                    </div>
                     <div className={classes.columns}>
                         <div className={classes.imgColumn}>
-                            <img className={classes.profile_img} src={`http://localhost:5000/static/images/${props.photoName}`} onClick={() => props.selectPhoto()}/>
+                            <img
+                                className={classes.profile_img}
+                                src={photoPath}
+                                onClick={() => props.selectPhoto()}
+                                alt="avatar"
+                            />
                         </div>
-                        
+
                         <div className={classes.fieldsColumn}>
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Имя</div>
-                                <input type="text" className={"inputField"} value={props.firstnameFieldValue} placeholder="firstname" onChange={onFirstnameChange}></input>
+                                <input
+                                    type="text"
+                                    className={"inputField"}
+                                    value={props.firstnameFieldValue}
+                                    placeholder="firstname"
+                                    onChange={onFirstnameChange}
+                                ></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Фамилия</div>
-                                <input type="text" className={"inputField"} value={props.lastnameFieldValue} placeholder="lastname" onChange={onLastnameChange}></input>
+                                <input
+                                    type="text"
+                                    className={"inputField"}
+                                    value={props.lastnameFieldValue}
+                                    placeholder="lastname"
+                                    onChange={onLastnameChange}
+                                ></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Профиль в соцсети</div>
-                                <input type="text" className={"inputField"} value={props.socialFieldValue} placeholder="social" onChange={onSocialChange}></input>
+                                <input
+                                    type="text"
+                                    className={"inputField"}
+                                    value={props.socialFieldValue}
+                                    placeholder="social"
+                                    onChange={onSocialChange}
+                                ></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Номер мобильного телефона</div>
-                                <input className={"inputField"} type="tel" pattern="+7([0-9]{3})[0-9]{3}-[0-9]{3}" placeholder="+7(999)999-99-99" value={props.phoneNumberFieldValue} onChange={onPhoneChange} />
+                                <input
+                                    className={"inputField"}
+                                    type="tel"
+                                    pattern="+7([0-9]{3})[0-9]{3}-[0-9]{3}"
+                                    placeholder="+7(999)999-99-99"
+                                    value={props.phoneNumberFieldValue}
+                                    onChange={onPhoneChange}
+                                />
                             </div>
 
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Местоположение</div>
-                                <input className={"inputField"} type="text" placeholder="Москва" value={props.locationFieldValue} onChange={onLocationChange}></input>
+                                <input
+                                    className={"inputField"}
+                                    type="text"
+                                    placeholder="Москва"
+                                    value={props.locationFieldValue}
+                                    onChange={onLocationChange}
+                                ></input>
                             </div>
 
                             <div className={classes.fieldBlock}>
                                 <div className={classes.label}>Обо мне</div>
-                                <textarea maxLength={300} className={"inputField" + " " + classes.aboutMe} type="text" placeholder="Бог математики, лучший программист." value={props.aboutMeFieldValue} onChange={onAboutMeChange}></textarea>
+                                <textarea
+                                    maxLength={300}
+                                    className={"inputField " + classes.aboutMe}
+                                    type="text"
+                                    placeholder="Бог математики, лучший программист."
+                                    value={props.aboutMeFieldValue}
+                                    onChange={onAboutMeChange}
+                                ></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <SavingIndicator saving={props.isPatching} />
         </Container>
     );
-}
+};
 
 export default MyProfile;

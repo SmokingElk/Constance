@@ -7,7 +7,7 @@ const config = {
 };
 
 class SpreadChart extends React.Component {
-    state = {wrapperWidth: 0, wrapperHeight: 0};
+    state = { wrapperWidth: 0, wrapperHeight: 0 };
     wrapperRef = React.createRef();
     canvasRef = React.createRef();
     firstRender = true;
@@ -15,13 +15,13 @@ class SpreadChart extends React.Component {
 
     setSelected = () => {
         this.selected = true;
-    }
+    };
 
     resetSelected = () => {
         this.selected = false;
-    }
+    };
 
-    updateChart = event => {
+    updateChart = (event) => {
         if (!this.selected) return;
 
         let canvasRect = event.target.getBoundingClientRect();
@@ -32,18 +32,33 @@ class SpreadChart extends React.Component {
         const columnsCount = this.props.spreadPoints.length;
         const columnMaxHeight = (canvasRect.height - 40) / 2;
 
-        let columnNumber = (Math.max(20 + config.rangeOffset, Math.min(canvasRect.width - 20 - config.rangeOffset - 1, x)) - 20 - config.rangeOffset) / (canvasRect.width - 40 - 2 * config.rangeOffset) * columnsCount | 0;
-        let columnHeight = -Math.max(-1, Math.min(1, (y - (canvasRect.height / 2)) / columnMaxHeight));
+        let columnNumber =
+            (((Math.max(
+                20 + config.rangeOffset,
+                Math.min(canvasRect.width - 20 - config.rangeOffset - 1, x),
+            ) -
+                20 -
+                config.rangeOffset) /
+                (canvasRect.width - 40 - 2 * config.rangeOffset)) *
+                columnsCount) |
+            0;
+        let columnHeight = -Math.max(
+            -1,
+            Math.min(1, (y - canvasRect.height / 2) / columnMaxHeight),
+        );
 
         this.props.patch(Math.max(0, Math.min(columnsCount - 1, columnNumber)), columnHeight);
-    }
+    };
 
     updateSize = () => {
         let wrapperSize = this.wrapperRef.current.getBoundingClientRect();
-        this.setState({wrapperWidth: wrapperSize.width | 0, wrapperHeight: wrapperSize.height | 0});
-    }
+        this.setState({
+            wrapperWidth: wrapperSize.width | 0,
+            wrapperHeight: wrapperSize.height | 0,
+        });
+    };
 
-    drawChart () {
+    drawChart() {
         const ctx = this.canvasRef.current.getContext("2d");
         const width = this.state.wrapperWidth;
         const height = this.state.wrapperHeight;
@@ -88,7 +103,11 @@ class SpreadChart extends React.Component {
                 ctx.textAlign = "center";
                 if (i === 0) ctx.textAlign = "left";
                 if (i === divisionsCount - 1) ctx.textAlign = "right";
-                ctx.fillText(this.props.labels[i / config.divisionFactor], x, height / 2 + size + 5);
+                ctx.fillText(
+                    this.props.labels[i / config.divisionFactor],
+                    x,
+                    height / 2 + size + 5,
+                );
             }
         }
 
@@ -105,38 +124,41 @@ class SpreadChart extends React.Component {
         ctx.stroke();
 
         ctx.textAlign = "right";
-        ctx.textBaseline = "bottom"
+        ctx.textBaseline = "bottom";
         ctx.fillText(this.props.axisName ?? "", width - 20, height / 2 - 20);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         window.addEventListener("resize", this.updateSize);
         this.updateSize();
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         window.removeEventListener("resize", this.updateSize);
     }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         this.drawChart();
     }
 
-    render () {
+    render() {
         if (this.firstRender) this.firstRender = false;
         else this.drawChart();
 
-        return <div ref={this.wrapperRef} className={classes.wrapper}>
-            <canvas 
-            ref={this.canvasRef} 
-            onMouseDown={this.setSelected}
-            onMouseUp={this.resetSelected}
-            onMouseLeave={this.resetSelected}
-            onMouseMove={this.updateChart}
-            className={classes.canvas}
-            width={this.state.wrapperWidth}
-            height={this.state.wrapperHeight}></canvas>
-        </div>;
+        return (
+            <div ref={this.wrapperRef} className={classes.wrapper}>
+                <canvas
+                    ref={this.canvasRef}
+                    onMouseDown={this.setSelected}
+                    onMouseUp={this.resetSelected}
+                    onMouseLeave={this.resetSelected}
+                    onMouseMove={this.updateChart}
+                    className={classes.canvas}
+                    width={this.state.wrapperWidth}
+                    height={this.state.wrapperHeight}
+                ></canvas>
+            </div>
+        );
     }
 }
 
