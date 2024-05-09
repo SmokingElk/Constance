@@ -1358,6 +1358,24 @@
       ],
       "averageValue": 0,
       "axisName": "чел"
+    },
+    {
+      "id": 84,
+      "name": "Чистоплотность",
+      "type": "continuous",
+      "group": "personality",
+      "sex": "both",
+      "range": {
+        "min": 0,
+        "max": 10
+      },
+      "labels": [
+        "Грязнуля",
+        "Поддерживаю порядок",
+        "Чистоплюй"
+      ],
+      "averageValue": 5,
+      "axisName": ""
     }
   ]
 }
