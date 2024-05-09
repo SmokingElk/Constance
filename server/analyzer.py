@@ -13,7 +13,7 @@ class Analyzer:
         c = b[int(i)]['type']
         return c
 
-    def get_default(self, i: int) -> float:
+    def get_default(self, i: int):
         b = self.a['propertiesData']
         c = b[i]['type']
         if c == 'binary' or c == 'discrete':

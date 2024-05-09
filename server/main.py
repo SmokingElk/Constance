@@ -8,14 +8,10 @@ from add_profile_image import add_profile_image
 import datetime
 from prometheus_client import start_http_server, Counter
 
-REQUESTS_FOR_SIGN_UP = Counter('sign_up_count',
-                   'Total number of sign up requests')
-REQUESTS_FOR_PATCH_CHARS = Counter('patch_chars_count',
-                   'Total number of patching characteristics requests')
-REQUESTS_FOR_PATCH_PREFS = Counter('patch_prefs_count',
-                   'Total number of patching preferences requests')
-REQUESTS_FOR_SEARCH = Counter('search_count',
-                   'Total number of searching requests')
+REQUESTS_FOR_SIGN_UP = Counter('sign_up_count', 'Total number of sign up requests')
+REQUESTS_FOR_PATCH_CHARS = Counter('patch_chars_count', 'Total number of patching characteristics requests')
+REQUESTS_FOR_PATCH_PREFS = Counter('patch_prefs_count', 'Total number of patching preferences requests')
+REQUESTS_FOR_SEARCH = Counter('search_count', 'Total number of searching requests')
 database = DatabaseManager()
 app = Flask(__name__, static_folder="static")
 CORS(app)
