@@ -43,7 +43,7 @@ class GetterOfRates:
             self.data_cache.append(ans)
         data_from_cache = self.data_finder(user_id)[1]
         data_for_return = []
-        for key, value in data_from_cache.items():
+        for key, _value in data_from_cache.items():
             res = {'id': key,
                    'rate': data_from_cache[key][0],
                    'ts': data_from_cache[key][1],

@@ -242,3 +242,15 @@ class DatabaseManager:
             "pack_items": data_for_return
         }
         return ans
+
+    def deletter_of_data_for_tests(self):
+        cursor = self.conn.cursor()
+        cursor.execute('''DELETE FROM "preferences"''')
+        self.conn.commit()
+        cursor.execute('''DELETE FROM "characteristics"''')
+        self.conn.commit()
+        cursor.execute('''DELETE FROM "Autorisation"''')
+        self.conn.commit()
+        cursor.execute('''DELETE FROM "profile_data"''')
+        self.conn.commit()
+        cursor.close()
