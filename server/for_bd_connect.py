@@ -62,16 +62,17 @@ class DatabaseManager:
         cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth")\
                                 VALUES (%s, %s, %s, %s, %s)''',
                        (user_id, username, password, gender, birthday))
-        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name)\
-                                VALUES (%s, %s, %s, %s, %s, %s)''',
-                       (user_id, '', '', '', '', ''))
+        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name, include_in_search)\
+                                VALUES (%s, %s, %s, %s, %s, %s, %s)''',
+                       (user_id, '', '', '', '', '', True))
         self.conn.commit()
         cursor.close()
+        GETTER.getter_of_last_update_in_tables(time.time())
         return user_id
 
     def get_my_profile_data(self, user_id: int):
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me, location \
+        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me, location, include_in_search \
                                  FROM "profile_data" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
         cursor.close()
@@ -84,6 +85,7 @@ class DatabaseManager:
         cursor.execute(f'''UPDATE "profile_data" SET {key}=%s WHERE id=%s''', (value, user_id))
         self.conn.commit()
         cursor.close()
+        GETTER.getter_of_last_update_in_tables(time.time())
 
     def is_user_exists_by_id(self, user_id: int) -> bool:
         cursor = self.conn.cursor()
