@@ -131,8 +131,11 @@ class GetterOfRates:
         cursor = self.conn.cursor()
         cursor.execute('''SELECT id, "Gender" FROM "Autorisation"''')
         records = list(cursor.fetchall())
+        cursor.execute('''SELECT id, include_in_search FROM "profile_data"''')
+        include_or_not = list(cursor.fetchall())
+        set_of_search_users = set([i[0] for i in include_or_not if i[1]])
         user_gender = [i[1] for i in records if i[0] == user_id][0]
-        lst_of_users = [i[0] for i in records if i[1] != user_gender]
+        lst_of_users = [i[0] for i in records if i[1] != user_gender and i[0] in set_of_search_users]
         ans = []
         for_sort = []
         cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))

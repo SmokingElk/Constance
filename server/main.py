@@ -82,7 +82,8 @@ def get_user_profile_data():
                          "phone": profile_data[3],
                          "photo": profile_data[4],
                          "about_me": profile_data[5],
-                         "location": profile_data[6]
+                         "location": profile_data[6],
+                         "include_in_search": profile_data[7],
                          }
     return make_response(adding_to_profile, 200)
 
@@ -98,7 +99,7 @@ def update_user_profile_data():
     if not database.is_user_exists_by_id(user_id):
         abort(404)
     for key, value in patch.items():
-        if key not in ['firstname', 'lastname', 'social', 'phone_number', 'about_me', 'location']:
+        if key not in ['firstname', 'lastname', 'social', 'phone_number', 'about_me', 'location', 'include_in_search']:
             abort(400)
         database.patch_user_profile_data(user_id, key, value)
     return make_response({}, 200)
