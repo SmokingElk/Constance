@@ -459,6 +459,9 @@ components:
           type: string
           description: City of user.
           example: Moscow
+        include_in_search:
+          type: boolean
+          example: true
     
     SomeoneProfileData:    
       type: object
@@ -524,6 +527,9 @@ components:
           type: string
           description: City of user.
           example: Moscow
+        include_in_search:
+          type: boolean
+          example: true
 
     BinaryPrefData:
       type: object
