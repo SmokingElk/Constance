@@ -8,6 +8,8 @@ const initialState = {
     aboutMeNumberFieldValue: "",
     locationFieldValue: "",
     photoName: "placeholder",
+    includeInSearch: true,
+
     isFetching: false,
     isPatching: false,
 };
@@ -18,6 +20,7 @@ const UPDATE_SOCIAL = "UPDATE-SOCIAL";
 const UPDATE_PHONE = "UPDATE-PHONE";
 const UPDATE_ABOUT_ME = "UPDATE-ABOUT-ME";
 const UPDATE_LOCATION = "UPDATE-LOCATION"; 
+const UPDATE_SEARCH_INCLUDE = "UPDATE-SEARCH-INCLUDE"; 
 const UPDATE_PHOTO = "UPDATE-PHOTO";
 const SET_FETCHING = "SET-FETCHING";
 const SET_PATCHING = "SET-PATCHING";
@@ -66,6 +69,13 @@ const myProfileReducer = (state = initialState, action) => {
             }
         }
 
+        case UPDATE_SEARCH_INCLUDE: {
+            return {
+                ...state,
+                includeInSearch: action.includeInSearch,
+            }
+        }
+
         case UPDATE_PHOTO: {
             return {
                 ...state,
@@ -98,6 +108,7 @@ export const updateMyProfileSocial = fieldValue => ({type: UPDATE_SOCIAL, fieldV
 export const updateMyProfilePhone = fieldValue => ({type: UPDATE_PHONE, fieldValue});
 export const updateMyProfileAboutMe = fieldValue => ({type: UPDATE_ABOUT_ME, fieldValue});
 export const updateMyProfileLocation = fieldValue => ({type: UPDATE_LOCATION, fieldValue});
+export const updateMyProfileIncludeInSearch = includeInSearch => ({type: UPDATE_SEARCH_INCLUDE, includeInSearch});
 export const updateMyProfilePhoto = photoName => ({type: UPDATE_PHOTO, photoName});
 export const setMyProfileFetching = value => ({type: SET_FETCHING, value});
 export const setMyProfilePatching = value => ({type: SET_PATCHING, value});
