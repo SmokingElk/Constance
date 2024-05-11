@@ -72,7 +72,7 @@ const myProfileReducer = (state = initialState, action) => {
         case UPDATE_SEARCH_INCLUDE: {
             return {
                 ...state,
-                includeInSearch: state.includeInSearch,
+                includeInSearch: action.includeInSearch,
             }
         }
 

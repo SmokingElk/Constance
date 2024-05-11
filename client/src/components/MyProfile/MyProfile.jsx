@@ -3,6 +3,7 @@ import Container from "../Utils/Container/Container";
 import Loader from "../Utils/Loader/Loader";
 import SavingIndicator from "../Utils/SavingIndicator/SavingIndicator";
 import PhotoPlaceholder from "../../assets/imgs/photo_placeholder.png";
+import Checkbox from "../Utils/Checkbox/Checkbox";
 
 const MyProfile = (props) => {
     const onFirstnameChange = (event) => {
@@ -28,6 +29,11 @@ const MyProfile = (props) => {
     const onLocationChange = (event) => {
         props.updateLocation(event.target.value);
         props.requestProfileDataUpdate({ location: event.target.value });
+    };
+
+    const onSearchIncludeChange = () => {
+        props.updateIncludeInSearch(!props.includeInSearch);
+        props.requestProfileDataUpdate({ include_in_search: !props.includeInSearch });
     };
 
     const onPhoneChange = (event) => {
@@ -123,6 +129,14 @@ const MyProfile = (props) => {
                                     value={props.aboutMeFieldValue}
                                     onChange={onAboutMeChange}
                                 ></textarea>
+                            </div>
+
+                            <div className={classes.fieldBlock + " " + classes.oneRow}>
+                                <Checkbox
+                                    value={props.includeInSearch}
+                                    onClick={onSearchIncludeChange}
+                                />
+                                <div className={classes.label}>Включать меня в поиск</div>
                             </div>
                         </div>
                     </div>

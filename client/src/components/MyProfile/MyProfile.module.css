@@ -78,9 +78,18 @@
     margin-bottom: 26px;
 }
 
+.fieldBlock.oneRow {
+    display: flex;
+    gap: 10px;
+}
+
 .label {
     font-size: 16px;
     margin-bottom: 6px;
+}
+
+.label.labelInline {
+    display: inline;
 }
 
 .aboutMe {
