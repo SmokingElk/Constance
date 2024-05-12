@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import Container from "../Utils/Container/Container";
 import classes from "./Footer.module.css";
 
@@ -7,9 +8,9 @@ const Footer = (props) => {
             <div className={classes.layout}>
                 <div className={classes.productName}>© 2024 «Constance»</div>
                 <div className={classes.support}>Служба поддержки: supofconstance@gmail.com</div>
-                <a href="/" className={classes.privacyPolicy}>
+                <NavLink to="/privacy_policy" className={classes.privacyPolicy}>
                     Полтика конфидециальности
-                </a>
+                </NavLink>
             </div>
         </Container>
     );
