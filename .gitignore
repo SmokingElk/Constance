@@ -130,12 +130,10 @@ dist
 .pnp.*
 
 #for_config files
-*.cfg
+for_bd.cfg
+keys.cfg
 
 #ignore python cache
 __pycache__/
-initializator_for_bd_devel.py
 images/
-.flake8
-.ini
 .coverage
