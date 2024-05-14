@@ -49,8 +49,8 @@ class TestDatabaseManager:
 
     @pytest.mark.parametrize(
         'user_id, ans',
-        [(1, ('User1', 'User1_l', '@test', '+7-999-999-99-99',  'test.png', 'test', 'Moscow')),
-         (2, ('User2', 'User2_l', '@test2', '+7-999-999-99-98', 'test2.png', 'tesst2', 'Moscow'))]
+        [(1, ('User1', 'User1_l', '@test', '+7-999-999-99-99',  'test.png', 'test', 'Moscow', True)),
+         (2, ('User2', 'User2_l', '@test2', '+7-999-999-99-98', 'test2.png', 'tesst2', 'Moscow', True))]
     )
     def test_get_my_profile_data(self, user_id, ans):
         d.patch_user_profile_data(1, 'firstname', 'User1')
@@ -67,6 +67,8 @@ class TestDatabaseManager:
         d.patch_user_profile_data(2, 'about_me', 'tesst2')
         d.patch_user_profile_data(1, 'location', 'Moscow')
         d.patch_user_profile_data(2, 'location', 'Moscow')
+        d.patch_user_profile_data(1, 'include_in_search', True)
+        d.patch_user_profile_data(2, 'include_in_search', True)
         assert d.get_my_profile_data(user_id) == ans
 
     @pytest.mark.parametrize(

@@ -80,7 +80,7 @@ class DatabaseManager:
             return -1
         return records[0]
 
-    def patch_user_profile_data(self, user_id: int, key: str, value: str):
+    def patch_user_profile_data(self, user_id: int, key: str, value):
         cursor = self.conn.cursor()
         cursor.execute(f'''UPDATE "profile_data" SET {key}=%s WHERE id=%s''', (value, user_id))
         self.conn.commit()
