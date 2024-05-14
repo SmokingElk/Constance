@@ -1,5 +1,5 @@
 import pytest
-from server.for_bd_connect import DatabaseManager
+from server.for_db_connect import DatabaseManager
 import datetime
 d = DatabaseManager()
 
