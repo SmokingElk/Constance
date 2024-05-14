@@ -1,0 +1,123 @@
+.layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+}
+
+.body {
+    grid-column: 3 / 11;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 5px;
+    padding: 38px 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+    .body {
+        grid-column: 1 / 13;
+    }
+}
+
+.title, .label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    color: #1E1E1F;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    width: 100%;
+    
+    font-size: 34px;
+    line-height: 46px;
+    
+    justify-content: center;
+    
+    margin-bottom: 30px;
+}
+
+.columns {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.imgColumn {
+    grid-column: 2 / 5;
+}
+
+.fieldsColumn {
+    grid-column: 5 / 8;
+}
+
+@media (max-width: 576px) {
+    .columns {
+        grid-template-columns: 1fr;
+        padding: 0px 20px;
+    }
+
+    .imgColumn, .fieldsColumn {
+        grid-column: 1;
+    }
+}
+
+.profile_img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    cursor: pointer;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.fieldBlock {
+    width: 100%;
+    margin-bottom: 26px;
+}
+
+.fieldBlock.oneRow {
+    display: flex;
+    gap: 10px;
+}
+
+.label {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.label.labelInline {
+    display: inline;
+}
+
+.aboutMe {
+    height: 200px;
+}
+
+.savingIndicator {
+    background-color: #2D61EB;
+    border-radius: 1000px;
+    width: 150px;
+    height: 30px;
+
+    color: #FFF;
+    font-size: 18px;
+    justify-content: center;
+
+    position: fixed;
+    top: 100%;
+    left: calc(50% - 75px);
+    transition: top 0.4s ease-in-out;
+}
+
+.savingIndicator.active {
+    top: calc(100% - 60px);
+}
+
+.checkedMark {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}

@@ -1,0 +1,77 @@
+* {
+	outline: none;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  	background: rgba(0, 0, 0, 0.0);
+}
+
+::-webkit-scrollbar-thumb {
+  	background-color: rgba(114, 114, 114, 0.48);
+  	border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #FFF;
+    border-radius: 100px;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background-color: #FF01B7;
+	color: #FF01B7;
+	-webkit-appearance: none;
+    -moz-appearance: none;
+	appearance: none;
+}
+
+html, body {
+	width: 100vw;
+	height: 100vh;
+}
+
+#root {
+	width: 100vw;
+	height: 100vh;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+a {
+	text-decoration: none;
+}
+
+.inputField {
+	width: 100%;
+	height: 30px;
+
+	font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+	font-size: 16px;
+
+	resize: none;
+	border-radius: 5px;
+	display: grid;
+	align-items: center;
+	padding: 6px;
+	box-sizing: border-box;
+	background-color: #FFF;
+	border: none;
+}

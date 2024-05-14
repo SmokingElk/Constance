@@ -1,0 +1,40 @@
+.rowsContainer {
+    width: 50%;
+}
+
+.rowBody {
+    display: grid;
+    column-gap: 20px;
+    row-gap: 4px;
+    grid-template-columns: 1fr auto;
+    margin-bottom: 16px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.rowWrap {
+    grid-template-columns: 1fr;
+}
+
+.rowSlider {
+    width: 220px;
+    background-color: #fff;
+}
+
+.rowBody.rowWrap > .rowSlider {
+    width: 100%;
+}
+
+.rowLabel {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+
+    color: #1E1E1F;
+
+
+}

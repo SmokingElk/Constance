@@ -1,0 +1,34 @@
+.item {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    color: #1E1E1F;
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 0.2s;
+}
+
+.item:hover {
+    transform: scale(1.1);
+    color: #000;
+}
+
+.item.highlighted {
+    border-radius: 1000px;
+    box-sizing: border-box;
+    padding: 5px 20px;
+}
+
+.item.highlighted.highlightBlue {
+    background-color: #225EFE;
+}
+
+.item.highlighted.highlightPink {
+    background-color: #FF01B7;
+}
+
+@media (max-width: 768px) {
+    .item {
+        color: #FFF;
+    }
+}

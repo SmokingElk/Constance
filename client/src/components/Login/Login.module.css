@@ -1,0 +1,98 @@
+.layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.body {
+    grid-column: 5 / 9;
+
+    box-sizing: border-box;
+    padding: 30px 33px 30px 33px;
+
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 5px;
+}
+
+@media (max-width: 1200px) {
+    .body {
+        grid-column: 4 / 10;
+    }
+}
+
+@media (max-width: 768px) {
+    .body {
+        grid-column: 3 / 11;
+    }
+}
+
+@media (max-width: 576px) {
+    .body {
+        grid-column: 1 / 13;
+    }
+}
+
+.usernameField {
+    margin-bottom: 20px;
+}
+
+.passwordField {
+    margin-bottom: 40px;
+}
+
+.title, .label, .authInfo, .hint {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+
+    color: #1E1E1F;
+}
+
+.title {
+    width: 100%;
+    
+    font-size: 34px;
+    line-height: 46px;
+    justify-content: center;
+    
+    margin-bottom: 45px;
+}
+
+.label {
+    font-size: 16px;
+    line-height: 27px;
+
+    margin-bottom: 2px;
+}
+
+.authInfo {
+    width: 100%;
+
+    font-size: 16px;
+    line-height: 27px;
+    justify-content: center;
+
+    color: #f41212;
+}
+
+.loginBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.hint {
+    width: 100%;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    display: block;
+}
+
+.signUpLink {
+    color: #2629D9;
+}

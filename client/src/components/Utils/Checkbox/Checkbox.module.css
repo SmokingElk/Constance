@@ -1,0 +1,16 @@
+.layout {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    border-radius: 1000px;
+    background-color: #FFF;
+    cursor: pointer;
+}
+
+.layout.checked {
+    background-color: #2D61EB;
+}
+
+.layout.checked.pink {
+    background-color: #FF01B7;
+}

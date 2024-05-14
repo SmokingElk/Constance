@@ -1,0 +1,91 @@
+.container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.layout {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: right;
+}
+
+.burgerButton {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .layout {
+        position: fixed;
+        z-index: 3;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.3);
+
+        padding: 100px 20px;
+        box-sizing: border-box;
+
+        align-items: baseline;
+        transition: left 0.3s ease-in-out;
+    }
+
+    .container.open .layout {
+        left: 0;
+    }
+    
+    .burgerButton {
+        position: relative;
+        display: block;
+        width: 30px;
+        height: 30px;
+        z-index: 999;
+    }
+
+    .burgerButton::before, .burgerButton::after {
+        content: "";
+    }
+
+    .burgerButton::before, .burgerButton::after, .burgerButton span {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #1E1E1F;
+        transition: all 0.3s;
+    }
+
+    .burgerButton::before {
+        top: 0;
+        left: 0;
+    }
+
+    .burgerButton::after {
+        top: 28px;
+        left: 0;
+    }
+
+    .burgerButton span {
+        top: 14px;
+        left: 0;
+    }
+
+    .container.open .burgerButton::before, .container.open .burgerButton::after {
+        top: 8px;
+        background-color: #FFF;
+    }
+
+    .container.open .burgerButton::before {
+        transform: rotate(45deg);
+    }
+
+    .container.open .burgerButton::after {
+        transform: rotate(-45deg);
+    }
+
+    .container.open .burgerButton span {
+        background-color: rgba(255, 255, 255, 0);
+    }
+}

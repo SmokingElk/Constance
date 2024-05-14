@@ -1,0 +1,8 @@
+.container {
+    max-width: 1290px;
+    margin: 0 auto;
+}
+
+.container.fitHeight {
+    height: calc(100% - 100px);
+}

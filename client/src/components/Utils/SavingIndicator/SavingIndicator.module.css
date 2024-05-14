@@ -1,0 +1,32 @@
+.savingIndicator {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    color: #1E1E1F;
+    display: flex;
+    align-items: center;
+    
+    background-color: #2D61EB;
+    border-radius: 1000px;
+    width: 200px;
+    height: 30px;
+
+    color: #FFF;
+    font-size: 18px;
+    justify-content: center;
+
+    position: fixed;
+    top: 100%;
+    left: calc(50% - 100px);
+    transition: top 0.4s ease-in-out;
+}
+
+.savingIndicator.active {
+    top: calc(100% - 60px);
+}
+
+.checkedMark {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}

@@ -1,0 +1,33 @@
+.layout {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: left;
+    z-index: 5;
+}
+
+.image {
+    width: 80px;
+    height: 80px;
+}
+
+.appName {
+    font-family: 'Julius Sans One';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 52px;
+
+    color: #1E1E1F;
+}
+
+@media (max-width: 768px) {
+    .appName {
+        font-size: 30px;
+    }
+
+    .image {
+        width: 55px;
+        height: 55px;
+    }
+}

@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+#for_config files
+for_bd.cfg
+keys.cfg
+
+#ignore python cache
+__pycache__/
+images/
+.coverage
