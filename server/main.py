@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, make_response
+from flask import Flask, request, abort, make_response, render_template
 from flask_cors import CORS
 from for_JWT_generating import ForJWTGenerating
 from for_bd_connect import DatabaseManager
@@ -6,6 +6,9 @@ from validators import validate_username, validate_password
 from add_profile_image import add_profile_image
 import datetime
 from prometheus_client import start_http_server, Counter
+from sys import argv
+from gevent import sleep
+from gevent.pywsgi import WSGIServer
 
 REQUESTS_FOR_SIGN_UP = Counter('sign_up_count', 'Total number of sign up requests')
 REQUESTS_FOR_PATCH_CHARS = Counter('patch_chars_count', 'Total number of patching characteristics requests')
@@ -13,8 +16,14 @@ REQUESTS_FOR_PATCH_PREFS = Counter('patch_prefs_count', 'Total number of patchin
 REQUESTS_FOR_SEARCH = Counter('search_count', 'Total number of searching requests')
 database = DatabaseManager()
 app = Flask(__name__, static_folder="static")
+http_server = WSGIServer(("127.0.0.1", 5000), app)
 CORS(app)
 jwt_generator = ForJWTGenerating()
+
+client = Flask(__name__, template_folder='client_build', static_folder="client_build/static")
+http_client_host = WSGIServer(("127.0.0.1", 3000), client)
+CORS(client)
+
 
 @app.route("/api/v1/user/auth", methods=['GET'])
 def authorization():
@@ -234,6 +243,26 @@ def search():
     return make_response(data_to_return, 200)
 
 
+@client.route("/", methods=['GET'])
+@client.route("/<path:path>", methods=['GET'])
+def home(path="/"):
+    return render_template("index.html")
+
+
+def run_in_production_mode():
+    http_server.start()
+    http_client_host.start()
+
+    while True:
+        sleep(60)
+
+
 if __name__ == "__main__":
     start_http_server(8000)
-    app.run(port=5000)
+
+    if len(argv) > 1 and argv[1] == "-d":
+        print("Running in development mode") 
+        app.run(port=5000)
+    else:
+        print("Running in production mode")
+        run_in_production_mode()
