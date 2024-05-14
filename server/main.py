@@ -1,7 +1,7 @@
 from flask import Flask, request, abort, make_response, render_template
 from flask_cors import CORS
 from for_JWT_generating import ForJWTGenerating
-from for_bd_connect import DatabaseManager
+from server.for_db_connect import DatabaseManager
 from validators import validate_username, validate_password
 from add_profile_image import add_profile_image
 import datetime
