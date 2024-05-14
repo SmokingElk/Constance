@@ -1,4 +1,3 @@
-
 from flask import Flask, request, abort, make_response
 from flask_cors import CORS
 from for_JWT_generating import ForJWTGenerating
@@ -16,7 +15,6 @@ database = DatabaseManager()
 app = Flask(__name__, static_folder="static")
 CORS(app)
 jwt_generator = ForJWTGenerating()
-
 
 @app.route("/api/v1/user/auth", methods=['GET'])
 def authorization():
@@ -238,4 +236,4 @@ def search():
 
 if __name__ == "__main__":
     start_http_server(8000)
-    app.run()
+    app.run(port=5000)
