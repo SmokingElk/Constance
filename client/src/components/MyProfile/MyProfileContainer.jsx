@@ -14,7 +14,7 @@ import {
     updateMyProfileSocial,
 } from "../../redux/myProfileReducer";
 import axios from "axios";
-import { getJWT } from "../../global_logic/userEnter";
+import { getJWT, resetJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
 
 class MyProfileContainer extends React.Component {
@@ -113,12 +113,18 @@ class MyProfileContainer extends React.Component {
         };
     }
 
+    logout() {
+        resetJWT();
+        this.props.router.navigate("/login");
+    }
+
     render() {
         return (
             <MyProfile
                 {...this.props}
                 requestProfileDataUpdate={this.requestProfileDataUpdate.bind(this)}
                 selectPhoto={this.selectPhoto.bind(this)}
+                logout={this.logout.bind(this)}
             ></MyProfile>
         );
     }
