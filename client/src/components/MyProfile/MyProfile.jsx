@@ -4,6 +4,7 @@ import Loader from "../Utils/Loader/Loader";
 import SavingIndicator from "../Utils/SavingIndicator/SavingIndicator";
 import PhotoPlaceholder from "../../assets/imgs/photo_placeholder.png";
 import Checkbox from "../Utils/Checkbox/Checkbox";
+import Button from "../Utils/Button/Button";
 
 const MyProfile = (props) => {
     const onFirstnameChange = (event) => {
@@ -139,6 +140,10 @@ const MyProfile = (props) => {
                                 <div className={classes.label}>Включать меня в поиск</div>
                             </div>
                         </div>
+                    </div>
+
+                    <div className={classes.logoutContainer}>
+                        <Button text="выйти" onClick={props.logout}/>
                     </div>
                 </div>
             </div>
