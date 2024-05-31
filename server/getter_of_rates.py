@@ -6,7 +6,14 @@ PROPERTIES_FILE_PATH = './static/properties_data.json'
 
 
 class GetterOfRates:
+    """
+    Класс для подстчёта рейтинга пары, а также вывода списка найденных пользователей
+    """
     def __init__(self):
+        """
+        инициализация класса, мы открываем cfg файл, в котором указаны настрйоки базы данных,
+        а также обьявляем таблицу, в которой будем хранить уже просчитанные значения, т.е. кэширование
+        """
         config = configparser.ConfigParser()
         config.read('for_bd.cfg')
         data_base_name = config.get('Settings_of_bd', 'dbname')
@@ -19,9 +26,27 @@ class GetterOfRates:
         self.data_cache = []
 
     def __del__(self):
+        """
+        закрытие курсора после завершении работы над экземпляром класса
+        """
         self.conn.close()
 
     def get_rates(self, prefs_of_id: list, user_id: int) -> list:
+        """
+        функция, которая возвращает список пользователей, которые должны отображаться
+        при поиске, если данные не просчитаны, или не актуальны, то они пересчитываются, в противном случае,
+        берутся из кэша
+        Parameters
+        ----------
+        user_id : int
+            id пользователя, относительно которого ведётся поиск
+        prefs_of_id: list
+            предпочтения пользователя
+        Returns
+        -------
+        list
+            получаем результат поиска
+        """
         if user_id in [i[0] for i in self.data_cache]:
             last_data = self.data_finder(user_id)
             date_of_last_count = last_data[2]
@@ -53,10 +78,28 @@ class GetterOfRates:
 
     @staticmethod
     def func(ans_dict_1: float, ans_dict_2: float):
+        """
+        подсчёт данных по формуле, которую мы задаём, чтобы узнать рейтинг пары
+        """
         return (ans_dict_1 + ans_dict_2) / 2 ** ((ans_dict_1 - ans_dict_2) ** 2)
 
     @staticmethod
     def get_index_for_descrete(i: int, v: str) -> int:
+        """
+        аналогичная функция get_index_for_cointinious, только для дискретных признаков, она ищет индекс
+        значения в столбце конкретных параметров определённого признака
+        Parameters
+        ----------
+        v: str
+            название параметра
+        i: int
+            номер характеристики в списке для удобства поиска
+        Returns
+        -------
+        int
+            если нашёлся такой параметр признакв, то возвращается его индекс в списке значений этого признака
+        """
+
         file = open(PROPERTIES_FILE_PATH, encoding='utf-8')
         a = file.read()
         a = json.loads(a)
@@ -70,6 +113,22 @@ class GetterOfRates:
 
     @staticmethod
     def get_index_for_continious(value: float, list_spread: list, i: int) -> float:
+        """
+        функция реализует метод интерполяции для получения результата на определённую позицию предпочтений
+        , а также для точности вычислений рейтинга пары
+        Parameters
+        ----------
+        value: float
+            значение параметра
+        list_spread: list
+            текущие столбцы spreadPoints
+        i: int
+            номер характеристики в списке для удобства поиска
+        Returns
+        -------
+        float
+            значение, через которое далее будет высчитываться рейтинг пары
+        """
         file = open(PROPERTIES_FILE_PATH, encoding='utf-8')
         a = file.read()
         a = json.loads(a)
@@ -90,6 +149,20 @@ class GetterOfRates:
         return f_x
 
     def count_rate(self, chars: list, prefs: list) -> float:
+        """
+        функция, которая считает рейтинг пользователя и его совместимость под требования
+        Parameters
+        ----------
+        chars : list
+            список характеристик пользователя
+        prefs: list
+            список предпочтений пользователя
+        Returns
+        -------
+        float
+            получаем конкретное число, которое показывает, насколько пользователь подходит
+             под предпочтения другого пользователя
+        """
         n_f_of_id = 0.0
         for i in prefs:
             n_f_of_id += i['positiveScale']
@@ -119,6 +192,14 @@ class GetterOfRates:
         return ans_value
 
     def getter_of_last_update_in_tables(self, date_of_change: float):
+        """
+        функия меняет дату последнего обновления, при применении этой функции
+        атрибут self.date_of_change меняется, этот параметр важен для кеширования и проверке
+        на актуальность данных
+        Parameters
+        ----------
+        date_of_change : int
+        """
         self.date_of_last_change = date_of_change
 
     def data_finder(self, user_id: int) -> list:
@@ -128,6 +209,19 @@ class GetterOfRates:
         return []
 
     def counter(self, user_id: int, prefs_of_id: list) -> list:
+        """
+        функция, которая выполняет пересчёт рейтинга пар и совместимость пользователя с другими
+        Parameters
+        ----------
+        user_id : int
+            id пользователя, относительно которого ведётся поиск
+        prefs_of_id: list
+            предпочтения пользователя
+        Returns
+        -------
+        list
+            получаем результат поиска в виде [id пользователя, словарь с рейтингами
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT id, "Gender" FROM "Autorisation"''')
         records = list(cursor.fetchall())

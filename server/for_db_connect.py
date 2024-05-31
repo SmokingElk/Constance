@@ -10,7 +10,13 @@ ANALYZER = Analyzer()
 
 
 class DatabaseManager:
+    """
+    Класс для работы с Базой данных
+    """
     def __init__(self):
+        """
+        инициализация класса, тут мы читаем cfg файл, в котором указаны настройки для работы с базой данных
+        """
         config = configparser.ConfigParser()
         config.read('for_bd.cfg')
         data_base_name = config.get('Settings_of_bd', 'dbname')
@@ -21,9 +27,30 @@ class DatabaseManager:
                                      password=password_of_database, host=name_of_host)
 
     def __del__(self):
+        """
+        деструктор для закрытия курсора, когда работа объекта класса заканчивается
+        """
         self.conn.close()
 
     def checking_for_authorized_user(self, username: str, password: str) -> int:
+        """
+        Функция, которая возвращает основные данные пользователя, если зарегестрирован пользователь, иначе, False
+        Parameters
+        ----------
+        username: str
+            имя пользователя
+        password: str
+            пароль пользователя
+        Returns
+        -------
+        int or list
+            -1, если нет информации
+            list вида [username, gender, date_of_birth], если есть информация о пользователе
+        Examples
+        --------
+        >>> DatabaseManager.checking_for_authorized_user(1)
+        [username, True, 03-06-2024]
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT id FROM "Autorisation" WHERE username=%s AND password=%s ''',
                        (username, password))
@@ -34,6 +61,19 @@ class DatabaseManager:
         return records[0][0]
 
     def counting_users(self) -> int:
+        """
+        Функция, которая считает количество пользователей
+        Parameters
+        ----------
+        Returns
+        -------
+        int
+            возвращается количество пользователей из базы данных
+        Examples
+        --------
+        >>> DatabaseManager.counting_users()
+        5
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT COUNT(1) FROM "Autorisation"''')
         records = cursor.fetchall()
@@ -41,6 +81,21 @@ class DatabaseManager:
         return records[0][0]
 
     def get_primary_data(self, user_id: int):
+        """
+        Функция, которая возвращает основную информацию о пользователе, а именно Имя пользователя, ПОЛ, ДАТУ РОЖДЕНИЯ
+        Parameters
+        ----------
+        user_id: int
+        Returns
+        -------
+        int or list
+            -1, если нет информации
+            list вида [username, gender, date_of_birth], если есть информация о пользователе
+        Examples
+        --------
+        >>> DatabaseManager.get_primary_data(1)
+        [username, True, 03-06-2024]
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT username, "Gender", "Date of birth" FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
@@ -50,6 +105,23 @@ class DatabaseManager:
         return records[0]
 
     def is_user_exists(self, username: str):
+        """
+        Функция, которая возвращает True, если зарегестрирован пользователь, иначе, False
+        Parameters
+        ----------
+        username: str
+            имя пользователя
+        Returns
+        -------
+        bool
+            возвращаем True или False, в зависимости от того, зарегистрирован ли пользователь
+        Examples
+        --------
+        >>> DatabaseManager.checking_for_authorized_user('user', 'password')
+        True
+        >>> DatabaseManager.checking_for_authorized_user('user2', 'password')
+        False
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT id FROM "Autorisation" WHERE username=%s''', (username, ))
         records = cursor.fetchall()
@@ -57,12 +129,33 @@ class DatabaseManager:
         return len(records) != 0
 
     def adding_user(self, username: str, password: str, gender: bool, birthday: str) -> int:
+        """
+        Функция добавления пользователя в базу данных
+        Parameters
+        ----------
+        username: str
+            имя пользователя
+        password: str
+            пароль пользователя
+        gender: bool
+            пол пользователя
+        birthday: str
+            дата рождения пользователя
+        Returns
+        -------
+        int
+            возвращает id пользователя
+        Examples
+        --------
+        >>> DatabaseManager.adding_user('user', 'password', True)
+        """
         cursor = self.conn.cursor()
         user_id = self.counting_users() + 1
         cursor.execute('''INSERT INTO "Autorisation" (id, username, password, "Gender", "Date of birth")\
                                 VALUES (%s, %s, %s, %s, %s)''',
                        (user_id, username, password, gender, birthday))
-        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name, include_in_search)\
+        cursor.execute('''INSERT INTO "profile_data" (id, firstname, lastname, social, phone_number, photo_name,
+         include_in_search)\
                                 VALUES (%s, %s, %s, %s, %s, %s, %s)''',
                        (user_id, '', '', '', '', '', True))
         self.conn.commit()
@@ -71,8 +164,26 @@ class DatabaseManager:
         return user_id
 
     def get_my_profile_data(self, user_id: int):
+        """
+        Функция, которая возвращает информацию о пользователе, а именно Имя пользователя, фамилию,
+        соц сеть, номер телефона, имя фотографии, о пользователе, локация, включение в поиск
+        Parameters
+        ----------
+        user_id: int
+        Returns
+        -------
+        int or list
+            -1, если нет информации
+            list вида [firstname, lastname, social, phone_number, photo_name, about_me,
+                        location, include_in_search], если есть информация о пользователе
+        Examples
+        --------
+        >>> DatabaseManager.get_my_profile_data(1)
+        [username, lastname, @test, +79999999999, test.png, something, Moscow, True]
+        """
         cursor = self.conn.cursor()
-        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me, location, include_in_search \
+        cursor.execute('''SELECT firstname, lastname, social, phone_number, photo_name, about_me,
+         location, include_in_search \
                                  FROM "profile_data" WHERE id=%s''', (user_id,))
         records = cursor.fetchall()
         cursor.close()
@@ -81,6 +192,17 @@ class DatabaseManager:
         return records[0]
 
     def patch_user_profile_data(self, user_id: int, key: str, value):
+        """
+        Функция, которая обновляет данные о пользователе в базе данных
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        key: str
+            параметр для обновления
+        value: str or bool or int
+            значение для обновления в базе данных
+        """
         cursor = self.conn.cursor()
         cursor.execute(f'''UPDATE "profile_data" SET {key}=%s WHERE id=%s''', (value, user_id))
         self.conn.commit()
@@ -88,6 +210,21 @@ class DatabaseManager:
         GETTER.getter_of_last_update_in_tables(time.time())
 
     def is_user_exists_by_id(self, user_id: int) -> bool:
+        """
+        проверка на существование пользователя через id
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        Returns
+        -------
+        bool
+            если True, то существует, если False, то нет
+        Examples
+        --------
+        >>> DatabaseManager.is_user_exists_by_id(1)
+        True
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT * FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
@@ -95,6 +232,24 @@ class DatabaseManager:
         return len(records) != 0
 
     def getting_birthdate(self, user_id: int):
+        """
+        получение данных о дате рождения о пользователе через user_id
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        Returns
+        -------
+        str or int
+            если нет данных, то -1
+            если есть, то строка
+        Examples
+        --------
+        >>> DatabaseManager.getting_birthdate(1)
+        -1
+        >>> DatabaseManager.getting_birthdate(2)
+        "04-04-1994"
+        """
         cursor = self.conn.cursor()
         cursor.execute('''SELECT "Date of birth" FROM "Autorisation" WHERE id=%s''', (user_id, ))
         records = cursor.fetchall()
@@ -104,6 +259,17 @@ class DatabaseManager:
         return records[0][0]
 
     def set_chars(self, user_id: int, id_of_ch: int, patch: dict):
+        """
+        обновление данных  характеристик пользователя, если данных нет, то заполняются дефолтные значения
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        id_of_ch: int
+            номер характеристики пользователя
+        patch: dict
+            словарь со значением, которое нужно поставить
+        """
         cursor = self.conn.cursor()
         cursor.execute('SELECT exists (select true from "characteristics" where id=%s)', (user_id,))
         records = cursor.fetchall()
@@ -133,6 +299,17 @@ class DatabaseManager:
         GETTER.getter_of_last_update_in_tables(time.time())
 
     def getting_all_chars(self, user_id: int) -> list:
+        """
+        получение данных характеристик пользователя
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        Returns
+        -------
+        dict
+            словарь с данными, в котором указаны значения характеристик пользователя
+        """
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "characteristics" WHERE id=%s''', (user_id,))
@@ -145,6 +322,17 @@ class DatabaseManager:
         return data_for_return
 
     def getting_all_prefs(self, user_id: int) -> list:
+        """
+        получение данных предпочтений пользователя
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        Returns
+        -------
+        dict
+            словарь с данными, в котором указаны значения предпочтений пользователя
+        """
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
@@ -157,6 +345,17 @@ class DatabaseManager:
         return data_for_return
 
     def set_prefs(self, user_id: int, id_of_ch: int, patch: dict):
+        """
+        обновление данных  предпочтений пользователя, если данных нет, то заполняются дефолтные значения
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        id_of_ch: int
+            номер характеристики пользователя
+        patch: dict
+            словарь со значением, которое нужно поставить
+        """
         cursor = self.conn.cursor()
         cursor.execute('SELECT exists (select true from "preferences" where id=%s)', (user_id,))
         records = cursor.fetchall()
@@ -213,6 +412,23 @@ class DatabaseManager:
         GETTER.getter_of_last_update_in_tables(time.time())
 
     def get_search_data(self, user_id: int, pack_number: int) -> dict:
+        """
+        поиск пользователей, по номеру части пользователей, чтобы значений было не так много,
+        внутри функции идёт обращение к классу GETTER, которое высчитывает рейтинг между пользователями,
+        параметр is_end показывает, есть ли ещё пользователи для поиска, в списке data_for_return словари, в которых
+        указаны рейтинги пользователей
+        Parameters
+        ----------
+        user_id: int
+            id пользователя
+        pack_number: int
+            номер пачки пользователей, которое запрашивается
+        Returns
+        -------
+        dict
+            словарь с данными, в котором указаны 2 ключа, в первом, можно ли продолжать поиск,
+            а во втором - данные этого поиска
+        """
         cursor = self.conn.cursor()
         data_for_return = []
         cursor.execute('''SELECT * FROM "preferences" WHERE id=%s''', (user_id,))
@@ -246,13 +462,24 @@ class DatabaseManager:
         return ans
 
     def deletter_of_data_for_tests(self):
+        """
+        эта функция строго для тестов, в которых база данных пуста, она очищает созданных
+        в тестах пользователей с id = 1 и id = 2
+        """
         cursor = self.conn.cursor()
-        cursor.execute('''DELETE FROM "preferences"''')
+        cursor.execute('''DELETE FROM "preferences" WHERE id=1''')
         self.conn.commit()
-        cursor.execute('''DELETE FROM "characteristics"''')
+        cursor.execute('''DELETE FROM "characteristics" WHERE id=1''')
         self.conn.commit()
-        cursor.execute('''DELETE FROM "Autorisation"''')
+        cursor.execute('''DELETE FROM "Autorisation" WHERE id=1''')
         self.conn.commit()
-        cursor.execute('''DELETE FROM "profile_data"''')
+        cursor.execute('''DELETE FROM "profile_data" WHERE id=1''')
+        cursor.execute('''DELETE FROM "preferences" WHERE id=2''')
+        self.conn.commit()
+        cursor.execute('''DELETE FROM "characteristics" WHERE id=2''')
+        self.conn.commit()
+        cursor.execute('''DELETE FROM "Autorisation" WHERE id=2''')
+        self.conn.commit()
+        cursor.execute('''DELETE FROM "profile_data" WHERE id=2''')
         self.conn.commit()
         cursor.close()
