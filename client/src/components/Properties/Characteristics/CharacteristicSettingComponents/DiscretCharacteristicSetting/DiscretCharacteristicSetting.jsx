@@ -1,6 +1,10 @@
 import classes from "./DiscretCharacteristicSetting.module.css";
 import common from "../CharacteristicSettingCommon.module.css";
 
+/*
+Компонент дискретной характеристики.
+ */
+
 const DiscretCharacteristicSetting = props => {
     return (
         <div className={common.settingBlock}>

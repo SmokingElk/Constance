@@ -3,6 +3,10 @@ import { toggleHomeInstructionSpoiler } from "../../redux/homeReducer";
 import { connect } from "react-redux";
 import Home from "./Home";
 
+/*
+Компонент-обертка, для взаимодействия Home с redux-store.
+ */
+
 class HomeContainer extends React.Component {
     render() {
         return <Home {...this.props} />;

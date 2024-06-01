@@ -1,5 +1,9 @@
 const TOGGLE_NAVBAR = "TOGGLE-NAVBAR";
 
+/*
+Редьюсер для управления состоянием верхнего меню (из Header).
+ */
+
 const initialState = {
     isOpen: false,
 };

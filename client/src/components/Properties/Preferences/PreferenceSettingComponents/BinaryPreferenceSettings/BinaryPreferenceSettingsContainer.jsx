@@ -9,6 +9,12 @@ import BinaryPreferenceSettings from "./BinaryPreferenceSettings";
 import withRouter from "../../../../Utils/WithRouter";
 import PreferenceSettingsContainer from "../PreferenceSettingContainer";
 
+/*
+Компонент-обертка, для взаимодействия BinaryPreferenceSettings с redux-store и сервером.
+Логика обновления реализуется в PreferenceSettingsContainer, данный тип характеристики не требует доп. логики.
+Компонент создан для единообразия структуры. 
+ */
+
 class BinaryPreferenceSettingsContainer extends PreferenceSettingsContainer {
     render() {
         return (

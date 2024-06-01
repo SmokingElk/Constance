@@ -1,6 +1,10 @@
 const SET_ENTERED = "SET-ENTERED";
 const SET_UNENTERED = "SET-UNENTERED";
 
+/*
+Редьюсер для обработки состояния входа пользователя в приложение.
+ */
+
 const initialState = {
     demo: false,
     isUserEntered: false,

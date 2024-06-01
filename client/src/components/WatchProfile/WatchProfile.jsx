@@ -3,6 +3,10 @@ import Loader from "../Utils/Loader/Loader";
 import classes from "./WatchProfile.module.css";
 import PhotoPlaceholder from "../../assets/imgs/photo_placeholder.png";
 
+/*
+Компонент экрана просмотра профиля пользователя (не текущего).
+ */ 
+
 const WatchProfile = (props) => {
     const profileData = props.profileData;
     const birthdate = profileData.birthdate.split("-").reverse().join(".");

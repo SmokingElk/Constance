@@ -1,5 +1,9 @@
 import axios from "axios";
 
+/*
+Модуль, содержащий функции для работы с входом пользователя в приложения.
+ */ 
+
 export const getJWT = () => localStorage.getItem("jwt_token") ?? "";
 export const setJWT = token => localStorage.setItem("jwt_token", token);
 export const resetJWT = () => localStorage.setItem("jwt_token", "");

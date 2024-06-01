@@ -1,11 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import Login from "./Login";
-import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_NONE, AUTH_STATUS_SUCCESS, changeAuthStatus, setLoginFetching, updateLoginPassword, updateLoginUsername } from "../../redux/loginReducer";
+import { AUTH_STATUS_INCOMPLETE_DATA, AUTH_STATUS_INCORRECT_DATA, AUTH_STATUS_SUCCESS, changeAuthStatus, setLoginFetching, updateLoginPassword, updateLoginUsername } from "../../redux/loginReducer";
 import axios from "axios";
-import { getJWT, setJWT } from "../../global_logic/userEnter";
+import { setJWT } from "../../global_logic/userEnter";
 import { setEntered } from "../../redux/enteredReducer";
 import withRouter from "../Utils/WithRouter";
+
+/*
+Компонент-обертка, для взаимодействия Login с redux-store и сервером. 
+ */
 
 class LoginContainer extends React.Component {
     sendAuthRequest () {

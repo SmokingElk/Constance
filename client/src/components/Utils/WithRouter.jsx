@@ -1,5 +1,9 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+/*
+Компонент, добавляющий в props объект для взаимодействия с путем в адресной строке.
+ */
+
 const withRouter = (Component) => {
     const ComponentWithRouterProp = (props) => {
         let location = useLocation();

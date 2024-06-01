@@ -1,5 +1,9 @@
 import classes from "./ScaleCoeffitients.module.css";
 
+/* 
+Компонент задания масштабирующих коэффициентов предпочтения.
+ */
+
 const ScaleCoeffitients = (props) => {
     const onScalePositiveChange = (e) =>
         props.patch(

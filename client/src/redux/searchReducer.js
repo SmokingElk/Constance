@@ -2,6 +2,10 @@ const RESET = "RESET";
 const ADD_PACK = "ADD-PACK";
 const SET_FETCHING = "SET-FETCHING";
 
+/*
+Редьюсер для управления состоянием экрана поиска.
+ */ 
+
 const initialState = {
     demo: false,
 

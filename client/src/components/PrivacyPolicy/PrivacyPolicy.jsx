@@ -1,5 +1,9 @@
 import classes from "./PrivacyPolicy.module.css";
 
+/*
+Статический компонент, содержащий политику в отношении обработки персональных данных.
+ */
+
 const PrivacyPolicy = (props) => {
     return (
         <div className={classes.body}>

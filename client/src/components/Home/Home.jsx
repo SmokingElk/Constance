@@ -3,6 +3,10 @@ import Container from "../Utils/Container/Container";
 import Spoiler from "../Utils/Spoiler/Spoiler";
 import classes from "./Home.module.css";
 
+/*
+Компонент домашнего экрана. Практически статический. Содержит информацию о приложении. 
+*/ 
+
 const Home = (props) => {
     return (
         <>

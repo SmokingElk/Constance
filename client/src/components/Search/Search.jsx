@@ -3,7 +3,12 @@ import Loader from "../Utils/Loader/Loader";
 import classes from "./Search.module.css";
 import UserCard from "./UserCard/UserCard";
 
+/*
+Компонент экрана поиска.
+ */ 
+
 const createCards = (foundedUsersData, userSex) => {
+    // отображает результаты поиска на карточки пользователей.
     let res = foundedUsersData.map((e, i) => (
         <UserCard
             ratingPosition={i}

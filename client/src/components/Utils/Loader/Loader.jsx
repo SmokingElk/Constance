@@ -1,6 +1,10 @@
 import loaderWhiteImg from "../../../assets/imgs/loader_white.svg";
 import loaderBlackImg from "../../../assets/imgs/loader_black.svg";
 
+/*
+Компонент, отображающий иконку загрузки.
+ */ 
+
 const Loader = (props) => {
     let showBlack = props.black ?? false;
     let size = props.size ?? 20;
