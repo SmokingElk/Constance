@@ -10,6 +10,12 @@ import DiscretPreferenceSettings from "./DiscretPreferenceSettings";
 import withRouter from "../../../../Utils/WithRouter.jsx";
 import PreferenceSettingsContainer from "../PreferenceSettingContainer.jsx";
 
+/*
+Компонент-обертка, для взаимодействия DiscretPreferenceSettings с redux-store и сервером.
+Логика обновления реализуется в PreferenceSettingsContainer. Содержит дополнительную логику для обновления внутренних коэффициентов
+вариантов предпочтения.
+ */
+
 class DiscretPreferenceSettingsContainer extends PreferenceSettingsContainer {
     patchCoef(column, newValue) {
         this.props.patchDiscretCoef(this.props.group, this.props.id, column, newValue);

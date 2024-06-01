@@ -1,5 +1,9 @@
 import classes from "./Spoiler.module.css";
 
+/*
+Компонент спойлера (раскрывающегося текстового блока) со стандартным для приложения дизайном.
+ */ 
+
 const Spoiler = (props) => {
     return (
         <div className={classes.body}>

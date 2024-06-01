@@ -6,6 +6,10 @@ import { setWatchProfileData, setWatchProfileFetching } from "../../redux/watchP
 import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter";
 
+/*
+Компонент-обертка, для взаимодействия WatchProfile с redux-store и сервером.
+ */
+
 class WatchProfileContainer extends React.Component {
     componentDidMount() {
         if (this.props.demo) return;

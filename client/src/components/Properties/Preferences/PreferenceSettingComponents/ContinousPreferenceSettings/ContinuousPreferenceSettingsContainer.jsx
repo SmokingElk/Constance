@@ -10,6 +10,12 @@ import ContinuousPreferenceSettings from "./ContinuousPreferenceSettings";
 import withRouter from "../../../../Utils/WithRouter.jsx";
 import PreferenceSettingsContainer from "../PreferenceSettingContainer.jsx";
 
+/*
+Компонент-обертка, для взаимодействия ContinuousPreferenceSettings с redux-store и сервером.
+Логика обновления общих данных реализуется в PreferenceSettingsContainer. Содержит дополнительную логику для обновления 
+узловых точек распределения.
+ */
+
 class ContinuousPreferenceSettingsContainer extends PreferenceSettingsContainer {
     patchSpread(x, y) {
         this.props.patchContinuousSpread(this.props.group, this.props.id, x, y);

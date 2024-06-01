@@ -11,6 +11,10 @@ import characteristicsReducer from "./characteristicsReducer";
 import searchReducer from "./searchReducer";
 import homeReducer from "./homeReducer";
 
+/*
+Создание хранилища, подключение всех редьюсеров.
+ */ 
+
 let store = configureStore({
     reducer: {
         advertisement: advertisementReducer,

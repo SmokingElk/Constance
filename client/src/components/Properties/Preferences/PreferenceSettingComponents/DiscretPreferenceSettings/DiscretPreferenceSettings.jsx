@@ -3,7 +3,12 @@ import classes from "./DiscretPreferenceSettings.module.css";
 import common from "../PreferenceSettingCommon.module.css";
 import Range from "../../../../Utils/Range/Range";
 
+/*
+Компонент дискретного предпочтения.
+ */
+
 const createSliders = (labels, values, patch) => {
+    // создает ползунки по их значениям и названиям. 
     let res = [];
 
     for (let i = 0; i < values.length; i++) {

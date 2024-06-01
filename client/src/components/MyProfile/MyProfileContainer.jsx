@@ -17,6 +17,11 @@ import axios from "axios";
 import { getJWT, resetJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
 
+/*
+Компонент-обертка, для взаимодействия Header с redux-store и сервером.
+Также содержит логику, создающую patch данных профиля и его отправку по таймеру.
+ */
+
 class MyProfileContainer extends React.Component {
     updateTimerId = -1;
     nextPatch = {};

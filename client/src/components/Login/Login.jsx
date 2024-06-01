@@ -4,6 +4,10 @@ import Container from "../Utils/Container/Container";
 import classes from "./Login.module.css";
 import { NavLink } from "react-router-dom";
 
+/*
+Компонент экрана входа. Отображает поля для ввода данных и сообщение о результате попытки входа.
+*/
+
 const Login = props => {
     const onUsernameChange = event => {
         props.updateUsername(event.target.value);

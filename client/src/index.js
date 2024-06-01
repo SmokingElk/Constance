@@ -8,6 +8,10 @@ import store from './redux/store';
 import { Provider } from 'react-redux';
 import { getJWT, resetJWT } from './global_logic/userEnter.js';
 
+/*
+Рендер интерфейса на страницу.
+ */ 
+
 window.store = store;
 window.resetJWT = resetJWT;
 window.getJWT = getJWT;

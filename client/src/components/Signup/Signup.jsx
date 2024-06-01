@@ -12,6 +12,10 @@ import Container from "../Utils/Container/Container";
 import classes from "./Signup.module.css";
 import { NavLink } from "react-router-dom";
 
+/*
+Компонент экрана регистрации.
+ */ 
+
 const Signup = (props) => {
     const onUsernameChange = (event) => {
         props.updateUsername(event.target.value);

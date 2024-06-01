@@ -1,6 +1,11 @@
 import classes from "./Range.module.css";
 import React from "react";
 
+/*
+Компонент ползунка со стандартным для приложения дизайном. Содержит внутренние состояния для корректной обработки пользовательского 
+ввода.
+ */ 
+
 class Range extends React.Component {
     state = { selected: false };
     container = React.createRef();

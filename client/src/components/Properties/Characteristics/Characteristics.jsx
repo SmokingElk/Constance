@@ -5,6 +5,11 @@ import createDiscretCharacteristicSettingContainer from "./CharacteristicSetting
 import classes from "./Characteristics.module.css";
 import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
+/*
+Компонент отображения характеристик. При отображении разбивает их на группы. 
+Не реализует логику обновления параметров. Она реализована в более глубоких компанентах.  
+ */ 
+
 const groupsTranslate = {
     appearance: "Внешность",
     intimate: "Вопросы интимного характера",
@@ -15,6 +20,7 @@ const groupsTranslate = {
 };
 
 const createGroups = (characteristicsTree, sex) => {
+    // разбивает характеристики на группы, создает из каждой компонент и добавляет его в соответствующую
     let groups = [];
 
     let userSex = {

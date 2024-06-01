@@ -6,6 +6,10 @@ const SET_FETCHING = "SET-FETCHING";
 const ADD_PATCHER = "ADD-PATCHER";
 const DELETE_PATCHER = "DELETE-PATCHER";
 
+/*
+Редьюсер для обработки состояний характеристик.
+ */
+
 const initialState = {
     demo: false,
     groups: [],
@@ -17,6 +21,7 @@ const initialState = {
 };
 
 const validateCharacteristicsDataKeys = (group, id, state, requiredType = "any") => {
+    // проверка на корректность запроса на обновление характеристик. Проверяются ключи характеристики и вид предоставляемых данных.
     if (!state.groups.includes(group)) throw new Error(`Unexpected group ${group} in characteristic patch`);
 
     if (!state.characteristicsData[group].hasOwnProperty(id)) {

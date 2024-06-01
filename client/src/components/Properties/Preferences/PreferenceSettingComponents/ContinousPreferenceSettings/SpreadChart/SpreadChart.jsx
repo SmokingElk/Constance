@@ -1,6 +1,10 @@
 import React from "react";
 import classes from "./SpreadChart.module.css";
 
+/*
+Компонент графика распределения непрерывного признака. Содержит внутренние состояния для обработки ввода пользователя.
+ */
+
 const config = {
     rangeOffset: 50,
     divisionFactor: 5,

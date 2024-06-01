@@ -2,6 +2,11 @@ import React from "react";
 import axios from "axios";
 import { getJWT } from "../../../../global_logic/userEnter.js";
 
+/*
+Родительский базовый компонент предпочтения. 
+Реализует логику создания patch для отправки на сервер общих данных для обновления предпочтения.
+*/ 
+
 const UPDATE_TIMEOUT = 3000;
 
 class PreferenceSettingsContainer extends React.Component {

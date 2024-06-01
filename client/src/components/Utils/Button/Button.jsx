@@ -1,6 +1,10 @@
 import Loader from "../Loader/Loader";
 import classes from "./Button.module.css";
 
+/*
+Компонент кнопки со стандартным для приложения дизайном.
+ */ 
+
 const Button = (props) => {
     let showLoader = props.showLoader ?? false;
 

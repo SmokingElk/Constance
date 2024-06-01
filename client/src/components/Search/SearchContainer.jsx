@@ -6,6 +6,10 @@ import axios from "axios";
 import { getJWT } from "../../global_logic/userEnter.js";
 import withRouter from "../Utils/WithRouter.jsx";
 
+/*
+Компонент-обертка, для взаимодействия Search с redux-store и сервером.
+ */
+
 class SearchContainer extends React.Component {
     componentDidMount() {
         this.props.resetSearchResults();

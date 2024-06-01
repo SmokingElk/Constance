@@ -18,6 +18,10 @@ import { setEntered } from "../../redux/enteredReducer";
 import { setJWT } from "../../global_logic/userEnter";
 import withRouter from "../Utils/WithRouter";
 
+/*
+Компонент-обертка, для взаимодействия Signup с redux-store и сервером.
+ */ 
+
 class SignupContainer extends React.Component {
     sendSignupRequest() {
         if (

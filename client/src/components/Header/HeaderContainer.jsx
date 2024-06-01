@@ -5,6 +5,10 @@ import { setEntered, setUnentered } from "../../redux/enteredReducer";
 import { getUserData } from "../../global_logic/userEnter";
 import { toggleNavbar } from "../../redux/navbarReducer";
 
+/*
+Компонент-обертка, для взаимодействия Header с redux-store и сервером.
+ */
+
 class HeaderContainer extends React.Component {
     componentDidMount() {
         if (this.props.demo) return;

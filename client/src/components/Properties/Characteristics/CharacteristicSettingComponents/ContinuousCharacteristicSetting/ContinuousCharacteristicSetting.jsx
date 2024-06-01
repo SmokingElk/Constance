@@ -2,9 +2,11 @@ import classes from "./ContinuousCharacteristicSetting.module.css";
 import common from "../CharacteristicSettingCommon.module.css";
 import Range from "../../../../Utils/Range/Range";
 
-const ContinuousCharacteristicSetting = props => {
-    
+/*
+Компонент непрерывной характеристики.
+ */
 
+const ContinuousCharacteristicSetting = props => {
     return (
         <div className={common.settingBlock}>
             <h4 className={common.settingName}>{props.name}</h4>

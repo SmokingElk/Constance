@@ -2,6 +2,10 @@ import Checkbox from "../../../../Utils/Checkbox/Checkbox";
 import classes from "./BinaryCharacteristicSetting.module.css";
 import common from "../CharacteristicSettingCommon.module.css";
 
+/*
+Компонент бинарной характеристики.
+ */
+
 const BinaryCharacteristicSetting = props => {
     return (
         <div className={common.settingBlock}>

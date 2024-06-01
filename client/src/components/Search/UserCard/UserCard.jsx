@@ -2,6 +2,10 @@ import { NavLink } from "react-router-dom";
 import classes from "./UserCard.module.css";
 import PhotoPlaceholder from "../../../assets/imgs/photo_placeholder.png";
 
+/*
+Компонент карточки пользователя. Используется компонентом экрана поиска.
+ */ 
+
 const UserCard = (props) => {
     const rateMapped = Math.max(0, Math.round(props.rate * 100));
     const profilePath = `/profile/${props.userId}`;

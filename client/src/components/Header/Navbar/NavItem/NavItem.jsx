@@ -1,6 +1,10 @@
 import classes from "./NavItem.module.css";
 import { NavLink } from "react-router-dom";
 
+/*
+Компонент пункта Navbar. Используется Navbar.
+*/ 
+
 const NavItem = (props) => {
     const highlightModeClass = {
         blue: classes.highlightBlue,

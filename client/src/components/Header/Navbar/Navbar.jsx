@@ -1,6 +1,10 @@
 import NavItem from "./NavItem/NavItem";
 import classes from "./Navbar.module.css";
 
+/*
+Компонент верхнего меню приложения. Используется, как часть Navbar.
+*/ 
+
 const Navbar = (props) => {
     let isEntered = props.isUserEntered;
 
