@@ -199,7 +199,7 @@ def get_watch_profile_data(user_id: int):
         abort(404)
     birth = database.getting_birthdate(id_of_requested_user)
     (firstname, lastname, social, phone, photo_name, about_me,
-     location) = database.get_my_profile_data(id_of_requested_user)
+     location, _) = database.get_my_profile_data(id_of_requested_user)
     profile_data = {"firstname": firstname,
                     "lastname": lastname,
                     "social": social,
