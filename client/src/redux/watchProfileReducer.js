@@ -1,6 +1,10 @@
 const SET_PROFILE_DATA = "SET-PROFILE-DATA";
 const SET_FETCHING = "SET-FETCHING";
 
+/*
+Редьюсер для управления состоянием экрана просмотра профиля произвольного пользователя.
+ */
+ 
 const initialState = {
     demo: false, 
 

@@ -27,6 +27,14 @@ CORS(client)
 
 @app.route("/api/v1/user/auth", methods=['GET'])
 def authorization():
+    """
+    функция, которая осуществляет авторизацию пользователя
+    Returns
+    -------
+    response 200, если авторизация выполнена успешно
+    abort 404, если пользователя не существует
+    abort 400, если информация о пользователе отсутствует
+    """
     data = request.args
     username = data.get("username")
     password = data.get("password")
@@ -48,6 +56,16 @@ def authorization():
 
 @app.route('/api/v1/user/sign_up', methods=["POST"])
 def sign_up():
+    """
+    функция, которая осуществляет регистрацию пользователя
+    Returns
+    -------
+    dict результат операции в виде словаря, в котором возвращаются имя пользователя,
+    jwt токен, дата рождения, пол
+    response 200, если регистрация выполнена успешно
+    abort 404, если пользователя не существует
+    abort 400, если информация о пользователе отсутствует
+    """
     data = request.get_json()
     username = data['username']
     password = data['password']
@@ -75,6 +93,18 @@ def sign_up():
 
 @app.route('/api/v1/profile/get_data_to_edit', methods=['GET'])
 def get_user_profile_data():
+    """
+    функция, которая возвращает данные пользователя по jwt токену
+    Returns
+    -------
+    dict результат операции в виде словаря, в котором возвращаются имя пользователя,
+    фамилия пользователя, соц сети, телефон, имя фото файла, о пользователе, локация,
+    включать в поиск или нет
+
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.args
     jwt_token = data.get("jwtToken")
     if not jwt_generator.validate_token(jwt_token):
@@ -97,6 +127,17 @@ def get_user_profile_data():
 
 @app.route('/api/v1/profile/patch_text_data', methods=['PUT'])
 def update_user_profile_data():
+    """
+    функция, которая обновляет данные пользователя по jwt токену
+    Returns
+    -------
+    dict результат операции в виде словаря, в котором возвращаются имя пользователя,
+    фамилия пользователя, соц сети, телефон, имя фото файла, о пользователе, локация,
+    включать в поиск или нет
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.get_json()
     jwt_token = data['jwtToken']
     patch = data['patch']
@@ -114,6 +155,15 @@ def update_user_profile_data():
 
 @app.route('/api/v1/profile/set_photo', methods=['PUT'])
 def update_user_profile_photo():
+    """
+    функция, которая обновляет фото пользователя по jwt токену
+    Returns
+    -------
+    dict результат операции в виде словаря, в котором единственный ключ - имя фото
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     token = request.form["jwtToken"]
     if not jwt_generator.validate_token(token):
         abort(401)
@@ -130,6 +180,16 @@ def update_user_profile_photo():
 
 @app.route('/api/v1/profile/get_data_to_view/<int:user_id>', methods=['GET'])
 def get_watch_profile_data(user_id: int):
+    """
+    функция возвращает основную информацию о пользователе, которая будет на его странице
+    Returns
+    -------
+    dict результат операции в виде словаря, в котором возвращаются имя пользователя,
+    фамилия пользователя, соц сети, телефон, имя фото файла, о пользователе, локация
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.args
     jwt_token = data.get('jwtToken')
     if not jwt_generator.validate_token(jwt_token):
@@ -155,6 +215,16 @@ def get_watch_profile_data(user_id: int):
 
 @app.route('/api/v1/user/primary_data', methods=['GET'])
 def get_primary_data():
+    """
+    функция возвращает основную информацию о пользователе, которая будет при поиске
+    Returns
+    -------
+    dict результат операции в виде словаря, в котором возвращаются имя пользователя,
+    дата рождения, пол
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.args
     jwt_token = data.get("jwtToken")
     if not jwt_generator.validate_token(jwt_token):
@@ -172,6 +242,15 @@ def get_primary_data():
 
 @app.route('/api/v1/chars/get_all', methods=['GET'])
 def get_all_chars():
+    """
+    Функция для получения всех характеристик пользователя
+    Returns
+    -------
+    list результат операции в виде списка, в котором возвращаются все характеристики пользователя
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.args
     jwt_token = data.get("jwtToken")
     if not jwt_generator.validate_token(jwt_token):
@@ -186,6 +265,14 @@ def get_all_chars():
 
 @app.route('/api/v1/chars/patch_chars', methods=['PUT'])
 def patch_chars():
+    """
+    Функция для обновления данных характеристик пользователя
+    Returns
+    -------
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.get_json()
     jwt_token = data['jwtToken']
     id_of_char = data['id']
@@ -202,6 +289,15 @@ def patch_chars():
 
 @app.route('/api/v1/prefs/get_all', methods=['GET'])
 def get_all_prefs():
+    """
+    Функция для получения всех предпочтений пользователя
+    Returns
+    -------
+    list результат операции в виде списка, в котором возвращаются все предпочтения пользователя
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.args
     jwt_token = data.get("jwtToken")
     if not jwt_generator.validate_token(jwt_token):
@@ -216,6 +312,14 @@ def get_all_prefs():
 
 @app.route('/api/v1/prefs/patch_pref', methods=['PUT'])
 def patch_pref():
+    """
+    Функция для обновления данных предпочтений пользователя
+    Returns
+    -------
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.get_json()
     jwt_token = data['jwtToken']
     id_of_pref = data['id']
@@ -232,6 +336,17 @@ def patch_pref():
 
 @app.route('/api/v1//search/get_pack', methods=['GET'])
 def search():
+    """
+    функция поиска пользователей, предпочтения текущего пользователя получаются через
+    jwt token, далее передаются в методы класса GETTER
+
+    Returns
+    -------
+
+    response 200, если информация получена успешно выполнена успешно
+    abort 404, если пользователя не существует
+    abort 401, если jwt токен не валиден
+    """
     data = request.args
     jwt_token = data.get("jwtToken")
     pack_number = int(data['pack_number'])
@@ -261,7 +376,7 @@ if __name__ == "__main__":
     start_http_server(8000)
 
     if len(argv) > 1 and argv[1] == "-d":
-        print("Running in development mode") 
+        print("Running in development mode")
         app.run(port=5000)
     else:
         print("Running in production mode")

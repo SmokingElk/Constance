@@ -6,6 +6,10 @@ import PhotoPlaceholder from "../../assets/imgs/photo_placeholder.png";
 import Checkbox from "../Utils/Checkbox/Checkbox";
 import Button from "../Utils/Button/Button";
 
+/*
+Компонент страницы профиля пользователя. Отображает данные профиля и позволяет их редактировать.
+ */ 
+
 const MyProfile = (props) => {
     const onFirstnameChange = (event) => {
         props.updateFirstname(event.target.value);

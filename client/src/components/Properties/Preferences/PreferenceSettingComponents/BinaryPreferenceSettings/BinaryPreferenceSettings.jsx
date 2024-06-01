@@ -1,6 +1,10 @@
 import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import common from "../PreferenceSettingCommon.module.css";
 
+/*
+Компонент бинарного предпочтения.
+ */
+
 const BinaryPreferenceSettings = (props) => {
     return (
         <div className={common.settingBlock}>

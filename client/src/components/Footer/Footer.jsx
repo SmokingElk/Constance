@@ -2,6 +2,10 @@ import { NavLink } from "react-router-dom";
 import Container from "../Utils/Container/Container";
 import classes from "./Footer.module.css";
 
+/*
+Компонент общего для всех страниц подвала
+*/
+
 const Footer = (props) => {
     return (
         <Container>

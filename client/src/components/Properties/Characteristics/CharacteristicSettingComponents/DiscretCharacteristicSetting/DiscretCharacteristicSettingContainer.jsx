@@ -7,9 +7,13 @@ import {
     patchCharacteristicsData,
 } from "../../../../../redux/characteristicsReducer";
 import DiscretCharacteristicSetting from "./DiscretCharacteristicSetting";
-import { getJWT } from "../../../../../global_logic/userEnter";
-import axios from "axios";
 import CharacteristicSettingsContainer from "../CharacteristicSettingContainer";
+
+/*
+Компонент-обертка, для взаимодействия DiscretCharacteristicSetting с redux-store и сервером.
+Логика обновления реализуется в CharacteristicSettingsContainer, данный тип характеристики не требует доп. логики.
+Компонент создан для единообразия структуры. 
+ */
 
 class DiscretCharacteristicSettingContainer extends CharacteristicSettingsContainer {
     render() {

@@ -12,6 +12,10 @@ import {
 import { getJWT } from "../../../global_logic/userEnter.js";
 import withRouter from "../../Utils/WithRouter.jsx";
 
+/*
+Компонент-обертка, для взаимодействия Preferences с redux-store и сервером.
+ */
+
 class PreferencesContainer extends React.Component {
     componentDidMount() {
         axios.get("http://localhost:5000/static/properties_data.json").then((res) => {

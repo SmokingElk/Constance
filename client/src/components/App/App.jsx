@@ -11,6 +11,9 @@ import WatchProfileContainer from "../WatchProfile/WatchProfileContainer";
 import classes from "./App.module.css";
 import { Route, Routes } from "react-router-dom";
 
+/*
+Компонент, выстраивающий общую структуру приложения */
+
 const App = (props) => {
     return (
         <div className={classes.app}>

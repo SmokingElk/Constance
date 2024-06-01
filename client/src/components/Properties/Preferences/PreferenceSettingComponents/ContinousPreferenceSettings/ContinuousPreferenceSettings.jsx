@@ -2,6 +2,10 @@ import ScaleCoeffitients from "../../ScaleCoeffitients/ScaleCoeffitients";
 import SpreadChart from "./SpreadChart/SpreadChart";
 import common from "../PreferenceSettingCommon.module.css";
 
+/*
+Компонент непрерывного предпочтения.
+ */ 
+
 const ContinuousPreferenceSettings = (props) => {
     return (
         <div className={common.settingBlock}>

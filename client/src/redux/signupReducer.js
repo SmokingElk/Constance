@@ -12,6 +12,10 @@ export const SIGNUP_STATUS_ALREADY_EXISTS = "SIGNUP-STATUS-ALREADY-EXIST";
 export const SIGNUP_STATUS_SUCCESS = "SIGNUP-STATUS-SUCCESS";
 export const SIGNUP_STATUS_TOO_YOUNG = "SIGNUP-STATUS-TOO-YOUNG";
 
+/*
+Редьюсер для управления состоянием экрана регистрации.
+ */ 
+
 const initialState = {
     usernameFieldValue: "",
     passwordFieldValue: "",

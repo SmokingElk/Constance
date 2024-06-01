@@ -8,6 +8,10 @@ export const AUTH_STATUS_INCORRECT_DATA = "AUTH-STATUS-INCORRECT-DATA";
 export const AUTH_STATUS_INCOMPLETE_DATA = "AUTH-STATUS-INCOMPLETE-DATA";
 export const AUTH_STATUS_SUCCESS = "AUTH-STATUS-SUCCESS";
 
+/*
+Редьюсер для управления состоянием экрана входа.
+ */ 
+
 const initialState = {
     usernameFieldValue: "",
     passwordFieldValue: "",

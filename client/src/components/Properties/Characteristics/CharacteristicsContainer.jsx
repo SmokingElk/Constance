@@ -12,6 +12,10 @@ import axios from "axios";
 import withRouter from "../../Utils/WithRouter";
 import { getJWT } from "../../../global_logic/userEnter";
 
+/*
+Компонент-обертка, для взаимодействия Characteristics с redux-store и сервером.
+ */
+
 class CharacteristicsContainer extends React.Component {
     componentDidMount() {
         axios.get("http://localhost:5000/static/properties_data.json").then((res) => {

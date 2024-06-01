@@ -2,6 +2,11 @@ import React from "react";
 import axios from "axios";
 import { getJWT } from "../../../../global_logic/userEnter";
 
+/*
+Родительский базовый компонент характеристики. 
+Реализует логику создания patch для отправки на сервер данных для обновления характеристики.
+*/ 
+
 const UPDATE_TIMEOUT = 3000;
 
 class CharacteristicSettingsContainer extends React.Component {

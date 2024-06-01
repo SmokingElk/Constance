@@ -5,6 +5,11 @@ import createDiscretPreferenceSettingsContainer from "./PreferenceSettingCompone
 import classes from "./Preferences.module.css";
 import SavingWrapper from "./SavingWrapper/SavingWrapper";
 
+/*
+Компонент отображения предпочтений. При отображении разбивает их на группы. 
+Не реализует логику обновления параметров. Она реализована в более глубоких компанентах.  
+ */ 
+
 const groupsTranslate = {
     appearance: "Внешность",
     intimate: "Вопросы интимного характера",

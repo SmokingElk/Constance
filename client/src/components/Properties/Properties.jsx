@@ -4,6 +4,10 @@ import PreferencesContainer from "./Preferences/PreferencesContainer";
 import CharacteristicsContainer from "./Characteristics/CharacteristicsContainer";
 import Container from "../Utils/Container/Container";
 
+/*
+Компонент экрана параметров. Содержит только выбор характеристик или предпочтений и отображение соответствующего компонента.
+ */
+
 const Properties = (props) => {
     return (
         <Container fitHeight={true}>

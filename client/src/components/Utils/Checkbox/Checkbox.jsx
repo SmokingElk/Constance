@@ -1,5 +1,9 @@
 import classes from "./Checkbox.module.css";
 
+/*
+Компонент чекбокса со стандартным для приложения дизайном.
+ */ 
+
 const Checkbox = (props) => {
     return (
         <div

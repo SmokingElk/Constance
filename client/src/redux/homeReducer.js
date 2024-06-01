@@ -1,5 +1,9 @@
 const TOGGLE_INSTRUCTION = "TOGGLE-INSTRUCTION";
 
+/*
+Редьюсер для домашнего экрана приложения.
+ */ 
+
 const initialState = {
     instructionOpen: false,
 };

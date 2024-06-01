@@ -8,6 +8,10 @@ const SET_FETCHING = "SET-FETCHING";
 const ADD_PATCHER = "ADD-PATCHER";
 const DELETE_PATCHER = "DELETE-PATCHER";
 
+/*
+Редьюсер для управления состоянием экрана предпочтений.
+ */
+
 const initialState = {
     demo: false,
     groups: [],
@@ -19,6 +23,7 @@ const initialState = {
 }
 
 const validatePreferenceDataKeys = (group, id, state, requiredType = "any") => {
+    // проверка на корректность запроса на обновление предпочтений. Проверяются ключи предпочтения и вид предоставляемых данных.
     if (!state.groups.includes(group)) throw new Error(`Unexpected group ${group} in preferences patch`);
 
     if (!state.preferencesData[group].hasOwnProperty(id)) {
