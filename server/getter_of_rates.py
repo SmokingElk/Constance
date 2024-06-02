@@ -165,8 +165,9 @@ class GetterOfRates:
         """
         n_f_of_id = 0.0
         for i in prefs:
-            n_f_of_id += i['positiveScale']
+            n_f_of_id += max(abs(i['positiveScale']), abs(i['negativeScale']))
         ans_value = 0.0
+
         for i in range(len(prefs)):
             if chars[i]['charType'] == 'binary':
                 if chars[i]['value']:
@@ -181,14 +182,16 @@ class GetterOfRates:
                     ans_value += float(prefs[i]['positiveScale']) * float(value_of_coef) / n_f_of_id
                 else:
                     ans_value -= float(prefs[i]['negativeScale']) * float(value_of_coef) / n_f_of_id
-            elif chars[i]['charType'] == 'continious':
+            elif chars[i]['charType'] == 'continuous':
                 cur_char = chars[i]['value']
                 spread = prefs[i]['spreadPoints']
                 res = self.get_index_for_continious(cur_char, spread, i)
+                
                 if res >= 0:
                     ans_value += float(prefs[i]['positiveScale']) * float(res) / n_f_of_id
                 else:
                     ans_value -= float(prefs[i]['negativeScale']) * float(res) / n_f_of_id
+
         return ans_value
 
     def getter_of_last_update_in_tables(self, date_of_change: float):
