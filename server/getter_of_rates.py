@@ -181,7 +181,7 @@ class GetterOfRates:
                 if value_of_coef >= 0:
                     ans_value += float(prefs[i]['positiveScale']) * float(value_of_coef) / n_f_of_id
                 else:
-                    ans_value -= float(prefs[i]['negativeScale']) * float(value_of_coef) / n_f_of_id
+                    ans_value += float(prefs[i]['negativeScale']) * float(value_of_coef) / n_f_of_id
             elif chars[i]['charType'] == 'continuous':
                 cur_char = chars[i]['value']
                 spread = prefs[i]['spreadPoints']
@@ -190,7 +190,7 @@ class GetterOfRates:
                 if res >= 0:
                     ans_value += float(prefs[i]['positiveScale']) * float(res) / n_f_of_id
                 else:
-                    ans_value -= float(prefs[i]['negativeScale']) * float(res) / n_f_of_id
+                    ans_value += float(prefs[i]['negativeScale']) * float(res) / n_f_of_id
 
         return ans_value
 
